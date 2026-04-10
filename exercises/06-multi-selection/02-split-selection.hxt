@@ -1,0 +1,84 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 6.2: Split Selection                  ║
+║  Category: Multi-Selection         Difficulty: ★★☆ Intermediate  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  S       Split selection on a regex pattern
+  Alt-s   Split selection on newlines (one selection per line)
+
+s selects matches WITHIN a selection → keeps the matches.
+S splits ON the pattern → keeps everything BETWEEN matches.
+
+They are complementary:
+  s "," → selects every comma
+  S "," → selects every chunk between commas
+
+INSTRUCTIONS
+────────────
+  TASK A — Split a comma-separated list into separate lines.
+
+  1. Select the comma-separated line (press x)
+  2. Press  S  (capital S) to split
+  3. Type   ,\s*   and press Enter
+     → Each item is now its own selection
+  4. Open a new line after each: you need to collapse and
+     restructure. The simplest approach:
+     a. After splitting, press  ms  to merge selections
+        Actually, easier: let's use a different approach.
+
+  Better workflow:
+  1. Select the line with x
+  2. Press  s  (lowercase) and type   ,\s*   and Enter
+     → This selects all the ", " separators
+  3. Press  c  to change them
+  4. Press  Enter  to replace each comma-space with a newline
+  5. Press  Esc
+
+  TASK B — For the second block, select all lines with Alt-s,
+  then add a prefix to each.
+
+  1. Select all lines in the block (use x repeatedly or v + j)
+  2. Press  Alt-s  to split into one selection per line
+  3. Press  ms  (match surround) — actually, press  I  (capital)
+     to insert at the start of each selection
+  4. Type   - [ ]   (dash, space, bracket, space, bracket, space)
+  5. Press  Esc
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+apple, banana, cherry, date, elderberry
+
+Buy groceries
+Walk the dog
+Write documentation
+Review pull request
+Deploy to staging
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+apple
+banana
+cherry
+date
+elderberry
+
+- [ ] Buy groceries
+- [ ] Walk the dog
+- [ ] Write documentation
+- [ ] Review pull request
+- [ ] Deploy to staging
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: For Task A, the key insight is: select the commas with
+          s, then replace them with newlines using c + Enter.
+  Hint 2: For Task B, after Alt-s gives you one selection per
+          line, use I (capital I) to insert at the beginning of
+          each selection simultaneously.
+  Hint 3: If your splits include unwanted whitespace, try the
+          regex  ,\s*  instead of just  ,  to consume trailing
+          spaces.
+  Hint 4: Remember: s keeps matches, S keeps everything else.
+          For replacing delimiters, s is usually what you want.

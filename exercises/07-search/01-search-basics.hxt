@@ -1,0 +1,69 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 7.1: Search Basics                    ║
+║  Category: Search                  Difficulty: ★★☆ Intermediate  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  /       Search forward (type pattern, press Enter)
+  ?       Search backward
+  n       Jump to next match
+  N       Jump to previous match
+
+Search in Helix creates a selection at the match — the found text
+IS your selection. This means you can immediately operate on it
+(delete, change, yank, etc.).
+
+INSTRUCTIONS
+────────────
+  The log output below has several ERROR lines mixed with INFO
+  lines. Your task: delete every line that contains ERROR.
+
+  Strategy:
+  1. Move to the beginning of the practice block
+  2. Press  /  and type   ERROR   then Enter
+     → Your cursor jumps to the first ERROR match
+  3. Press  x  to extend the selection to the full line
+  4. Press  d  to delete the line
+  5. Press  n  to jump to the next ERROR match
+  6. Repeat:  x  then  d  then  n
+  7. Continue until all ERROR lines are gone
+
+  There are 4 ERROR lines to remove. After you're done, only
+  the 6 INFO lines should remain.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+[2025-01-15 08:23:01] INFO  Server started on port 8080
+[2025-01-15 08:23:14] INFO  Connected to database
+[2025-01-15 08:24:02] ERROR Failed to load config: file not found
+[2025-01-15 08:24:15] INFO  Using default configuration
+[2025-01-15 08:25:33] INFO  Processing batch job #4471
+[2025-01-15 08:25:34] ERROR Timeout connecting to cache server
+[2025-01-15 08:26:01] INFO  Retrying with fallback cache
+[2025-01-15 08:27:12] ERROR Disk space critical: 98% used
+[2025-01-15 08:27:45] INFO  Cleanup job started
+[2025-01-15 08:28:03] ERROR Authentication service unreachable
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+[2025-01-15 08:23:01] INFO  Server started on port 8080
+[2025-01-15 08:23:14] INFO  Connected to database
+[2025-01-15 08:24:15] INFO  Using default configuration
+[2025-01-15 08:25:33] INFO  Processing batch job #4471
+[2025-01-15 08:26:01] INFO  Retrying with fallback cache
+[2025-01-15 08:27:45] INFO  Cleanup job started
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: After / ERROR Enter, you land on "ERROR" but you need
+          to delete the whole line. Press x to select the line.
+  Hint 2: After deleting with d, press n to find the next match.
+          The search pattern persists until you search again.
+  Hint 3: If n lands you on an INFO line's text that happens to
+          have no match, the cursor wraps around the file. Just
+          keep pressing n to find the next real match.
+  Hint 4: A faster approach once you know 6.1 (regex select):
+          select all lines, s ERROR, x to extend each to full
+          line, d to delete all at once. But for now, practice
+          the search-navigate-delete loop.

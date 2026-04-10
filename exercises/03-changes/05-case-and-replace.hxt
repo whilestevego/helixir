@@ -1,0 +1,47 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 3.5: Case and Replace                 ║
+║  Category: Changes               Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  ~     Toggle case of selection
+  `     Convert selection to lowercase
+  Alt-` Convert selection to UPPERCASE
+  r     Replace each character in selection with a given char
+
+INSTRUCTIONS
+────────────
+  Part A: Convert the SHOUTING lines to lowercase.
+  Part B: Convert the whispering lines to UPPERCASE.
+  Part C: Replace the dashes with equals signs.
+
+  For Part A: Select the text, press ` (backtick) for lowercase.
+  For Part B: Select the text, press Alt-` for uppercase.
+  For Part C: Select the dashes, press r then = .
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+THIS IS TOO LOUD
+PLEASE STOP SHOUTING
+this is too quiet
+make me louder please
+--------------------
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+this is too loud
+please stop shouting
+THIS IS TOO QUIET
+MAKE ME LOUDER PLEASE
+====================
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: For "THIS IS TOO LOUD", press x to select the line,
+          then ` (backtick) to convert to lowercase.
+  Hint 2: For "this is too quiet", press x then Alt-` to
+          convert to uppercase.
+  Hint 3: For the dashes, press x to select, then r then = .
+          r replaces every character in the selection with the
+          character you type next.

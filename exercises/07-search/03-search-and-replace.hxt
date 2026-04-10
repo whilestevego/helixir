@@ -1,0 +1,93 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 7.3: Search and Replace               ║
+║  Category: Search                  Difficulty: ★★★ Advanced      ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  The full Helix find-and-replace workflow:
+
+  %           Select the entire file
+  s <regex>   Select all matches within selection
+  c           Change all selections (delete + insert mode)
+  <text>      Type the replacement
+  Esc         Done
+
+  This replaces Vim's  :%s/old/new/g  command. In Helix, there
+  is no separate "substitute" command — multi-selection IS the
+  substitute command.
+
+  Full sequence:  %  s  pattern  Enter  c  replacement  Esc
+
+INSTRUCTIONS
+────────────
+  The configuration below has URLs using "http://" that must be
+  upgraded to "https://" for security compliance.
+
+  Workflow:
+  1. Press  %  to select the entire practice block
+     (or select just the relevant lines with x or v + j)
+  2. Press  s  to open the selection prompt
+  3. Type   http://   and press Enter
+     → All 6 instances of "http://" are now selected
+  4. Press  c  to change them all simultaneously
+  5. Type   https://
+  6. Press  Esc
+
+  That's it. Six replacements in six keystrokes after the
+  initial selection:  %  s  http://  Enter  c  https://  Esc
+
+  This is the Helix equivalent of:
+    Vim:     :%s/http:\/\//https:\/\//g
+    VS Code: Ctrl+H → http:// → https:// → Replace All
+
+  Notice how much more readable the Helix version is. No
+  escaping slashes, no arcane syntax. Select, match, change.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+# Application Configuration
+api_endpoint = "http://api.example.com/v2"
+auth_server = "http://auth.example.com/oauth"
+webhook_url = "http://hooks.example.com/notify"
+docs_url = "http://docs.example.com/api-reference"
+cdn_origin = "http://cdn.example.com/assets"
+health_check = "http://monitoring.example.com/ping"
+
+# Do not modify these comments
+# See http-spec.md for protocol details
+# HTTP/2 is enabled by default
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+# Application Configuration
+api_endpoint = "https://api.example.com/v2"
+auth_server = "https://auth.example.com/oauth"
+webhook_url = "https://hooks.example.com/notify"
+docs_url = "https://docs.example.com/api-reference"
+cdn_origin = "https://cdn.example.com/assets"
+health_check = "https://monitoring.example.com/ping"
+
+# Do not modify these comments
+# See http-spec.md for protocol details
+# HTTP/2 is enabled by default
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Make sure to type exactly  http://  in the search (s)
+          prompt. This won't match "http-spec" or "HTTP/2"
+          because those don't contain "://".
+  Hint 2: After s http:// Enter, verify you see 6 selections
+          (one per URL line). The comment lines should NOT be
+          matched because they say "http-spec" and "HTTP/2".
+  Hint 3: If you accidentally matched the wrong things, press
+          Esc to cancel, then u to undo and start over.
+  Hint 4: Remember the mantra:  %  s  pattern  Enter  c  text  Esc
+          This is the universal find-and-replace in Helix. You
+          will use this constantly.
+  Hint 5: For case-sensitive search, Helix uses smart case by
+          default: all-lowercase patterns are case-insensitive,
+          patterns with uppercase are case-sensitive. "http://"
+          is all lowercase so it's case-insensitive, but "HTTP"
+          in the comments won't match because the pattern looks
+          for "://".

@@ -1,0 +1,64 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 2.4: Select All                       ║
+║  Category: Selection             Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  %     Select the entire file contents
+
+% is powerful when combined with other operations:
+  %  then  s  — select regex matches within the whole file
+  %  then  >  — indent everything
+  %  then  y  — yank the whole file
+
+INSTRUCTIONS
+────────────
+  This text has inconsistent indentation. Some lines have 2-space
+  indent, some have 4-space, and some have none.
+
+  Your goal: Remove ALL leading whitespace from every line so
+  everything is flush left.
+
+  Strategy:
+  1. Press % to select the entire practice text
+  2. Press < repeatedly to unindent until all lines are flush left
+
+  Note: You only need to work within the PRACTICE section.
+  Select just the practice lines (use x to select lines or
+  manually position), then < to unindent.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+    function hello() {
+        console.log("hi");
+    }
+  function world() {
+      console.log("world");
+  }
+function goodbye() {
+    console.log("bye");
+}
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+function hello() {
+console.log("hi");
+}
+function world() {
+console.log("world");
+}
+function goodbye() {
+console.log("bye");
+}
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Select the practice text lines using x (repeat for
+          each line) or use v then j to extend down.
+  Hint 2: Press < to unindent. Repeat < until all leading
+          whitespace is removed.
+  Hint 3: If some lines still have whitespace, select those
+          specific lines with x and press < again.
+  Hint 4: The goal is every line starts at column 1 — no
+          leading spaces at all.

@@ -1,0 +1,63 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 11.2: Extract and Restructure         ║
+║  Category: Advanced Workflows    Difficulty: ★★★ Mastery        ║
+╚══════════════════════════════════════════════════════════════════╝
+
+WORKFLOW
+────────
+  Multi-step editing combining several Helix techniques:
+  - Text object selection (m a f for function)
+  - Yank and paste (y, p, P)
+  - Change (c) and insert (i, a, o)
+  - Line selection (x) and deletion (d)
+
+INSTRUCTIONS
+────────────
+  The code below has a large function. Your task:
+  1. Move the validation logic into its own function called
+     "validate" that returns a boolean
+  2. Replace the original validation block with a call to validate()
+  3. Keep the main function clean
+
+  This requires multiple steps — there's no single command.
+  Use your full Helix toolkit!
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+function processOrder(order) {
+  // validation
+  if (!order.id) return null;
+  if (!order.items) return null;
+  if (order.items.length === 0) return null;
+
+  const total = order.items.reduce((sum, i) => sum + i.price, 0);
+  return { id: order.id, total };
+}
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+function validate(order) {
+  if (!order.id) return false;
+  if (!order.items) return false;
+  if (order.items.length === 0) return false;
+  return true;
+}
+
+function processOrder(order) {
+  if (!validate(order)) return null;
+
+  const total = order.items.reduce((sum, i) => sum + i.price, 0);
+  return { id: order.id, total };
+}
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Select the 3 validation lines (x x x), yank them (y).
+  Hint 2: Go above the function, open a new line (O), and create
+          the validate function header.
+  Hint 3: Paste the validation lines (p), then change "return null"
+          to "return false" using the rename workflow: select the
+          lines, s null Enter c false Esc.
+  Hint 4: Add "return true;" at the end of validate.
+  Hint 5: Back in processOrder, replace the 4 validation lines
+          with "if (!validate(order)) return null;"

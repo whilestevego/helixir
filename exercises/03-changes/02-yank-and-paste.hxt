@@ -1,0 +1,44 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 3.2: Yank and Paste                   ║
+║  Category: Changes               Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  y     Yank (copy) selection to register
+  p     Paste after selection
+  P     Paste before selection
+  R     Replace selection with yanked text
+
+INSTRUCTIONS
+────────────
+  The first line contains a template. Copy it and use it to
+  replace the placeholder text on each subsequent line.
+
+  Strategy:
+  1. On line 1, press x to select the line, then y to yank
+  2. Move to line 2, press x to select it
+  3. Press R to replace with the yanked text
+  4. Repeat for lines 3 and 4
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+Hello, World!
+REPLACE_ME_1
+REPLACE_ME_2
+REPLACE_ME_3
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+Hello, World!
+Hello, World!
+Hello, World!
+Hello, World!
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Select the first line with x, yank with y.
+  Hint 2: Move down to REPLACE_ME_1, select with x.
+  Hint 3: Press R to replace the selection with "Hello, World!"
+  Hint 4: R replaces the current selection with register contents.
+          This is different from p (paste after) and P (paste before).

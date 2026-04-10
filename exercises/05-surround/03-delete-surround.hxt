@@ -1,0 +1,63 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 5.3: Delete Surround                 ║
+║  Category: Surround              Difficulty: ★★☆ Intermediate   ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  m d (   Delete surrounding parentheses
+  m d "   Delete surrounding double quotes
+  m d {   Delete surrounding curly braces
+  m d [   Delete surrounding square brackets
+  m d '   Delete surrounding single quotes
+
+MNEMONIC: m d = match delete — removes delimiters, keeps content
+
+The workflow:
+  1. Place cursor anywhere inside the delimiters
+  2. Press m d
+  3. Press the delimiter character to remove
+
+The content is preserved; only the surrounding characters vanish.
+
+INSTRUCTIONS
+────────────
+  Each line has unnecessary or redundant delimiters. Remove them
+  with m d + the appropriate character. Some lines have nested
+  delimiters — only remove the one specified by context.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+const name = ("Steve");
+return (result);
+const value = (((42)));
+let msg = ("hello");
+const arr = [[1, 2, 3]];
+if ((condition)) {
+  run(("command"));
+}
+const redundant = {"key"};
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+const name = "Steve";
+return result;
+const value = (42);
+let msg = "hello";
+const arr = [1, 2, 3];
+if (condition) {
+  run("command");
+}
+const redundant = "key";
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: For ("Steve"), cursor inside parens, m d ( removes
+          the outer parentheses, leaving "Steve".
+  Hint 2: For (result), cursor on result, m d ( leaves just result.
+  Hint 3: For (((42))), you need to remove TWO layers of parens.
+          Press m d ( twice (repositioning cursor if needed).
+  Hint 4: For [[1, 2, 3]], cursor inside, m d [ removes one layer.
+          Be careful to only remove the outer brackets.
+  Hint 5: For {"key"}, cursor between braces (but outside quotes),
+          m d { removes the braces leaving "key".

@@ -1,0 +1,51 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 9.1: Pickers                          ║
+║  Category: Space Mode            Difficulty: ★★★ Advanced       ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  Space f   File finder (fuzzy search)
+  Space F   File finder (from current directory)
+  Space b   Buffer picker (open files)
+  Space g   Changed files picker (git modified)
+  Space j   Jumplist picker
+  Space '   Reopen last picker
+
+MNEMONIC: Space = leader, f=file, b=buffer, g=git, j=jump
+
+INSTRUCTIONS
+────────────
+  Space mode pickers are your primary navigation tools in Zed.
+  This exercise is a reference card — fill in the correct command
+  for each navigation scenario.
+
+  Practice these in your real workflow after completing this exercise.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+NAVIGATION SCENARIO                              COMMAND
+──────────────────────────────────────────────────────────
+Open any file in the project by name:            ???
+Open any file starting from current dir:         ???
+Switch between already-open files:               ???
+See which files you've modified (git):           ???
+Jump back to a previous location:                ???
+Reopen the last picker you used:                 ???
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+NAVIGATION SCENARIO                              COMMAND
+──────────────────────────────────────────────────────────
+Open any file in the project by name:            Space f
+Open any file starting from current dir:         Space F
+Switch between already-open files:               Space b
+See which files you've modified (git):           Space g
+Jump back to a previous location:                Space j
+Reopen the last picker you used:                 Space '
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Space f is the most-used command — fuzzy file finder.
+  Hint 2: Space b shows a list of currently open buffers.
+  Hint 3: Space g shows git-modified files — great for reviews.

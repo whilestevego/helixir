@@ -1,0 +1,48 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 1.2: Word Motion                      ║
+║  Category: Movement              Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  w     Move to next word start (selects the word)
+  b     Move to previous word start
+  e     Move to next word end
+  W     Move to next WORD start (ignores punctuation)
+  B     Move to previous WORD start
+  E     Move to next WORD end
+
+MNEMONIC: w=word, b=back, e=end. Uppercase = WORD (whitespace-delimited)
+
+NOTE: In Helix, w selects from cursor to the start of the next word.
+      This means pressing w then d deletes a word — select, then act!
+
+INSTRUCTIONS
+────────────
+  Delete every other word to transform each sentence.
+  Use  w  to select a word, then  d  to delete it.
+
+  Tip: After deleting, you may need to also delete the extra space.
+  Try  w d  for each word you want to remove.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+one two three four five six seven eight
+alpha bravo charlie delta echo foxtrot
+red orange yellow green blue indigo violet
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+one three five seven
+alpha charlie echo
+red yellow blue violet
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Position at start of "two", press w to select it,
+          then d to delete. You'll also need to handle the space.
+  Hint 2: Try selecting the word AND the following space before
+          deleting: w on the word, then l to extend into the space,
+          then d.
+  Hint 3: Alternative approach — use v to enter select mode, then
+          w to extend across the word + space, then d.

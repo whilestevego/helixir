@@ -1,0 +1,53 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 8.3: Buffer Navigation                ║
+║  Category: Goto Mode             Difficulty: ★★★ Advanced       ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  g n     Go to next buffer (open file)
+  g p     Go to previous buffer
+  g a     Go to last accessed file (alternate file)
+  g m     Go to last modified file
+  H       Previous buffer (Zed shortcut, not standard Helix)
+  L       Next buffer (Zed shortcut, not standard Helix)
+
+NOTE: H and L are Zed-specific additions for quick buffer switching.
+
+INSTRUCTIONS
+────────────
+  Buffer navigation commands work across open files in Zed.
+  This exercise teaches the concepts — practice them in your
+  real workflow.
+
+  For now: edit this file to fill in the command for each scenario.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+SCENARIO                                    COMMAND
+─────────────────────────────────────────────────────
+Switch to the next open file:               ???
+Switch to the previous open file:           ???
+Jump back to the file you were just in:     ???
+Jump to the file you last edited:           ???
+Quick next buffer (Zed shortcut):           ???
+Quick previous buffer (Zed shortcut):       ???
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+SCENARIO                                    COMMAND
+─────────────────────────────────────────────────────
+Switch to the next open file:               g n
+Switch to the previous open file:           g p
+Jump back to the file you were just in:     g a
+Jump to the file you last edited:           g m
+Quick next buffer (Zed shortcut):           L
+Quick previous buffer (Zed shortcut):       H
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Replace ??? with the correct command from the
+          COMMANDS TO LEARN section.
+  Hint 2: g a = alternate (last accessed), g m = modified.
+  Hint 3: H/L are non-standard Helix — they're Zed additions
+          mapped to the same actions as g p / g n.

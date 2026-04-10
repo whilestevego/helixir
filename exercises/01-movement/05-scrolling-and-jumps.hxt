@@ -1,0 +1,93 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 1.5: Scrolling and Jumps              ║
+║  Category: Movement              Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  Ctrl-d    Half page down
+  Ctrl-u    Half page up
+  Ctrl-f    Full page down
+  Ctrl-b    Full page up
+  Ctrl-o    Jump backward on jumplist
+  Ctrl-i    Jump forward on jumplist
+  z z       Center current line on screen (view mode)
+
+INSTRUCTIONS
+────────────
+  This exercise has many lines. Scattered through them are lines
+  marked with >>> that contain a word in CAPS. Collect all the
+  CAPS words and write them on the ANSWER line at the bottom,
+  separated by spaces.
+
+  Use Ctrl-d/Ctrl-u to scroll quickly. Use / to search if you
+  want, but try scrolling first to build the habit.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+Line 1: The weather is nice today.
+Line 2: Nothing special here.
+Line 3: Just some filler text.
+>>> The first word is HELIX
+Line 5: More ordinary content.
+Line 6: Keep scrolling down.
+Line 7: Almost there.
+Line 8: Not yet.
+Line 9: Patience.
+Line 10: The journey is the reward.
+Line 11: Still going.
+Line 12: Regular line.
+>>> The second word is MODE
+Line 14: More content ahead.
+Line 15: Keep looking.
+Line 16: Nothing here either.
+Line 17: Just a bit more.
+Line 18: Getting closer.
+Line 19: Almost at the next one.
+Line 20: Here we go.
+>>> The third word is ROCKS
+Line 22: Final stretch.
+Line 23: One more section.
+Line 24: Nearly done.
+Line 25: Last filler line.
+
+ANSWER: REPLACE THIS WITH THE THREE WORDS
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+Line 1: The weather is nice today.
+Line 2: Nothing special here.
+Line 3: Just some filler text.
+>>> The first word is HELIX
+Line 5: More ordinary content.
+Line 6: Keep scrolling down.
+Line 7: Almost there.
+Line 8: Not yet.
+Line 9: Patience.
+Line 10: The journey is the reward.
+Line 11: Still going.
+Line 12: Regular line.
+>>> The second word is MODE
+Line 14: More content ahead.
+Line 15: Keep looking.
+Line 16: Nothing here either.
+Line 17: Just a bit more.
+Line 18: Getting closer.
+Line 19: Almost at the next one.
+Line 20: Here we go.
+>>> The third word is ROCKS
+Line 22: Final stretch.
+Line 23: One more section.
+Line 24: Nearly done.
+Line 25: Last filler line.
+
+ANSWER: HELIX MODE ROCKS
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Use Ctrl-d to scroll down half a page at a time.
+  Hint 2: When you find a >>> line, note the CAPS word.
+  Hint 3: After finding all three words, navigate to the ANSWER
+          line and use c to change the placeholder text.
+  Hint 4: Try z z to center the current line if you lose track
+          of where you are.

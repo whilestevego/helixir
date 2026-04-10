@@ -1,0 +1,48 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 3.1: Delete and Change                ║
+║  Category: Changes               Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  d     Delete selection (yanks to register)
+  c     Change selection (delete + enter insert mode)
+  Alt-d Delete selection WITHOUT yanking
+  Alt-c Change selection WITHOUT yanking
+
+The key insight: in Helix you SELECT first, then ACT.
+  Vim:   dw  (delete word)
+  Helix: wd  (select word, then delete)
+
+  Vim:   cw  (change word)
+  Helix: wc  (select word, then change)
+
+INSTRUCTIONS
+────────────
+  Replace each animal name with the replacement shown in parens.
+  Use w to select the word, then c to change it.
+
+  After pressing c, you'll enter insert mode — type the new word,
+  then press Esc to return to normal mode.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+The cat (dog) sat on the mat.
+A horse (zebra) galloped across the field.
+The eagle (hawk) soared above the mountains.
+A dolphin (whale) swam through the ocean.
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+The dog sat on the mat.
+A zebra galloped across the field.
+The hawk soared above the mountains.
+A whale swam through the ocean.
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Move to "cat", press w to select it, then c.
+  Hint 2: You're now in insert mode. Type "dog" then Esc.
+  Hint 3: Now delete the hint text " (dog)" — select it and d.
+  Hint 4: Repeat for each line. Remember: w c <type> Esc is
+          the core pattern for "change a word" in Helix.

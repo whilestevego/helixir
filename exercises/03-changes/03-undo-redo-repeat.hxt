@@ -1,0 +1,51 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 3.3: Undo, Redo, and Repeat           ║
+║  Category: Changes               Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  u     Undo
+  U     Redo
+  .     Repeat last insert/change
+
+NOTE: Helix uses U for redo (not Ctrl-r like Vim).
+      Zed also supports Ctrl-r as a non-standard extra.
+
+INSTRUCTIONS
+────────────
+  Transform each line by adding the prefix "DONE: " before it.
+
+  Efficient strategy using repeat (.):
+  1. Go to the first line
+  2. Press g h to go to line start (or I to insert at start)
+  3. Type "DONE: " then Esc
+  4. Move to the next line
+  5. Press . to repeat the insertion
+  6. Repeat for all lines
+
+  If you make a mistake, press u to undo!
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+Buy groceries
+Walk the dog
+Write code
+Read a book
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+DONE: Buy groceries
+DONE: Walk the dog
+DONE: Write code
+DONE: Read a book
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: On "Buy groceries", press I to enter insert mode at
+          line start. Type "DONE: " then Esc.
+  Hint 2: Press j to move down, then . to repeat.
+  Hint 3: The . command repeats your last insert — the "DONE: "
+          text gets inserted at the cursor position.
+  Hint 4: If . inserts in the wrong place, try I then Esc first
+          to position correctly, then . on subsequent lines.

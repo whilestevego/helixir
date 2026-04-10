@@ -1,0 +1,62 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 11.1: Rename Variable                 ║
+║  Category: Advanced Workflows    Difficulty: ★★★ Mastery        ║
+╚══════════════════════════════════════════════════════════════════╝
+
+THE HELIX WAY: Select all, then act on all at once.
+
+WORKFLOW
+────────
+  The Helix pattern for global find-and-replace:
+
+  % s <pattern> Enter c <replacement> Esc
+
+  1. %           Select entire file
+  2. s           Open regex select (split into sub-selections)
+  3. <pattern>   Type the text to find
+  4. Enter       Confirm — now every match is a separate selection
+  5. c           Change all selections simultaneously
+  6. <type>      Type the replacement text
+  7. Esc         Done — all instances changed at once
+
+  This replaces Vim's  :%s/old/new/g
+
+INSTRUCTIONS
+────────────
+  Rename the variable "count" to "total" everywhere in this code.
+  Use the workflow above: % s count Enter c total Esc
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+function summarize(items) {
+  let count = 0;
+  for (const item of items) {
+    if (item.active) {
+      count = count + 1;
+    }
+  }
+  console.log(`Active count: ${count}`);
+  return count;
+}
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+function summarize(items) {
+  let total = 0;
+  for (const item of items) {
+    if (item.active) {
+      total = total + 1;
+    }
+  }
+  console.log(`Active total: ${total}`);
+  return total;
+}
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Select all practice text (use x repeatedly or v+motion).
+  Hint 2: Press s, type "count", press Enter.
+  Hint 3: You should see 5 selections highlighting each "count".
+  Hint 4: Press c, type "total", press Esc. All 5 change at once.
+  Hint 5: Note: this also changes "count" inside the string.
+          For real code, use Space r (LSP rename) instead!

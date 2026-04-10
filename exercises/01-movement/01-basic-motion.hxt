@@ -1,0 +1,48 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 1.1: Basic Motion                     ║
+║  Category: Movement              Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  h     Move left
+  j     Move down
+  k     Move up
+  l     Move right
+
+MNEMONIC: h is leftmost, l is rightmost, j hangs down, k points up
+
+INSTRUCTIONS
+────────────
+  Each line below contains a word marked with brackets [like this].
+  Your goal: delete ONLY the bracketed word (including brackets).
+
+  Steps for each line:
+  1. Use h/j/k/l to move your cursor onto the [ character
+  2. Press  v  to enter select mode
+  3. Use  l  to extend your selection to include the ]
+  4. Press  d  to delete
+
+  Do NOT use w, b, f, or any other motion — only h, j, k, l.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+The quick [brown] fox jumps over the lazy dog.
+She sells [sea] shells by the seashore.
+How much [wood] would a woodchuck chuck?
+Pack my [box] with five dozen liquor jugs.
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+The quick  fox jumps over the lazy dog.
+She sells  shells by the seashore.
+How much  would a woodchuck chuck?
+Pack my  with five dozen liquor jugs.
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Position cursor on [, press v, then l repeatedly until
+          ] is included in the selection, then d.
+  Hint 2: Remember: in Helix, motions CREATE selections. So just
+          moving with h/j/k/l already selects the character under
+          the cursor. v extends it as you move.

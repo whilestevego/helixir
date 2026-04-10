@@ -1,0 +1,51 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 2.3: Collapse and Flip                ║
+║  Category: Selection             Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  ;       Collapse selection to a single cursor
+  Alt-;   Flip selection (swap anchor and cursor)
+
+In Helix, every cursor is a selection with an anchor and a head.
+  ;  collapses the selection to just the cursor position.
+  Alt-;  swaps which end is the anchor and which is the head.
+
+INSTRUCTIONS
+────────────
+  This exercise practices the "select then refine" workflow.
+
+  Each line has two words in CAPS. Delete ONLY the second one.
+
+  Strategy:
+  1. Use / to search for a CAPS word (or navigate manually)
+  2. If you accidentally select too much, use ; to collapse
+     and try again
+  3. Select precisely the second CAPS word, then d
+
+  This teaches you to use ; as a "reset" when your selection
+  goes wrong — a crucial habit in Helix.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+The QUICK brown LAZY fox.
+A TALL tree and SHORT grass.
+The FIRST step and LAST dance.
+One GOOD deed and BAD habit.
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+The QUICK brown  fox.
+A TALL tree and  grass.
+The FIRST step and  dance.
+One GOOD deed and  habit.
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: On the first line, navigate to LAZY. Press w to select
+          the word, then d to delete it.
+  Hint 2: If you overshoot and select too much, press ; to
+          collapse back to a cursor and start over.
+  Hint 3: The key habit: ; is your "undo selection" — use it
+          freely whenever you need to restart a selection.

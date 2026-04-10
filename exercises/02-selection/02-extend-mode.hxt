@@ -1,0 +1,51 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 2.2: Extend Mode                      ║
+║  Category: Selection             Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  v       Enter select (extend) mode
+  v       Press again to exit back to normal mode
+  Esc     Also exits select mode
+
+In select mode, ALL motions EXTEND the selection instead of
+replacing it. This is like Vim's visual mode but integrated
+into Helix's selection-first model.
+
+INSTRUCTIONS
+────────────
+  Each line has a phrase enclosed in << >> markers.
+  Select from << to >> (inclusive) using extend mode, then delete.
+
+  Strategy:
+  1. Position cursor on the first <
+  2. Press v to enter extend mode
+  3. Use f > then ; or just l repeatedly to reach past >>
+  4. Press d to delete
+
+  The result should have no << >> markers or their contents.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+Hello <<remove this>> world.
+The <<delete me>> quick brown fox.
+Coding <<not this part>> is fun.
+Helix <<or this>> is great.
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+Hello  world.
+The  quick brown fox.
+Coding  is fun.
+Helix  is great.
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Move to <, press v, then f > to jump to the first >.
+          But you need to include the second > too.
+  Hint 2: After f >, press l to extend one more character to
+          include the closing >, then d.
+  Hint 3: Alternative: f < to land on first <, then v f > l d.
+  Hint 4: Another approach: use / to search for <<.*?>> pattern,
+          but that's a more advanced technique.

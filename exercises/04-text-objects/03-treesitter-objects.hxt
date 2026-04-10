@@ -1,0 +1,73 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 4.3: Tree-sitter Objects              ║
+║  Category: Text Objects          Difficulty: ★★☆ Intermediate   ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  m i f   Select INSIDE function (the function body)
+  m a f   Select AROUND function (entire function including signature)
+  m i a   Select INSIDE argument (a single argument in a parameter list)
+  m a a   Select AROUND argument (includes trailing comma/whitespace)
+  m i c   Select INSIDE class/type definition
+
+NOTE: Tree-sitter text objects require the appropriate language
+grammar to be active. Open this file as JavaScript/TypeScript
+for best results, or rename it to .js temporarily.
+
+INSTRUCTIONS
+────────────
+  1. Delete the entire deprecated function (validateEmail) using
+     m a f then d.
+
+  2. In formatUser, delete the "role" argument from the parameter
+     list using m a a then d (place cursor on "role" first).
+
+  3. In calculateTotal, delete the function body (but keep the
+     signature) using m i f then d.
+
+  Note: If tree-sitter objects are not active, you can practice
+  the key sequences and understand the concept — then try on a
+  real source file later.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+function formatUser(name, email, role) {
+  const display = `${name} <${email}>`;
+  return { display, role };
+}
+
+// DEPRECATED: use schema validation instead
+function validateEmail(input) {
+  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return regex.test(input);
+}
+
+function calculateTotal(items, taxRate, discount) {
+  const subtotal = items.reduce((sum, item) => sum + item.price, 0);
+  const tax = subtotal * taxRate;
+  const total = subtotal + tax - discount;
+  return Math.round(total * 100) / 100;
+}
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+function formatUser(name, email) {
+  const display = `${name} <${email}>`;
+  return { display, role };
+}
+
+function calculateTotal(items, taxRate, discount) {
+}
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Place cursor anywhere inside validateEmail's body, then
+          m a f to select the entire function, then d.
+  Hint 2: Don't forget to also delete the "// DEPRECATED" comment
+          line above validateEmail.
+  Hint 3: For deleting the "role" argument, place cursor on the
+          word "role" in the parameter list, then m a a d. The
+          "around" variant should grab the preceding comma too.
+  Hint 4: For the function body, place cursor inside calculateTotal's
+          body, then m i f d. This selects just the body contents.

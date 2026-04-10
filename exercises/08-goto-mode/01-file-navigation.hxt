@@ -1,0 +1,70 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 8.1: File Navigation                  ║
+║  Category: Goto Mode             Difficulty: ★★★ Advanced       ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  g g     Go to start of file (or line N with a count)
+  g e     Go to end of file
+  g h     Go to start of line
+  g l     Go to end of line
+  g s     Go to first non-whitespace character
+  g t     Go to top of visible screen
+  g c     Go to center of visible screen
+  g b     Go to bottom of visible screen
+  g .     Go to last modification in file
+  g w     Goto word (shows labels, jump by label)
+
+MNEMONIC: g = goto. Then: h=home, l=last, s=start, t=top, c=center, b=bottom
+
+INSTRUCTIONS
+────────────
+  This file simulates a config file. Make these changes:
+  1. Add "# HEADER" as the very first line (use g g to go to top)
+  2. Add "# FOOTER" as the very last line (use g e to go to bottom)
+  3. On the indented lines, delete trailing whitespace (use g l
+     to see end of line, or use the $ approach)
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+[database]
+host = localhost
+port = 5432
+name = myapp_production
+
+[server]
+host = 0.0.0.0
+port = 3000
+workers = 4
+
+[logging]
+level = info
+format = json
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+# HEADER
+[database]
+host = localhost
+port = 5432
+name = myapp_production
+
+[server]
+host = 0.0.0.0
+port = 3000
+workers = 4
+
+[logging]
+level = info
+format = json
+# FOOTER
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: g g takes you to the start of the file. Press O to
+          open a line above, type "# HEADER", then Esc.
+  Hint 2: g e takes you to the end. Press o to open a line
+          below, type "# FOOTER", then Esc.
+  Hint 3: g w shows labels on every word — press a label key
+          to jump directly there. Try it for quick navigation!

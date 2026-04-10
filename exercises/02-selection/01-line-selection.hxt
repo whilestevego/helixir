@@ -1,0 +1,54 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 2.1: Line Selection                   ║
+║  Category: Selection             Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  x     Select the current line (repeat to extend to more lines)
+  X     Extend selection to full line bounds
+  d     Delete the selection
+
+MNEMONIC: x = line (think "x marks the whole line")
+
+NOTE: In Helix, x selects a line. In Vim, x deletes a character.
+      This is one of the biggest differences!
+
+INSTRUCTIONS
+────────────
+  Delete all lines that contain the word "REMOVE".
+  Keep all other lines exactly as they are.
+
+  Strategy:
+  1. Move to a line containing REMOVE
+  2. Press x to select the entire line
+  3. Press d to delete it
+
+  For consecutive REMOVE lines, press x multiple times to
+  extend the selection across all of them, then d once.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+Keep this line.
+REMOVE this line.
+Keep this one too.
+REMOVE this as well.
+REMOVE and this.
+This stays.
+REMOVE goodbye.
+The end stays.
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+Keep this line.
+Keep this one too.
+This stays.
+The end stays.
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Move to "REMOVE this line." and press x then d.
+  Hint 2: For the two consecutive REMOVE lines, press x twice
+          to select both, then d to delete them together.
+  Hint 3: If you accidentally select the wrong line, press ;
+          to collapse the selection back to a cursor.

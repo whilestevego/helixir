@@ -1,0 +1,79 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 8.2: LSP Navigation                   ║
+║  Category: Goto Mode             Difficulty: ★★★ Advanced       ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  g d     Go to definition (LSP)
+  g r     Go to references (LSP)
+  g y     Go to type definition (LSP)
+  g i     Go to implementation (LSP)
+
+NOTE: These commands require an active language server. They work
+      best in real code files with proper LSP setup.
+
+INSTRUCTIONS
+────────────
+  This exercise is conceptual — LSP commands need a real project.
+
+  Practice the WORKFLOW by reading the code below and adding
+  comments that describe where each g-command would take you.
+
+  Add a comment after each marked line explaining the destination.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+interface Logger {
+  log(message: string): void;
+}
+
+class ConsoleLogger implements Logger {
+  log(message: string): void {
+    console.log(message);
+  }
+}
+
+function createLogger(): Logger {
+  return new ConsoleLogger();
+}
+
+// With cursor on "Logger" in createLogger's return type:
+// g d would go to:
+// g i would go to:
+
+// With cursor on "log" in console.log(message):
+// g d would go to:
+// g r would go to:
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+interface Logger {
+  log(message: string): void;
+}
+
+class ConsoleLogger implements Logger {
+  log(message: string): void {
+    console.log(message);
+  }
+}
+
+function createLogger(): Logger {
+  return new ConsoleLogger();
+}
+
+// With cursor on "Logger" in createLogger's return type:
+// g d would go to: interface Logger (line 1)
+// g i would go to: class ConsoleLogger (line 5)
+
+// With cursor on "log" in console.log(message):
+// g d would go to: log method in ConsoleLogger (line 6)
+// g r would go to: all usages of log in the file
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: g d goes to where something is DEFINED.
+  Hint 2: g i goes to where an interface is IMPLEMENTED.
+  Hint 3: g r goes to all REFERENCES (usages) of a symbol.
+  Hint 4: Try these commands in a real TypeScript project to
+          see them in action!

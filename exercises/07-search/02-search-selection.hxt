@@ -1,0 +1,79 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 7.2: Search with Selection            ║
+║  Category: Search                  Difficulty: ★★☆ Intermediate  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  *       Use current selection as search pattern (word boundary)
+  Alt-*   Use current selection as exact search pattern (no boundaries)
+  n       Jump to next match
+  N       Jump to previous match
+
+* is like "find other instances of this word." It automatically
+adds \b word boundaries, so selecting "user" won't match "userName".
+
+Alt-* does an exact substring match — selecting "user" WILL match
+inside "userName".
+
+INSTRUCTIONS
+────────────
+  The code below uses the variable "userName" in several places.
+  Rename it to "accountName" everywhere.
+
+  Strategy:
+  1. Position your cursor on one instance of "userName"
+  2. Select it: use  w  to select the word, or  viw  to select
+     inner word. Make sure you have exactly "userName" selected.
+  3. Press  *  — this sets "userName" as the search pattern
+  4. Now use the multi-selection approach:
+     a. Press  %  to select the entire file (or just the code block)
+     b. Press  s  and type   userName   then Enter
+        → All instances become selections
+     c. Press  c  to change all of them
+     d. Type   accountName
+     e. Press  Esc
+
+  Alternative (one at a time):
+  1. Select "userName" and press *
+  2. Press  c , type  accountName , press Esc
+  3. Press  n  to jump to next, then  c  and type again
+  4. Repeat for each instance
+
+  There are 6 instances to rename.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+function validateUser(userName) {
+    if (!userName || userName.length === 0) {
+        throw new Error("userName is required");
+    }
+    const sanitized = userName.trim().toLowerCase();
+    console.log("Validating userName:", userName);
+    return sanitized;
+}
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+function validateUser(accountName) {
+    if (!accountName || accountName.length === 0) {
+        throw new Error("accountName is required");
+    }
+    const sanitized = accountName.trim().toLowerCase();
+    console.log("Validating accountName:", accountName);
+    return sanitized;
+}
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: To select exactly "userName", place cursor on the u,
+          then use  2w  or  e  to extend to the end of the word.
+          Or use  viw  if the word boundaries work well.
+  Hint 2: * with word boundaries means searching for "userName"
+          won't accidentally match "userNameValidator" or similar.
+  Hint 3: The multi-selection approach (select all, s, c) is
+          faster than one-by-one when there are many matches.
+  Hint 4: Be careful with the string literal "userName is required"
+          — you want to change that too, to "accountName is required".
+  Hint 5: If you accidentally change something wrong, press u
+          to undo and try again.

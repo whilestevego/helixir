@@ -1,0 +1,49 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 11.3: Reformat Data                   ║
+║  Category: Advanced Workflows    Difficulty: ★★★ Mastery        ║
+╚══════════════════════════════════════════════════════════════════╝
+
+WORKFLOW
+────────
+  Data transformation using multi-selection and surround:
+  - S (split selection on regex)
+  - s (regex select within selection)
+  - m s (add surround)
+  - c (change)
+  - J (join)
+
+INSTRUCTIONS
+────────────
+  Convert this CSV data into a JSON array.
+  Each line should become a JSON object with keys "name" and "age".
+
+  Strategy:
+  1. Transform each data line from "Name,Age" to {"name": "Name", "age": Age}
+  2. Work line by line, or use multi-selection for the repetitive parts
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+Alice,30
+Bob,25
+Charlie,35
+Diana,28
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+{"name": "Alice", "age": 30}
+{"name": "Bob", "age": 25}
+{"name": "Charlie", "age": 35}
+{"name": "Diana", "age": 28}
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: This is a multi-step transformation. One approach:
+          work one line at a time until you get the pattern,
+          then try to parallelize with multi-selection.
+  Hint 2: For "Alice,30": select "Alice", surround with quotes,
+          add the key prefix, handle the comma, etc.
+  Hint 3: Power approach: Select all 4 lines. Use s to find
+          the comma, change it to '", "age": '. Then handle
+          the prefix {"name": " and suffix } for each line.
+  Hint 4: Don't worry about elegance — any approach that gets
+          to the expected result practices useful Helix skills!

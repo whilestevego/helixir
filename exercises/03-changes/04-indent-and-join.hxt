@@ -1,0 +1,58 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 3.4: Indent and Join                  ║
+║  Category: Changes               Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  >     Indent selection
+  <     Unindent selection
+  J     Join lines (collapse selection into one line)
+
+INSTRUCTIONS
+────────────
+  Part A: The HTML below is completely flat. Indent it properly.
+  Select lines that should be indented and press > once for each
+  level of nesting.
+
+  Part B: The sentence at the bottom is split across multiple
+  lines. Select all those lines and press J to join them.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+<html>
+<head>
+<title>Hello</title>
+</head>
+<body>
+<p>World</p>
+</body>
+</html>
+
+This
+sentence
+is
+split
+up.
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+<html>
+  <head>
+    <title>Hello</title>
+  </head>
+  <body>
+    <p>World</p>
+  </body>
+</html>
+
+This sentence is split up.
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: For <head> and </head>, select both with x x, press >
+          once for one level of indent.
+  Hint 2: For <title>, select with x, press > twice (>> = 2 levels).
+  Hint 3: Same pattern for <body>, </body>, and <p>.
+  Hint 4: For the split sentence, select all 5 lines with x x x x x
+          (or first line then v then 4j), then J to join.

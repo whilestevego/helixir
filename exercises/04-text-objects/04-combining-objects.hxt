@@ -1,0 +1,78 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 4.4: Combining Objects with Actions   ║
+║  Category: Text Objects          Difficulty: ★★★ Advanced       ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  m i " c   Change inside quotes (select + enter insert mode)
+  m a f d   Delete around function (remove entire function)
+  m i ( y   Yank inside parentheses (copy content)
+  m i { d   Delete inside braces (empty the block)
+  m a [ d   Delete around brackets (remove brackets and content)
+
+These are not special commands — they are natural combinations:
+  1. m i/a + delimiter = SELECT the text object
+  2. c / d / y         = ACT on the selection
+
+INSTRUCTIONS
+────────────
+  1. Change the string "PLACEHOLDER" to "production" in the config
+     line. (Cursor inside quotes, m i " c, type new text, Esc.)
+
+  2. Change the API URL from "http://staging.internal/api" to
+     "https://api.example.com/v2".
+
+  3. Delete everything inside the if-block's braces (the two
+     console.log lines) so only empty braces {} remain.
+
+  4. Delete the entire [LEGACY] tag including its brackets from
+     the comment line.
+
+  5. Yank (copy) the arguments inside fetchData(...) and paste
+     them into processData() to replace "TODO".
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+const env = "PLACEHOLDER";
+const apiUrl = "http://staging.internal/api";
+
+if (env === "production") {
+  console.log("Starting production server...");
+  console.log("Loaded " + modules.length + " modules");
+}
+
+// [LEGACY] This handler will be removed in v3.0
+function onConnect(socket) {
+  fetchData(userId, sessionToken, { cache: true });
+  processData(TODO);
+}
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+const env = "production";
+const apiUrl = "https://api.example.com/v2";
+
+if (env === "production") {
+}
+
+// This handler will be removed in v3.0
+function onConnect(socket) {
+  fetchData(userId, sessionToken, { cache: true });
+  processData(userId, sessionToken, { cache: true });
+}
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: For "PLACEHOLDER", put cursor on any letter between the
+          quotes and press m i " c. Type "production", then Esc.
+  Hint 2: Same technique for the API URL: m i " c then type the
+          new URL.
+  Hint 3: For the if-block, place cursor on a console.log line,
+          press m i { d. This selects everything between { and }.
+  Hint 4: For [LEGACY], cursor on "LEGACY", then m a [ d. The
+          "around" variant includes the brackets themselves.
+          You will also need to delete the extra space left behind.
+  Hint 5: For the yank-paste workflow: cursor inside fetchData's
+          parens, m i ( y, then move to "TODO", m i ( to select
+          it, then p to paste over it.

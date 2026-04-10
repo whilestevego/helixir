@@ -1,0 +1,87 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 6.4: Keep and Remove Selections       ║
+║  Category: Multi-Selection         Difficulty: ★★★ Advanced      ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  K       Keep only selections matching a regex
+  Alt-K   Remove selections matching a regex (keep non-matches)
+
+After creating multiple selections (e.g., with s or S or Alt-s),
+K and Alt-K let you FILTER them. Think of it as grep for your
+selections.
+
+INSTRUCTIONS
+────────────
+  The list below mixes fruits and vegetables. Your goal: delete
+  all the vegetables, keeping only the fruits.
+
+  Strategy:
+  1. Select the entire list (use x on each line, or v + j)
+  2. Press  Alt-s  to split into one selection per line
+     → You now have 10 selections, one per line
+  3. Press  Alt-K  to remove selections matching a pattern
+  4. Type   carrot|broccoli|spinach|celery|kale   and Enter
+     → The vegetable lines are deselected; only fruit lines
+       remain selected
+  5. Now you need the opposite — select the vegetables to delete
+     them. Let's use a different approach:
+
+  Better strategy:
+  1. Select the entire list with x (repeated) or v + j
+  2. Press  Alt-s  to split on newlines
+  3. Press  K  (keep matching) and type:
+       apple|mango|banana|grape|orange
+     → Now only the fruit lines are selected
+  4. Press  Alt-;  to flip: now vegetables are selected
+     Wait — that selects the gaps. Instead:
+
+  Simplest strategy:
+  1. Select all list lines
+  2. Press  Alt-s  (one selection per line)
+  3. Press  Alt-K  and type   carrot|broccoli|spinach|celery|kale
+     → Vegetables are removed from selections, fruits remain
+  4. Press  d  to delete the UNselected lines?
+     No — d deletes the SELECTED text. We want the opposite.
+
+  Correct approach — delete the vegetables:
+  1. Select all list lines with x repeated or v + j
+  2. Press  Alt-s  to get one selection per line
+  3. Press  K  and type   carrot|broccoli|spinach|celery|kale
+     → Now only vegetable lines are selected
+  4. Press  d  to delete them
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+apple
+carrot
+mango
+broccoli
+banana
+spinach
+grape
+celery
+orange
+kale
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+apple
+mango
+banana
+grape
+orange
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: First get one selection per line: select the block,
+          then Alt-s.
+  Hint 2: K keeps selections that MATCH. Alt-K keeps selections
+          that DON'T match. Think: K = grep, Alt-K = grep -v.
+  Hint 3: To delete vegetables, use K (keep matching) with the
+          vegetable names, then d to delete those selections.
+  Hint 4: The regex uses | for "or":  carrot|broccoli|spinach|celery|kale
+  Hint 5: If leftover blank lines remain, undo and try again.
+          Make sure each x or line selection captures the full
+          line including the newline character.

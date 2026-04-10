@@ -1,0 +1,60 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 6.1: Regex Select                     ║
+║  Category: Multi-Selection         Difficulty: ★★☆ Intermediate  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  s     Select all regex matches within the current selection
+  c     Change (delete selection and enter insert mode)
+
+This is the KILLER feature of Helix. Instead of :%s/old/new/g,
+you select text, split it into sub-selections, and edit them all
+simultaneously with multiple cursors — live.
+
+INSTRUCTIONS
+────────────
+  The paragraph below uses "color" five times. You need to change
+  every instance to "colour" (British spelling) — all at once.
+
+  The Helix way:
+  1. Select the entire practice block (use x to select lines, or
+     position before the first line and v then j to extend)
+  2. Press  s  — a prompt appears at the bottom
+  3. Type   color   and press Enter
+     → All five instances are now individual selections!
+  4. Press  c  — all five are deleted, you're in insert mode
+     at every cursor simultaneously
+  5. Type   colour
+  6. Press  Esc  — done. Five replacements, zero repetition.
+
+  Feel the power. This is multi-cursor editing driven by regex,
+  and it works on ANY pattern.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+The color of the sky changes throughout the day. At dawn, a warm
+color spreads across the horizon. By noon the color shifts to a
+brilliant blue. Artists know that color theory is essential for
+painting realistic scenes. The right color can set the entire
+mood of a composition.
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+The colour of the sky changes throughout the day. At dawn, a warm
+colour spreads across the horizon. By noon the colour shifts to a
+brilliant blue. Artists know that colour theory is essential for
+painting realistic scenes. The right colour can set the entire
+mood of a composition.
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Make sure your selection covers ALL five lines before
+          pressing s. Use x repeatedly or v + j.
+  Hint 2: After pressing s, type "color" (not "colour") and Enter.
+          You should see 5 selections highlighted.
+  Hint 3: Press c (not d!) — this deletes and enters insert mode.
+          Then type "colour" and all five update at once.
+  Hint 4: If you only got some matches, your initial selection
+          probably didn't cover all the text. Undo with u and
+          make a bigger selection.

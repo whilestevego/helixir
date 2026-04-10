@@ -1,0 +1,58 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 4.1: Delimiter Objects                ║
+║  Category: Text Objects          Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  m i (   Select INSIDE parentheses (content only)
+  m i "   Select INSIDE double quotes (content only)
+  m i {   Select INSIDE curly braces (content only)
+  m i [   Select INSIDE square brackets (content only)
+  m a (   Select AROUND parentheses (includes delimiters)
+  m a "   Select AROUND double quotes (includes delimiters)
+
+MNEMONIC: m = match, i = inside, a = around
+
+The "inside" variant selects only the content between delimiters.
+The "around" variant selects the content AND the delimiters themselves.
+
+INSTRUCTIONS
+────────────
+  For each line, delete the content INSIDE the delimiters, leaving
+  the empty delimiters in place.
+
+  Strategy:
+  1. Place your cursor anywhere between the delimiters
+  2. Press m i ( (or the appropriate delimiter key)
+  3. Press d to delete the selected content
+
+  Work through each line, matching the expected output.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+let result = calculate(x + y * 2);
+let name = "Professor Moriarty";
+let config = { host: "localhost", port: 8080 };
+let items = [apples, bananas, cherries];
+console.log("Hello, world!");
+render(createElement("div", { className: "container" }));
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+let result = calculate();
+let name = "";
+let config = {};
+let items = [];
+console.log("");
+render(createElement("", {}));
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Place cursor on "x" in calculate(x + y * 2), then m i ( d.
+  Hint 2: For quotes, cursor on any character between the quotes,
+          then m i " d.
+  Hint 3: The last line has nested delimiters. Start with the inner
+          ones first: the quotes inside createElement, then the
+          braces for the object.
+  Hint 4: If you select too much, press ; to collapse and retry.

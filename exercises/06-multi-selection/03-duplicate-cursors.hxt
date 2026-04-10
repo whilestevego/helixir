@@ -1,0 +1,59 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 6.3: Duplicate Cursors                ║
+║  Category: Multi-Selection         Difficulty: ★★☆ Intermediate  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  C       Copy selection to the next line (add cursor below)
+  Alt-C   Copy selection to the previous line (add cursor above)
+
+These create column-style editing — perfect for adding the same
+text to multiple consecutive lines.
+
+INSTRUCTIONS
+────────────
+  The list below needs "- [ ] " (a markdown checkbox) added to
+  the beginning of every line.
+
+  Strategy:
+  1. Move to the beginning of the first line ("Clean up")
+     Press  gh  to go to line start (or Home key)
+  2. Now press  C  four times — this copies your cursor down to
+     each subsequent line. You should see 5 cursors total, one
+     at the start of each line.
+  3. Press  i  to enter insert mode (at all 5 cursors)
+  4. Type   - [ ]   (dash, space, open bracket, space, close
+     bracket, space)
+  5. Press  Esc
+
+  All five lines now have checkboxes. This is column editing,
+  Helix style.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+Clean up the kitchen
+Fix the leaky faucet
+Organize the garage
+Update the budget spreadsheet
+Call the dentist for an appointment
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+- [ ] Clean up the kitchen
+- [ ] Fix the leaky faucet
+- [ ] Organize the garage
+- [ ] Update the budget spreadsheet
+- [ ] Call the dentist for an appointment
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Make sure your cursor is at column 1 of the first line
+          before you start pressing C. Use gh or Home.
+  Hint 2: Press C exactly 4 times (not 5) — you already have
+          one cursor on the first line, so 4 copies gives you 5.
+  Hint 3: If your cursors are misaligned, undo with u and try
+          again. All lines must start at the same column for
+          C to work cleanly.
+  Hint 4: Alt-C works the same but upward — useful when you're
+          at the bottom of a block and want to add cursors above.

@@ -1,0 +1,71 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 11.5: Vim to Helix Translation        ║
+║  Category: Advanced Workflows    Difficulty: ★★★ Mastery        ║
+╚══════════════════════════════════════════════════════════════════╝
+
+THE KEY MENTAL SHIFT: Vim = action first, Helix = selection first.
+
+VIM → HELIX TRANSLATION TABLE
+──────────────────────────────
+  Vim    Helix    Action
+  dw     wd       Delete word
+  dd     xd       Delete line
+  yy     xy       Yank line
+  ci"    mi"c     Change inside quotes
+  ca(    ma(d     Delete around parens
+  >>     x>       Indent line
+  Vj     xx       Select two lines
+  :%s    %s       Select-all + regex select
+
+INSTRUCTIONS
+────────────
+  Fill in the Helix equivalent for each Vim command.
+  Then perform the actual edit described on the text below.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+VIM COMMAND          HELIX EQUIVALENT     DESCRIPTION
+────────────────────────────────────────────────────────
+diw                  ???                  Delete inner word
+ci{                  ???                  Change inside braces
+dap                  ???                  Delete around paragraph
+yiw                  ???                  Yank inner word
+vip                  ???                  Select inner paragraph
+das                  ???                  Delete around sentence
+cs"'                 ???                  Change surround " to '
+
+NOW PRACTICE:
+
+Delete the word "DELETEME" from this line: hello DELETEME world
+Change "old" to "new" inside the quotes: config("old")
+Delete the content inside these braces: { remove all of this }
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+VIM COMMAND          HELIX EQUIVALENT     DESCRIPTION
+────────────────────────────────────────────────────────
+diw                  miwd                 Delete inner word
+ci{                  mi{c                 Change inside braces
+dap                  mapd                 Delete around paragraph
+yiw                  miwy                 Yank inner word
+vip                  vmip                 Select inner paragraph
+das                  masd                 Delete around sentence
+cs"'                 mr"'                 Change surround " to '
+
+NOW PRACTICE:
+
+Delete the word "DELETEME" from this line: hello  world
+Change "old" to "new" inside the quotes: config("new")
+Delete the content inside these braces: {  }
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: The pattern is: Vim's di/ci/da → Helix's mi/ma + action
+          Vim: d(action) i(inside) w(object)
+          Helix: m(match) i(inside) w(object) d(action)
+  Hint 2: Surround operations: Vim cs"' → Helix mr"'
+          (m=match, r=replace surround)
+  Hint 3: For the practice edits: navigate to "DELETEME", use
+          miwd (match inside word, delete).
+  Hint 4: For config("old"): put cursor inside quotes, mi"c
+          then type "new", Esc.

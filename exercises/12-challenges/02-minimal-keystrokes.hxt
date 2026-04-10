@@ -1,0 +1,34 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Challenge 2: Minimal Keystrokes                ║
+║  Category: Challenges            Difficulty: ★★★ Mastery        ║
+╚══════════════════════════════════════════════════════════════════╝
+
+CHALLENGE: Reach the expected result in the fewest keystrokes.
+─────────────────────────────────────────────────────────────
+
+Think before you type. The most efficient solution uses
+multi-selection and surround operations.
+
+PAR: ~15 keystrokes (expert)
+GOOD: ~25 keystrokes
+OKAY: ~40 keystrokes
+
+TASK: Wrap each word in <li> tags and add the <ul> wrapper.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+Apple
+Banana
+Cherry
+Date
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+<ul>
+  <li>Apple</li>
+  <li>Banana</li>
+  <li>Cherry</li>
+  <li>Date</li>
+</ul>
+
+──────────────────────────────────────────────────────────────────

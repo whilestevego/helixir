@@ -1,0 +1,87 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 5.4: Surround Workflows              ║
+║  Category: Surround              Difficulty: ★★★ Advanced       ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  %   Select all matching instances (after initial selection)
+  m s   Add surround to selection
+  m r   Replace surround
+  m d   Delete surround
+  C     Copy selection to next line (multi-cursor)
+  A-(   Select inside matching delimiters (Alt + open paren)
+
+WORKFLOW: Multi-selection + Surround
+────────────────────────────────────
+  To change ALL (parens) to [brackets] in a block:
+  1. Select one ( with f (
+  2. % to select ALL ( in the file/selection
+  3. m r ( [ to replace each one
+
+  To wrap multiple words at once:
+  1. Select the first word with w
+  2. Use C or % to add cursors for other instances
+  3. m s " to surround all selections at once
+
+INSTRUCTIONS
+────────────
+  1. In the CSS block, change every (var-name) to [var-name]
+     using multi-selection + surround replace.
+
+  2. In the log statements, remove ALL double quotes around the
+     log levels (INFO, WARN, ERROR) using multi-selection + m d.
+
+  3. Wrap each bare config key (host, port, debug) with double
+     quotes to make valid JSON.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+.header { color: var(--primary); }
+.sidebar { background: var(--surface); }
+.button { border: 1px solid var(--accent); }
+.footer { color: var(--muted); }
+
+log("INFO", "Server started on port 3000");
+log("WARN", "Cache miss for user session");
+log("ERROR", "Connection refused by upstream");
+
+{
+  host: "localhost",
+  port: 8080,
+  debug: true
+}
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+.header { color: var[--primary]; }
+.sidebar { background: var[--surface]; }
+.button { border: 1px solid var[--accent]; }
+.footer { color: var[--muted]; }
+
+log(INFO, "Server started on port 3000");
+log(WARN, "Cache miss for user session");
+log(ERROR, "Connection refused by upstream");
+
+{
+  "host": "localhost",
+  "port": 8080,
+  "debug": true
+}
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: For the CSS block — place cursor inside the first (,
+          press m i ( to select --primary, then press m r ( [
+          to switch parens to brackets. Repeat for each line,
+          or use a multi-selection approach.
+  Hint 2: Multi-select approach: search for var( using / v a r (,
+          press Enter, then select all matches with %, then
+          m r ( [ to replace all at once.
+  Hint 3: For the log levels, you need to remove quotes from just
+          the FIRST argument. Place cursor in "INFO", m d " to
+          remove its quotes. Repeat for WARN and ERROR.
+  Hint 4: For the JSON keys, select host with w, then m s " to
+          wrap it. Repeat for port and debug.
+  Hint 5: Advanced: search for the pattern of bare keys using
+          /^\s+\w+ and multi-select, then m s " on all of them.

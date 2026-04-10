@@ -1,0 +1,49 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 1.4: Line Navigation                  ║
+║  Category: Movement              Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  g h     Go to start of line
+  g l     Go to end of line
+  g s     Go to first non-whitespace character of line
+  g g     Go to start of file (or line N with count)
+  g e     Go to end of file
+
+MNEMONIC: g=goto, h=home(left), l=last(right), s=start(non-blank)
+
+INSTRUCTIONS
+────────────
+  Each line has trailing text after a # that should be removed.
+  The text before # should remain, with no trailing spaces.
+
+  Strategy for each line:
+  1. Use j/k to reach the line
+  2. Press f # to jump to the #
+  3. Use v then g l to extend selection to end of line
+  4. Press d to delete
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+first line # remove this comment
+second line # and this one too
+third line # delete me
+fourth line # gone
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+first line
+second line
+third line
+fourth line
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: On the first line, press f # to find the # character.
+  Hint 2: You need to also select the space before #. Try T (first
+          non-space char going backward) or just use h to go left.
+  Hint 3: Once on the space before #, press v g l to extend
+          selection to end of line, then d to delete.
+  Hint 4: Alternative: f # then press v then g l then d.
+          Or: position before the space, then press d then g l.

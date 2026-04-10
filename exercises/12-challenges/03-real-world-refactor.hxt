@@ -1,0 +1,54 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Challenge 3: Real-World Refactor               ║
+║  Category: Challenges            Difficulty: ★★★ Mastery        ║
+╚══════════════════════════════════════════════════════════════════╝
+
+CHALLENGE: Refactor this code using Helix multi-selection.
+──────────────────────────────────────────────────────────
+
+This callback-heavy code needs to be converted to use
+async/await. Apply the transformation to all three functions.
+
+Use multi-selection where possible — don't repeat yourself!
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+function getUser(id, callback) {
+  db.query("SELECT * FROM users WHERE id = ?", [id], function(err, result) {
+    if (err) callback(err, null);
+    callback(null, result);
+  });
+}
+
+function getOrders(userId, callback) {
+  db.query("SELECT * FROM orders WHERE user_id = ?", [userId], function(err, result) {
+    if (err) callback(err, null);
+    callback(null, result);
+  });
+}
+
+function getProducts(orderId, callback) {
+  db.query("SELECT * FROM products WHERE order_id = ?", [orderId], function(err, result) {
+    if (err) callback(err, null);
+    callback(null, result);
+  });
+}
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+async function getUser(id) {
+  const result = await db.query("SELECT * FROM users WHERE id = ?", [id]);
+  return result;
+}
+
+async function getOrders(userId) {
+  const result = await db.query("SELECT * FROM orders WHERE user_id = ?", [userId]);
+  return result;
+}
+
+async function getProducts(orderId) {
+  const result = await db.query("SELECT * FROM products WHERE order_id = ?", [orderId]);
+  return result;
+}
+
+──────────────────────────────────────────────────────────────────

@@ -1,0 +1,64 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 9.3: Clipboard and Comments           ║
+║  Category: Space Mode            Difficulty: ★★★ Advanced       ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  Space y   Yank to system clipboard
+  Space Y   Yank main selection to clipboard
+  Space p   Paste from system clipboard (after)
+  Space P   Paste from system clipboard (before)
+  Space R   Replace selection with clipboard
+  Space c   Toggle line comments
+  Space C   Toggle block comments
+  Space /   Global search in workspace
+  Space ?   Open command palette
+
+NOTE: Space y/p uses the SYSTEM clipboard (shared with other apps).
+      Regular y/p uses Helix's internal register (editor-only).
+
+INSTRUCTIONS
+────────────
+  Part A: Comment out the debug lines (lines containing "debug").
+  Part B: The last line is a TODO. Copy it to your system clipboard
+          using Space y so you can paste it elsewhere.
+
+  For commenting: select the debug lines, then Space c.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+function processData(data) {
+  debug("Starting process");
+  const result = transform(data);
+  debug("Transform complete");
+  validate(result);
+  debug("Validation passed");
+  return result;
+}
+
+// TODO: Add error handling to processData
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+function processData(data) {
+  // debug("Starting process");
+  const result = transform(data);
+  // debug("Transform complete");
+  validate(result);
+  // debug("Validation passed");
+  return result;
+}
+
+// TODO: Add error handling to processData
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Navigate to the first debug line. Press x to select it.
+  Hint 2: Press Space c to toggle the comment. The line becomes
+          // debug("Starting process");
+  Hint 3: Repeat for each debug line. Or use multi-selection:
+          select all lines, use s to find "debug", then X to
+          extend to full lines, then Space c.
+  Hint 4: For the clipboard part: select the TODO line with x,
+          then Space y to copy to system clipboard.

@@ -1,0 +1,66 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 10.1: Diagnostic Navigation           ║
+║  Category: Unimpaired            Difficulty: ★★★ Advanced       ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  ] d     Go to next diagnostic (error/warning)
+  [ d     Go to previous diagnostic
+  ] D     Go to last diagnostic in document
+  [ D     Go to first diagnostic in document
+  ] f     Go to next function (tree-sitter)
+  [ f     Go to previous function
+  ] t     Go to next type/class
+  [ t     Go to previous type/class
+  ] a     Go to next argument/parameter
+  [ a     Go to previous argument
+
+MNEMONIC: ] = next, [ = previous. Then: d=diagnostic, f=function,
+          t=type, a=argument
+
+INSTRUCTIONS
+────────────
+  Match each navigation need to the correct key sequence.
+
+  The ] and [ keys are your structured code navigation — think
+  of them as "next/previous" for any code construct.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+CODE NAVIGATION REFERENCE
+═════════════════════════
+
+Jump to next error/warning:            ???
+Jump to previous error/warning:        ???
+Jump to first error in file:           ???
+Jump to last error in file:            ???
+Jump to next function definition:      ???
+Jump to previous function definition:  ???
+Jump to next class/type:               ???
+Jump to previous class/type:           ???
+Jump to next function argument:        ???
+Jump to previous function argument:    ???
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+CODE NAVIGATION REFERENCE
+═════════════════════════
+
+Jump to next error/warning:            ] d
+Jump to previous error/warning:        [ d
+Jump to first error in file:           [ D
+Jump to last error in file:            ] D
+Jump to next function definition:      ] f
+Jump to previous function definition:  [ f
+Jump to next class/type:               ] t
+Jump to previous class/type:           [ t
+Jump to next function argument:        ] a
+Jump to previous function argument:    [ a
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: ] always means "next", [ always means "previous"
+  Hint 2: Lowercase letter = next/prev. Uppercase = first/last.
+  Hint 3: d=diagnostic, f=function, t=type, a=argument
+  Hint 4: Try these in a real code file to see them jump!

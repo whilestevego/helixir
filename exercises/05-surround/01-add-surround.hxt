@@ -1,0 +1,62 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 5.1: Add Surround                    ║
+║  Category: Surround              Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  m s (   Surround selection with parentheses
+  m s "   Surround selection with double quotes
+  m s {   Surround selection with curly braces
+  m s [   Surround selection with square brackets
+  m s <   Surround selection with angle brackets
+
+MNEMONIC: m s = match surround (add)
+
+The workflow is: SELECT text first, then m s + character.
+  1. Use w, e, v, or any selection method to highlight text
+  2. Press m s then the delimiter character
+
+INSTRUCTIONS
+────────────
+  Wrap each marked word or phrase with the delimiter shown in the
+  comment at the end of each line. Select the target text first,
+  then apply the surround.
+
+  For single words, use w or m i w to select.
+  For multi-word phrases, use v then motion to extend selection.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+let name = Steve;
+let greeting = Hello, world;
+let scores = 95, 87, 72, 100;
+let config = debug: true;
+return calculateTotal items ;
+import Component from react;
+const TAG = IMPORTANT;
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+let name = "Steve";
+let greeting = "Hello, world";
+let scores = [95, 87, 72, 100];
+let config = { debug: true };
+return calculateTotal(items);
+import { Component } from "react";
+const TAG = <IMPORTANT>;
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: For "Steve": move to S, press w to select the word,
+          then m s " to wrap in double quotes.
+  Hint 2: For "Hello, world": move to H, press v then f ; (find
+          semicolon) or use v with motions to select the phrase,
+          then m s " to add quotes.
+  Hint 3: For [95, 87, 72, 100]: select from 9 to the last 0
+          using v and motion, then m s [ for square brackets.
+  Hint 4: For calculateTotal(items): select "items" with w, then
+          m s ( to wrap in parentheses. Then select the whole
+          expression if parens should cover "items" only.
+  Hint 5: The last line uses m s < for angle brackets around
+          IMPORTANT.

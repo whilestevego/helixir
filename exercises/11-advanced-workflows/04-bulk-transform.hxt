@@ -1,0 +1,52 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 11.4: Bulk Transform                  ║
+║  Category: Advanced Workflows    Difficulty: ★★★ Mastery        ║
+╚══════════════════════════════════════════════════════════════════╝
+
+WORKFLOW
+────────
+  Combining multi-selection with surround operations:
+  - % (select all)
+  - s (regex select)
+  - K / Alt-K (keep/remove selections)
+  - m r (replace surround)
+  - c (change)
+
+INSTRUCTIONS
+────────────
+  This JavaScript code uses var everywhere. Modernize it:
+  1. Change all "var" to "const" (for the ones that aren't reassigned)
+  2. Change the reassigned variables' "var" to "let"
+
+  The comments indicate which should be "let" vs "const".
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+var API_URL = "https://api.example.com";   // const
+var MAX_RETRIES = 3;                        // const
+var currentUser = null;                     // let (reassigned)
+var requestCount = 0;                       // let (reassigned)
+var DEFAULT_TIMEOUT = 5000;                 // const
+var isLoading = false;                      // let (reassigned)
+var APP_NAME = "MyApp";                     // const
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+const API_URL = "https://api.example.com";   // const
+const MAX_RETRIES = 3;                        // const
+let currentUser = null;                     // let (reassigned)
+let requestCount = 0;                       // let (reassigned)
+const DEFAULT_TIMEOUT = 5000;                 // const
+let isLoading = false;                      // let (reassigned)
+const APP_NAME = "MyApp";                     // const
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: First pass — change ALL var to const:
+          Select all lines, s var Enter, c const Esc.
+  Hint 2: Second pass — fix the "let" ones. Navigate to each
+          line marked "let (reassigned)" and change "const" to "let".
+  Hint 3: For the let lines: select "const" on that line (w or f c),
+          then c let Esc.
+  Hint 4: Alternative: do it in two targeted passes. First select
+          only the const lines and change those, then the let lines.

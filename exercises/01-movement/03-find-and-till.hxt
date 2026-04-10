@@ -1,0 +1,53 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 1.3: Find and Till                    ║
+║  Category: Movement              Difficulty: ★☆☆ Fundamental    ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  f <char>   Find next occurrence of char (lands ON the char)
+  F <char>   Find previous occurrence of char
+  t <char>   Till next occurrence of char (lands BEFORE the char)
+  T <char>   Till previous occurrence of char
+  Alt-.      Repeat the last f/t/F/T motion
+
+NOTE: Unlike Vim, these work ACROSS LINES in Helix!
+
+MNEMONIC: f=find (on it), t=till (before it)
+
+INSTRUCTIONS
+────────────
+  Each line has content between pipe | characters.
+  Delete the content BETWEEN the pipes, keeping the pipes.
+
+  Strategy:
+  1. Move cursor to the first |
+  2. Press  t |  to select till the next pipe (but not the pipe)
+  3. Wait — that selects the | too. Instead: move one right with l
+  4. Then  t |  to select up to (but not including) the next |
+  5. Press  d  to delete
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+Keep |remove this part| and keep going.
+Stay |delete everything in here| the end.
+Before |this should be empty| after.
+Hello |goodbye cruel world| friend.
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+Keep || and keep going.
+Stay || the end.
+Before || after.
+Hello || friend.
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Position cursor on the first |, then press l to move
+          one character right (onto the content to delete).
+  Hint 2: Now press t | — this selects from cursor to just before
+          the closing |.
+  Hint 3: Press d to delete the selection. The pipes remain.
+  Hint 4: Alternatively, use m i | (match inside vertical bars)
+          which is covered in the text objects module. If you
+          already know it, feel free to use it!

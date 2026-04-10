@@ -1,0 +1,69 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 10.3: Indent Navigation               ║
+║  Category: Unimpaired            Difficulty: ★★★ Advanced       ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  ] +     Go to next line with greater indent
+  [ +     Go to previous line with greater indent
+  ] -     Go to next line with lesser indent
+  [ -     Go to previous line with lesser indent
+  ] =     Go to next line with same indent
+  [ =     Go to previous line with same indent
+  ] b     Next buffer
+  [ b     Previous buffer
+  ] B     Last buffer
+  [ B     First buffer
+
+INSTRUCTIONS
+────────────
+  Indent navigation is powerful for navigating nested code
+  without relying on tree-sitter.
+
+  Fill in the reference card below.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+INDENT NAVIGATION REFERENCE
+════════════════════════════
+
+From current line, jump to:
+  Next more-indented line:          ???
+  Previous more-indented line:      ???
+  Next less-indented line:          ???
+  Previous less-indented line:      ???
+  Next same-indentation line:       ???
+  Previous same-indentation line:   ???
+
+Buffer navigation:
+  Next buffer:                      ???
+  Previous buffer:                  ???
+  Last buffer in list:              ???
+  First buffer in list:             ???
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+INDENT NAVIGATION REFERENCE
+════════════════════════════
+
+From current line, jump to:
+  Next more-indented line:          ] +
+  Previous more-indented line:      [ +
+  Next less-indented line:          ] -
+  Previous less-indented line:      [ -
+  Next same-indentation line:       ] =
+  Previous same-indentation line:   [ =
+
+Buffer navigation:
+  Next buffer:                      ] b
+  Previous buffer:                  [ b
+  Last buffer in list:              ] B
+  First buffer in list:             [ B
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: + = greater indent, - = lesser indent, = = same indent
+  Hint 2: b = buffer, B = buffer (first/last)
+  Hint 3: These are incredibly useful in Python or YAML where
+          indentation defines structure.

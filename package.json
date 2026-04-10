@@ -1,0 +1,15 @@
+{
+  "name": "helix-trainer",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "helix-trainer": "./bin/helix-trainer.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

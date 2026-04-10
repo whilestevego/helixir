@@ -1,0 +1,40 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Challenge 1: Speed Edit                        ║
+║  Category: Challenges            Difficulty: ★★★ Mastery        ║
+╚══════════════════════════════════════════════════════════════════╝
+
+CHALLENGE: Transform this code as fast as you can!
+──────────────────────────────────────────────────
+
+No hints on this one. Use everything you've learned.
+Time yourself if you want — under 60 seconds is good,
+under 30 seconds is expert.
+
+TASKS:
+  1. Add semicolons to every line that's missing one
+  2. Change all "let" to "const"
+  3. Add "export " before each function keyword
+  4. Delete all single-line comments
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+// utility functions
+let add = (a, b) => a + b
+let subtract = (a, b) => a - b
+// math operations
+let multiply = (a, b) => a * b
+let divide = (a, b) => a / b
+// string operations
+function upper(s) { return s.toUpperCase() }
+function lower(s) { return s.toLowerCase() }
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+const add = (a, b) => a + b;
+const subtract = (a, b) => a - b;
+const multiply = (a, b) => a * b;
+const divide = (a, b) => a / b;
+export function upper(s) { return s.toUpperCase(); }
+export function lower(s) { return s.toLowerCase(); }
+
+──────────────────────────────────────────────────────────────────

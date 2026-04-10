@@ -1,0 +1,68 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 6.5: Rotate and Align Selections      ║
+║  Category: Multi-Selection         Difficulty: ★★★ Advanced      ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  )       Rotate selections forward (cycle primary selection)
+  (       Rotate selections backward
+  &       Align selections to the same column
+  _       Trim whitespace around selections
+
+When you have multiple selections, one is "primary" (highlighted
+differently). ( and ) cycle which one is primary — useful for
+inspecting or operating on specific selections.
+
+& is the alignment powerhouse: it pads selections with spaces so
+they all start at the same column.
+
+INSTRUCTIONS
+────────────
+  The variable assignments below are messy — the = signs are all
+  over the place. Make them line up neatly.
+
+  Strategy:
+  1. Select all the assignment lines (x repeated or v + j)
+  2. Press  s  and type   =   then Enter
+     → Every = sign is now its own selection
+  3. Press  &  to align them
+     → All = signs snap to the same column, padded with spaces
+
+  Bonus — try ( and ) to cycle through your selections and see
+  which one is primary. This is useful when you want to operate
+  on just one of several selections (e.g., press , to keep only
+  the primary selection).
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+name = "Alice"
+age = 30
+email_address = "alice@example.com"
+x = 42
+favorite_language = "Rust"
+id = 7
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+name              = "Alice"
+age               = 30
+email_address     = "alice@example.com"
+x                 = 42
+favorite_language = "Rust"
+id                = 7
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: Select all six lines first. Make sure the selection
+          covers every line fully.
+  Hint 2: After pressing s and typing = then Enter, you should
+          see 6 selections, one on each = sign.
+  Hint 3: Press & once. The = signs should all jump to the same
+          column (the rightmost position among them).
+  Hint 4: If extra whitespace appears, select the messy regions
+          and use _ to trim. Or undo and try selecting just the
+          = characters more precisely.
+  Hint 5: The alignment column is determined by the longest
+          left-hand side — "favorite_language" — so all other
+          = signs get padded to match.

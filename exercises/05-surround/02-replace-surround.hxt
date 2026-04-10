@@ -1,0 +1,56 @@
+╔══════════════════════════════════════════════════════════════════╗
+║  HELIX TRAINER — Exercise 5.2: Replace Surround                ║
+║  Category: Surround              Difficulty: ★★☆ Intermediate   ║
+╚══════════════════════════════════════════════════════════════════╝
+
+COMMANDS TO LEARN
+─────────────────
+  m r ( [   Replace surrounding ( ) with [ ]
+  m r " '   Replace surrounding " " with ' '
+  m r { (   Replace surrounding { } with ( )
+  m r [ {   Replace surrounding [ ] with { }
+
+MNEMONIC: m r = match replace — first char is OLD, second is NEW
+
+The workflow:
+  1. Place cursor inside the delimiters you want to change
+  2. Press m r
+  3. Press the OLD delimiter character
+  4. Press the NEW delimiter character
+
+INSTRUCTIONS
+────────────
+  Change the delimiters on each line to match the expected output.
+  Place your cursor between the delimiters, then use m r to swap.
+
+────────────────────────── PRACTICE ──────────────────────────────
+
+const items = (apple, banana, cherry);
+const message = "use single quotes for consistency";
+const point = {x, y};
+const keys = [name, age, email];
+log("debugging value: " + result);
+const tuple = (first, second);
+const set = (alpha, beta, gamma);
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+const items = [apple, banana, cherry];
+const message = 'use single quotes for consistency';
+const point = (x, y);
+const keys = {name, age, email};
+log('debugging value: ' + result);
+const tuple = [first, second];
+const set = {alpha, beta, gamma};
+
+──────────────────────────────────────────────────────────────────
+HINTS (read only if stuck):
+  Hint 1: For line 1, cursor inside the parens, then m r ( [ to
+          change ( ) to [ ].
+  Hint 2: For the double-to-single quote change, cursor inside
+          the quotes, then m r " ' (old = ", new = ').
+  Hint 3: For {x, y} to (x, y), cursor inside braces, m r { (.
+  Hint 4: Watch out for line 5 — it has nested quotes. Make sure
+          your cursor is inside the OUTER quotes before pressing
+          m r " '. You may need to do the inner quotes separately.
+  Hint 5: The pattern is always the same: position, m r, old, new.
