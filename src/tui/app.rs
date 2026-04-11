@@ -18,13 +18,21 @@ pub struct ExerciseState {
     pub file_path: PathBuf,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum Panel {
+    List,
+    Detail,
+}
+
 pub struct App {
     pub exercises: Vec<ExerciseState>,
     pub selected: usize,
     pub scroll_offset: usize,
     pub detail_scroll: usize,
+    pub detail_scroll_max: usize,
     pub hint_level: usize,
     pub show_help: bool,
+    pub focused_panel: Panel,
     pub exercises_dir: PathBuf,
     pub quit: bool,
     pub flash_message: Option<(String, std::time::Instant)>,
@@ -62,8 +70,10 @@ impl App {
             selected: 0,
             scroll_offset: 0,
             detail_scroll: 0,
+            detail_scroll_max: 0,
             hint_level: 0,
             show_help: false,
+            focused_panel: Panel::List,
             exercises_dir,
             quit: false,
             flash_message: None,
@@ -72,6 +82,30 @@ impl App {
 
     pub fn selected_exercise(&self) -> &ExerciseState {
         &self.exercises[self.selected]
+    }
+
+    pub fn focus_left(&mut self) {
+        self.focused_panel = Panel::List;
+    }
+
+    pub fn focus_right(&mut self) {
+        self.focused_panel = Panel::Detail;
+    }
+
+    /// Move down in whichever panel is focused
+    pub fn move_down(&mut self) {
+        match self.focused_panel {
+            Panel::List => self.select_next(),
+            Panel::Detail => self.scroll_detail_down(3),
+        }
+    }
+
+    /// Move up in whichever panel is focused
+    pub fn move_up(&mut self) {
+        match self.focused_panel {
+            Panel::List => self.select_prev(),
+            Panel::Detail => self.scroll_detail_up(3),
+        }
     }
 
     pub fn select_next(&mut self) {
@@ -102,10 +136,23 @@ impl App {
         }
     }
 
+    pub fn scroll_detail_down(&mut self, amount: usize) {
+        self.detail_scroll = self
+            .detail_scroll
+            .saturating_add(amount)
+            .min(self.detail_scroll_max);
+    }
+
+    pub fn scroll_detail_up(&mut self, amount: usize) {
+        self.detail_scroll = self.detail_scroll.saturating_sub(amount);
+    }
+
     pub fn reveal_hint(&mut self) {
         let max_hints = self.selected_exercise().meta.hints.len();
         if self.hint_level < max_hints {
             self.hint_level += 1;
+            // Scroll down to show the new hint
+            self.detail_scroll = self.detail_scroll.saturating_add(3);
         }
     }
 

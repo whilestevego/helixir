@@ -31,7 +31,7 @@ pub async fn run(exercises_dir: PathBuf) -> Result<()> {
 
     // Main loop
     loop {
-        terminal.draw(|frame| ui::render(frame, &app))?;
+        terminal.draw(|frame| ui::render(frame, &mut app))?;
 
         match events.next().await? {
             AppEvent::Key(key) => {
@@ -48,9 +48,14 @@ pub async fn run(exercises_dir: PathBuf) -> Result<()> {
                     KeyCode::Char('c') if key.modifiers.contains(KeyModifiers::CONTROL) => {
                         app.quit = true;
                     }
-                    KeyCode::Char('j') | KeyCode::Down => app.select_next(),
-                    KeyCode::Char('k') | KeyCode::Up => app.select_prev(),
-                    KeyCode::Char('h') => app.reveal_hint(),
+                    // Panel focus
+                    KeyCode::Char('h') | KeyCode::Left => app.focus_left(),
+                    KeyCode::Char('l') | KeyCode::Right => app.focus_right(),
+                    // Scroll focused panel
+                    KeyCode::Char('j') | KeyCode::Down => app.move_down(),
+                    KeyCode::Char('k') | KeyCode::Up => app.move_up(),
+                    // Actions
+                    KeyCode::Char(' ') => app.reveal_hint(),
                     KeyCode::Char('n') => app.jump_next_incomplete(),
                     KeyCode::Char('r') => app.reset_current()?,
                     KeyCode::Char('?') => app.show_help = !app.show_help,

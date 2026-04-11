@@ -22,7 +22,7 @@ contains a PRACTICE section to edit and an EXPECTED section showing the goal.
 ## Tips
 
 - The TUI shows instructions, commands, and hints for each exercise
-- Press `h` in the TUI to reveal hints one at a time
+- Press `Space` in the TUI to reveal hints one at a time
 - Press `r` in the TUI to reset an exercise
 - Use `u` to undo if you make a mistake in your editor
 - Use `;` to collapse a selection back to a cursor

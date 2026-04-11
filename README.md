@@ -147,8 +147,9 @@ Launch the TUI from inside a project directory. The TUI watches exercise files f
 
 | Key | Action |
 |-----|--------|
-| `j`/`k` or ↑/↓ | Navigate exercises |
-| `h` | 💡 Reveal next hint |
+| `h`/`l` or ←/→ | Focus left/right panel |
+| `j`/`k` or ↑/↓ | Scroll focused panel |
+| `Space` | 💡 Reveal next hint |
 | `r` | 🔄 Reset current exercise |
 | `n` | ⏭️ Jump to next incomplete |
 | `?` | Toggle help overlay |
@@ -188,7 +189,7 @@ This is the workflow you'll master in Module 06.
 
 **`;` is your reset button.** If a selection goes wrong, press `;` to collapse it back to a cursor and try again. Build this habit early.
 
-**Use the TUI hints.** Press `h` to reveal hints one at a time. Try each exercise without hints first. Struggle is where learning happens.
+**Use the TUI hints.** Press `Space` to reveal hints one at a time. Try each exercise without hints first. Struggle is where learning happens.
 
 **Repeat the hard ones.** Press `r` in the TUI to reset any exercise. The challenges in Module 12 are designed for repeated practice.
 
