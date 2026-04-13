@@ -43,3 +43,6 @@ bun.lock
 # Added by cargo
 
 /target
+
+# Per-machine Claude Code permissions (contains absolute filesystem paths)
+.claude/
