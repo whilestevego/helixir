@@ -10,8 +10,8 @@ use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
 #[command(
-    name = "helix-trainer",
-    about = "Interactive Helix keybinding exercises",
+    name = "helixir",
+    about = "A practice elixir for the Helix editor",
     version
 )]
 struct Cli {
@@ -21,7 +21,7 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
-    /// Generate exercise project (default: ./helix-exercises)
+    /// Generate exercise project (default: ./helixir-exercises)
     Init {
         /// Target directory
         dir: Option<PathBuf>,
@@ -47,7 +47,7 @@ async fn main() {
             let exercises_dir = find_exercises_dir();
             if !exercises_dir.exists() {
                 eprintln!(
-                    "No exercises/ directory found. Run 'helix-trainer init' first."
+                    "No exercises/ directory found. Run 'helixir init' first."
                 );
                 std::process::exit(1);
             }

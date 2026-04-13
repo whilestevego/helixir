@@ -1,13 +1,13 @@
-# Helix Trainer
+# Helixir 🧪
 
-**Learn Helix keybindings by doing — 65 hands-on exercises you complete in your real editor.**
+**A practice elixir for Helix keybindings — 65 hands-on exercises distilled into your real editor.**
 
-Helix Trainer is a TUI app that guides you through 65 structured exercises. It watches your exercise files for changes, shows instructions and hints, and auto-advances as you complete each one. You edit in your real editor (Helix, Zed, or any editor with Helix keybindings) — no simulations, no quizzes, just deliberate practice.
+Helixir is a TUI that walks you through 65 structured exercises, watches your exercise files for changes, shows instructions and hints, and auto-advances as you complete each one. You edit in your real editor (Helix, Zed, or any editor with Helix keybindings) — no simulations, no quizzes. Just deliberate practice, one dose at a time.
 
 ```
-helix-trainer init
-cd helix-exercises
-helix-trainer          # Launch the TUI
+helixir init
+cd helixir-exercises
+helixir                # Brew the TUI
 # Open exercise files in your editor in a split pane
 ```
 
@@ -17,28 +17,28 @@ helix-trainer          # Launch the TUI
 
 Reading a keybinding reference is like reading a phrasebook — you recognize words but can't speak the language. Muscle memory comes from repetition in context.
 
-Helix Trainer gives you that context: structured exercises that progressively build your fluency, from basic motion (`h`/`j`/`k`/`l`) to multi-selection workflows that feel like a superpower.
+Helixir gives you that context: structured exercises that progressively distill your fluency, from basic motion (`h`/`j`/`k`/`l`) to multi-selection workflows that feel like a superpower.
 
 ## How It Works
 
-1. **Install** the tool and run `helix-trainer init`
-2. **Launch** the TUI with `helix-trainer` from the project directory
+1. **Install** the tool and run `helixir init`
+2. **Launch** the TUI with `helixir` from the project directory
 3. **Open** exercise `.hxt` files in your editor in a split pane alongside the TUI
 4. **Edit** the PRACTICE section to match the EXPECTED section using the commands shown in the TUI
 5. **Save** — the TUI detects your changes, verifies them, and auto-advances on success
 6. **Use the TUI** to navigate exercises, reveal hints, and reset exercises
 
-The TUI shows instructions and commands. Your editor is where you practice.
+The TUI shows instructions and commands. Your editor is where you brew.
 
 ## Install
 
 ```sh
 # From crates.io
-cargo install helix-trainer
+cargo install helixir
 
 # Or build from source
-git clone https://github.com/yourusername/helix-trainer
-cd helix-trainer
+git clone https://github.com/whilestevego/helixir
+cd helixir
 cargo install --path .
 ```
 
@@ -47,12 +47,12 @@ Pre-built binaries for macOS (Intel + Apple Silicon), Linux, and Windows are ava
 ## Quick Start
 
 ```sh
-# Generate the exercise project
-helix-trainer init
-cd helix-exercises
+# Distill the exercise project
+helixir init
+cd helixir-exercises
 
-# Launch the TUI
-helix-trainer
+# Brew the TUI
+helixir
 
 # In another terminal/pane, open exercise files in your editor
 hx exercises/01-movement/01-basic-motion.hxt
@@ -85,7 +85,7 @@ Everything else — title, commands to learn, instructions, and hints — lives 
 
 65 exercises across 16 modules, organized in 5 progressive tiers.
 
-### Tier 1 — Fundamentals
+### Tier 1 — Apprentice
 
 | Module | Exercises | What You'll Learn |
 |--------|-----------|-------------------|
@@ -93,7 +93,7 @@ Everything else — title, commands to learn, instructions, and hints — lives 
 | **02 Selection** | 4 | `x` (line select), `v` (extend mode), `;` (collapse), `%` (select all) |
 | **03 Changes** | 5 | `d`/`c` (delete/change), `y`/`p` (yank/paste), `u`/`U` (undo/redo), indent, case |
 
-### Tier 2 — Intermediate
+### Tier 2 — Adept
 
 | Module | Exercises | What You'll Learn |
 |--------|-----------|-------------------|
@@ -102,7 +102,7 @@ Everything else — title, commands to learn, instructions, and hints — lives 
 | **06 Multi-Selection** | 5 | `s` (regex select), `S` (split), `C` (cursors), `K`/`Alt-K` (keep/remove) |
 | **07 Search** | 3 | `/` search, `*` (use selection as pattern), global find-and-replace workflow |
 
-### Tier 3 — Advanced
+### Tier 3 — Journeyman
 
 | Module | Exercises | What You'll Learn |
 |--------|-----------|-------------------|
@@ -110,7 +110,7 @@ Everything else — title, commands to learn, instructions, and hints — lives 
 | **09 Space Mode** | 3 | `Space f` (files), `Space s` (symbols), `Space r` (rename), clipboard |
 | **10 Unimpaired** | 3 | `]d`/`[d` (diagnostics), `]f`/`[f` (functions), indent navigation |
 
-### Tier 4 — Power Features
+### Tier 4 — Alchemist
 
 | Module | Exercises | What You'll Learn |
 |--------|-----------|-------------------|
@@ -119,7 +119,7 @@ Everything else — title, commands to learn, instructions, and hints — lives 
 | **13 Window Management** | 3 | `Ctrl-w` splits, navigation, close/swap panes |
 | **14 View and Numbers** | 3 | `z` view mode, `mm` match bracket, `Ctrl-a`/`Ctrl-x` increment/decrement |
 
-### Tier 5 — Mastery
+### Tier 5 — Grandmaster
 
 | Module | Exercises | What You'll Learn |
 |--------|-----------|-------------------|
@@ -128,20 +128,20 @@ Everything else — title, commands to learn, instructions, and hints — lives 
 
 ## Usage
 
-### `helix-trainer init [dir]`
+### `helixir init [dir]`
 
-Generate a new exercise project — or update an existing one.
+Distill a new exercise project — or top up an existing one.
 
 ```sh
-helix-trainer init                    # Creates ./helix-exercises/
-helix-trainer init ~/my-training      # Custom location
+helixir init                    # Creates ./helixir-exercises/
+helixir init ~/my-training      # Custom location
 ```
 
 If the target directory already has exercises, `init` is **additive**: it only writes files that don't exist yet, leaving your edited exercises untouched. This is how you pick up new exercises after upgrading the tool.
 
-### `helix-trainer`
+### `helixir`
 
-Launch the TUI from inside a project directory. The TUI watches exercise files for changes and auto-verifies on save. When new exercises are available (e.g. after an upgrade), a banner appears in the header — press `u` to install them in-place.
+Brew the TUI from inside a project directory. The TUI watches exercise files for changes and auto-verifies on save. When new exercises are available (e.g. after an upgrade), a banner appears in the header — press `u` to install them in-place.
 
 **TUI Keybindings:**
 
@@ -236,7 +236,7 @@ If an exercise has incorrect expected output, unclear instructions, or a keybind
 
 ## How It's Built
 
-A single-binary Rust TUI built with ratatui:
+A single-binary Rust TUI distilled with ratatui:
 
 - **`src/tui/`** — TUI app: event loop, layout, widgets, file watching
 - **`src/hxt.rs`** — Pure parser for `.hxt` files: extracts PRACTICE/EXPECTED sections, diffs them

@@ -1,9 +1,9 @@
 [package]
-name = "helix-trainer"
-version = "2.0.0"
+name = "helixir"
+version = "3.0.0"
 edition = "2024"
 authors = ["Steve Godin"]
-description = "Interactive Helix keybinding exercises — learn by doing"
+description = "A practice elixir for the Helix editor — distilled keybinding fluency"
 license = "MIT"
 keywords = ["helix", "editor", "keybindings", "training", "tutorial"]
 categories = ["command-line-utilities"]

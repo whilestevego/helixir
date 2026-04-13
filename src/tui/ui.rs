@@ -48,7 +48,7 @@ fn render_header(frame: &mut Frame, area: Rect, app: &App) {
 
     let mut header_spans = vec![
         Span::styled(
-            " 🏋️ Helix Trainer",
+            " 🧪 Helixir",
             Style::default()
                 .fg(Color::Cyan)
                 .add_modifier(Modifier::BOLD),
@@ -714,7 +714,7 @@ fn render_help_popup(frame: &mut Frame, _app: &App) {
     let help_text = vec![
         Line::raw(""),
         Line::from(Span::styled(
-            "  🏋️ Helix Trainer — Help",
+            "  🧪 Helixir — Recipe Book",
             Style::default()
                 .fg(Color::Cyan)
                 .add_modifier(Modifier::BOLD),
@@ -773,7 +773,7 @@ fn render_help_popup(frame: &mut Frame, _app: &App) {
         Line::raw(""),
         Line::from(vec![
             Span::styled("    c         ", Style::default().fg(Color::Green)),
-            Span::raw("Cheat sheet (commands you've learned)"),
+            Span::raw("Open grimoire (spells you've learned)"),
         ]),
         Line::raw(""),
         Line::from(vec![
@@ -873,7 +873,7 @@ fn render_cheatsheet_popup(frame: &mut Frame, app: &mut App) {
         .borders(Borders::ALL)
         .border_style(Style::default().fg(Color::Cyan))
         .title(Span::styled(
-            " 🗝️  Cheat Sheet — Commands you've learned ",
+            " 📜 Grimoire — Spells you've learned ",
             Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD),
         ))
         .title_bottom(Span::styled(
@@ -888,7 +888,7 @@ fn render_cheatsheet_popup(frame: &mut Frame, app: &mut App) {
             Line::raw(""),
             Line::raw(""),
             Line::from(Span::styled(
-                "  Complete your first exercise to start building your cheat sheet 💪",
+                "  Brew your first exercise to begin your grimoire 🧪",
                 Style::default().fg(Color::DarkGray),
             )),
         ]);

@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 - `cargo run` — Launch the TUI (expects an `exercises/` directory in cwd; run `cargo run -- init` first if needed).
-- `cargo run -- init [dir]` — Generate a fresh exercise project (default `./helix-exercises`). Additive: preserves existing edited `.hxt` files.
+- `cargo run -- init [dir]` — Generate a fresh exercise project (default `./helixir-exercises`). Additive: preserves existing edited `.hxt` files.
 - `cargo build --release` — Release build (profile uses `opt-level = "z"`, LTO, strip).
 - `cargo test` — Run all tests. Single test: `cargo test <name>`. Integration tests use `assert_cmd` + `tempfile`.
 - `cargo clippy` / `cargo fmt` — Standard Rust tooling.

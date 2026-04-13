@@ -65,7 +65,7 @@ pub fn install_missing(exercises_dir: &Path) -> Result<usize> {
 pub fn run(target_arg: Option<&Path>) -> Result<()> {
     let target = target_arg
         .map(|p| p.to_path_buf())
-        .unwrap_or_else(|| Path::new("helix-exercises").to_path_buf());
+        .unwrap_or_else(|| Path::new("helixir-exercises").to_path_buf());
     let target = if target.is_relative() {
         std::env::current_dir()?.join(&target)
     } else {
@@ -89,7 +89,7 @@ pub fn run(target_arg: Option<&Path>) -> Result<()> {
     }
 
     // Fresh install
-    println!("\n  Generating Helix training exercises...\n");
+    println!("\n  Distilling Helixir exercises...\n");
 
     let (count, _) = extract_dir(&EXERCISES, &exercises_dest, false)?;
 
@@ -104,13 +104,13 @@ pub fn run(target_arg: Option<&Path>) -> Result<()> {
 
     let display_name = target_arg
         .map(|p| p.display().to_string())
-        .unwrap_or_else(|| "helix-exercises".to_string());
+        .unwrap_or_else(|| "helixir-exercises".to_string());
 
     println!(
         r#"
   Next steps:
     cd {}
-    helix-trainer              Launch the TUI trainer
+    helixir                    Brew the TUI 🧪
     # Open exercise files in your editor in a split pane
 "#,
         display_name
