@@ -1,8 +1,8 @@
 # Helix Trainer
 
-**Learn Helix keybindings by doing — 61 hands-on exercises you complete in your real editor.**
+**Learn Helix keybindings by doing — 65 hands-on exercises you complete in your real editor.**
 
-Helix Trainer is a TUI app that guides you through 61 structured exercises. It watches your exercise files for changes, shows instructions and hints, and auto-advances as you complete each one. You edit in your real editor (Helix, Zed, or any editor with Helix keybindings) — no simulations, no quizzes, just deliberate practice.
+Helix Trainer is a TUI app that guides you through 65 structured exercises. It watches your exercise files for changes, shows instructions and hints, and auto-advances as you complete each one. You edit in your real editor (Helix, Zed, or any editor with Helix keybindings) — no simulations, no quizzes, just deliberate practice.
 
 ```
 helix-trainer init
@@ -94,7 +94,7 @@ HINTS (read only if stuck):
 
 ## Curriculum
 
-61 exercises across 16 modules, organized in 5 progressive tiers.
+65 exercises across 16 modules, organized in 5 progressive tiers.
 
 ### Tier 1 — Fundamentals
 
@@ -125,17 +125,17 @@ HINTS (read only if stuck):
 
 | Module | Exercises | What You'll Learn |
 |--------|-----------|-------------------|
-| **13 Registers** | 3 | Unnamed register, named registers (`"a`-`"z`), system clipboard (`"+`) |
-| **14 Macros** | 3 | `Q` record, `q` stop, `@` replay, practical macro workflows |
-| **15 Window Management** | 3 | `Ctrl-w` splits, navigation, close/swap panes |
-| **16 View and Numbers** | 3 | `z` view mode, `mm` match bracket, `Ctrl-a`/`Ctrl-x` increment/decrement |
+| **11 Registers** | 3 | Unnamed register, named registers (`"a`-`"z`), system clipboard (`"+`) |
+| **12 Macros** | 3 | `Q` record, `q` stop, `@` replay, practical macro workflows |
+| **13 Window Management** | 3 | `Ctrl-w` splits, navigation, close/swap panes |
+| **14 View and Numbers** | 3 | `z` view mode, `mm` match bracket, `Ctrl-a`/`Ctrl-x` increment/decrement |
 
 ### Tier 5 — Mastery
 
 | Module | Exercises | What You'll Learn |
 |--------|-----------|-------------------|
-| **11 Advanced Workflows** | 5 | Rename variable, extract function, reformat data, bulk transform, Vim-to-Helix |
-| **12 Challenges** | 4 | Speed edit, minimal keystrokes, real-world refactor, code golf |
+| **15 Combined Techniques** | 5 | Rename variable, extract function, reformat data, bulk transform, Vim-to-Helix |
+| **16 Challenges** | 8 | Speed edit, code golf, register relay, macro marathon, number cruncher, and more |
 
 ## Usage
 

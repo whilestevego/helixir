@@ -1930,10 +1930,442 @@ description = "Last buffer"
 key = "[ B"
 description = "First buffer"
 
+# ── Module 11: Registers ──────────────────────────────────────────
+
 [[exercises]]
-id = "11-advanced-workflows/01-rename-variable"
+id = "11-registers/01-unnamed-register"
+title = "Unnamed Register"
+category = "Registers"
+difficulty = 2
+notes = """
+Every yank and delete stores text in the unnamed register (").
+Pasting without specifying a register uses this default register.
+"""
+instructions = """
+Delete the first line of the list (alpha) using x d.
+Then navigate to the end of the list and paste it with p.
+
+The unnamed register automatically holds whatever you last
+yanked or deleted — no register name needed.
+"""
+hints = [
+  "Navigate to the 'alpha' line, press x to select the line, then d to delete it.",
+  "The deleted text is now in the unnamed register. Go to the last line (epsilon).",
+  "Press p to paste after the current line. The alpha line appears at the end.",
+]
+
+[[exercises.commands]]
+key = "\""
+description = "Access register (prefix for register name)"
+
+[[exercises.commands]]
+key = "y"
+description = "Yank (copy) selection to register"
+
+[[exercises.commands]]
+key = "p"
+description = "Paste after selection from register"
+
+[[exercises.commands]]
+key = "P"
+description = "Paste before selection from register"
+
+[[exercises]]
+id = "11-registers/02-named-registers"
+title = "Named Registers"
+category = "Registers"
+difficulty = 2
+notes = """
+Named registers (a-z) let you store multiple snippets simultaneously.
+Use " followed by a register letter before yank or paste.
+  \"ay  = yank into register a
+  \"ap  = paste from register a
+"""
+instructions = """
+Yank the word "server" into register a and "client" into register b.
+Then replace the ??? placeholders using the appropriate named register.
+
+To yank into register a: select the word, then press " a y.
+To paste from register a: position cursor, then press " a p.
+"""
+hints = [
+  "Select 'server' with w, then press \" a y to yank it into register a.",
+  "Select 'client' with w, then press \" b y to yank it into register b.",
+  "Navigate to each ???, select it, then press \" a p or \" b p depending on which word belongs there.",
+]
+
+[[exercises.commands]]
+key = "\"ay"
+description = "Yank selection into register a"
+
+[[exercises.commands]]
+key = "\"ap"
+description = "Paste from register a"
+
+[[exercises.commands]]
+key = "\"by"
+description = "Yank selection into register b"
+
+[[exercises.commands]]
+key = "\"bp"
+description = "Paste from register b"
+
+[[exercises]]
+id = "11-registers/03-clipboard-register"
+title = "Clipboard Register"
+category = "Registers"
+difficulty = 2
+notes = """
+The + register is the system clipboard.
+  \"+y  = yank to system clipboard
+  \"+p  = paste from system clipboard
+This lets you copy/paste between your editor and other apps.
+"""
+instructions = """
+Yank the URL to the system clipboard using \"+ y, then paste it
+on the blank line at the bottom using \"+ p.
+
+This is how you move text between your editor and the outside world.
+"""
+hints = [
+  "Select the URL line with x, then press \" + y to yank to clipboard.",
+  "Navigate to the blank line after 'PASTE HERE:'.",
+  "Press \" + p to paste from the system clipboard.",
+]
+
+[[exercises.commands]]
+key = "\"+y"
+description = "Yank to system clipboard"
+
+[[exercises.commands]]
+key = "\"+p"
+description = "Paste from system clipboard"
+
+# ── Module 12: Macros ─────────────────────────────────────────────
+
+[[exercises]]
+id = "12-macros/01-record-and-replay"
+title = "Record and Replay"
+category = "Macros"
+difficulty = 2
+notes = """
+Macros record a sequence of keystrokes and replay them.
+  Q       Start recording a macro
+  q       Stop recording
+  @       Replay the last recorded macro
+"""
+instructions = """
+Add "- " (dash space) to the beginning of each item to make a list.
+
+Record a macro for the first item:
+1. Press Q to start recording
+2. Go to line start, enter insert mode, type "- ", exit insert
+3. Move down to the next line
+4. Press q to stop recording
+
+Then press @ four times to replay for the remaining items.
+"""
+hints = [
+  "Position on 'Buy milk'. Press Q to start recording.",
+  "Press I to insert at line start, type '- ', press Esc, then j to move down.",
+  "Press q to stop. Now press @ to replay on each remaining line.",
+]
+
+[[exercises.commands]]
+key = "Q"
+description = "Start recording a macro"
+
+[[exercises.commands]]
+key = "q"
+description = "Stop recording"
+
+[[exercises.commands]]
+key = "@"
+description = "Replay the last recorded macro"
+
+[[exercises]]
+id = "12-macros/02-macro-with-motion"
+title = "Macro with Motion"
+category = "Macros"
+difficulty = 2
+notes = """
+Macros capture any sequence of commands including motions,
+searches, and surround operations. Combine them for complex
+repetitive edits.
+"""
+instructions = """
+Each line has a name and email. Wrap each email in angle brackets.
+
+Record a macro that:
+1. Finds the space before the email
+2. Selects from there to end of line
+3. Adds < > surround
+4. Moves to the next line
+
+Then replay for the remaining lines.
+"""
+hints = [
+  "On the first line, press f @ to jump to the @, then b to select back to the email start.",
+  "Try: Q to record, then f space (to find space before email), w to select the email, ms< to surround with angle brackets, j to next line, q to stop.",
+  "Replay with @ for each remaining line.",
+]
+
+[[exercises.commands]]
+key = "Q"
+description = "Start recording"
+
+[[exercises.commands]]
+key = "q"
+description = "Stop recording"
+
+[[exercises.commands]]
+key = "@"
+description = "Replay macro"
+
+[[exercises.commands]]
+key = "ms"
+description = "Add surround"
+
+[[exercises]]
+id = "12-macros/03-macro-workflows"
+title = "Macro Workflows"
+category = "Macros"
+difficulty = 3
+notes = """
+Real-world macro usage: transform repetitive patterns in code.
+A well-crafted macro can save dozens of manual edits.
+"""
+instructions = """
+Convert each arrow function to use the function keyword.
+
+const add = (a, b) => a + b;
+becomes:
+function add(a, b) { return a + b; }
+
+Record a macro for the first one, then replay for the rest.
+This is a complex macro — plan your keystrokes carefully.
+"""
+hints = [
+  "One approach: delete 'const ', change '=' to 'function', restructure the arrow syntax.",
+  "Start simple: try doing the transformation manually first, then figure out which steps to record.",
+  "Don't forget to include j (move to next line) at the end of your macro so @ advances automatically.",
+]
+
+[[exercises.commands]]
+key = "Q"
+description = "Start recording"
+
+[[exercises.commands]]
+key = "q"
+description = "Stop recording"
+
+[[exercises.commands]]
+key = "@"
+description = "Replay macro"
+
+# ── Module 13: Window Management ──────────────────────────────────
+
+[[exercises]]
+id = "13-window-management/01-splits"
+title = "Splits"
+category = "Window Management"
+difficulty = 2
+notes = """
+Window splits let you view multiple files (or the same file)
+side by side. All window commands start with Ctrl-w.
+"""
+instructions = """
+Fill in the correct keybinding for each window operation.
+Replace each ??? with the right Ctrl-w command.
+"""
+hints = [
+  "Ctrl-w v splits vertically (side by side).",
+  "Ctrl-w s splits horizontally (top and bottom).",
+  "Ctrl-w c closes the current window pane.",
+]
+
+[[exercises.commands]]
+key = "Ctrl-w v"
+description = "Split vertically"
+
+[[exercises.commands]]
+key = "Ctrl-w s"
+description = "Split horizontally"
+
+[[exercises.commands]]
+key = "Ctrl-w c"
+description = "Close current window"
+
+[[exercises]]
+id = "13-window-management/02-window-navigation"
+title = "Window Navigation"
+category = "Window Management"
+difficulty = 2
+notes = """
+Navigate between split panes using Ctrl-w + h/j/k/l.
+This mirrors the standard Helix movement keys.
+"""
+instructions = """
+Fill in the correct keybinding for moving focus between windows.
+Replace each ??? with the right Ctrl-w command.
+"""
+hints = [
+  "Window navigation uses the same h/j/k/l directions as cursor movement.",
+  "Ctrl-w h = left, Ctrl-w j = down, Ctrl-w k = up, Ctrl-w l = right.",
+  "Practice by splitting with Ctrl-w v, then switching with Ctrl-w h and Ctrl-w l.",
+]
+
+[[exercises.commands]]
+key = "Ctrl-w h"
+description = "Move focus to window left"
+
+[[exercises.commands]]
+key = "Ctrl-w j"
+description = "Move focus to window below"
+
+[[exercises.commands]]
+key = "Ctrl-w k"
+description = "Move focus to window above"
+
+[[exercises.commands]]
+key = "Ctrl-w l"
+description = "Move focus to window right"
+
+[[exercises]]
+id = "13-window-management/03-window-workflows"
+title = "Window Workflows"
+category = "Window Management"
+difficulty = 2
+notes = """
+Beyond basic splits, Helix has commands for managing
+window layout: closing all other panes, swapping panes.
+"""
+instructions = """
+Fill in the steps for each multi-window workflow.
+Replace each ??? with the correct keybinding.
+"""
+hints = [
+  "Ctrl-w v opens a vertical split. Then use Space f or :e to open another file.",
+  "Ctrl-w o closes all panes except the current one (\"only this window\").",
+  "Ctrl-w x swaps the current pane with the next one.",
+]
+
+[[exercises.commands]]
+key = "Ctrl-w v"
+description = "Split vertically"
+
+[[exercises.commands]]
+key = "Ctrl-w o"
+description = "Close all other windows (keep only current)"
+
+[[exercises.commands]]
+key = "Ctrl-w x"
+description = "Swap current window with next"
+
+# ── Module 14: View Mode and Numbers ──────────────────────────────
+
+[[exercises]]
+id = "14-view-and-numbers/01-view-mode"
+title = "View Mode"
+category = "View and Numbers"
+difficulty = 2
+notes = """
+View mode (z prefix) controls how the viewport is positioned
+relative to the cursor, without moving the cursor itself.
+"""
+instructions = """
+Fill in the correct keybinding for each view command.
+Replace each ??? with the right z-prefixed command.
+
+These are essential for reading code — center the line you're
+working on, or push it to the top/bottom for context.
+"""
+hints = [
+  "z c centers the current line on screen ('c' for center).",
+  "z t moves the current line to the top ('t' for top).",
+  "z b moves the current line to the bottom ('b' for bottom).",
+  "z k and z j scroll the viewport up/down by one line without moving the cursor.",
+]
+
+[[exercises.commands]]
+key = "z c"
+description = "Center current line on screen"
+
+[[exercises.commands]]
+key = "z t"
+description = "Scroll current line to top"
+
+[[exercises.commands]]
+key = "z b"
+description = "Scroll current line to bottom"
+
+[[exercises.commands]]
+key = "z k"
+description = "Scroll viewport up one line"
+
+[[exercises.commands]]
+key = "z j"
+description = "Scroll viewport down one line"
+
+[[exercises]]
+id = "14-view-and-numbers/02-match-bracket"
+title = "Match Bracket"
+category = "View and Numbers"
+difficulty = 2
+notes = """
+mm jumps between matching bracket pairs: (), {}, [], <>.
+Place your cursor on a bracket and press mm to jump to its match.
+"""
+instructions = """
+Fill in each answer by thinking about matching brackets.
+The code example helps you reason about which line a bracket
+matches — use mm in real code to verify.
+"""
+hints = [
+  "Each opening bracket has exactly one matching closing bracket.",
+  "mm works on (), {}, [], and <>.",
+  "In the code block, the { on line 1 matches the } on line 3 (the outer block).",
+  "The ( after 'process' on line 2 matches the ) on the same line.",
+]
+
+[[exercises.commands]]
+key = "mm"
+description = "Jump to matching bracket"
+
+[[exercises]]
+id = "14-view-and-numbers/03-increment-decrement"
+title = "Increment and Decrement"
+category = "View and Numbers"
+difficulty = 1
+notes = """
+Ctrl-a increments the number under the cursor.
+Ctrl-x decrements the number under the cursor.
+Works on integers in any context — config values, ports, counters.
+"""
+instructions = """
+Use Ctrl-a to increment each number by 1 in the first group.
+Use Ctrl-x to decrement each number by 1 in the second group.
+
+Place your cursor on the number and press the key once.
+"""
+hints = [
+  "Navigate to 8079, press Ctrl-a — it becomes 8080.",
+  "Navigate to 101, press Ctrl-x — it becomes 100.",
+  "The cursor just needs to be on or before the number on the same line.",
+]
+
+[[exercises.commands]]
+key = "Ctrl-a"
+description = "Increment number under cursor"
+
+[[exercises.commands]]
+key = "Ctrl-x"
+description = "Decrement number under cursor"
+
+[[exercises]]
+id = "15-combined-techniques/01-rename-variable"
 title = "Rename Variable"
-category = "Advanced Workflows"
+category = "Combined Techniques"
 difficulty = 3
 notes = """
 THE HELIX WAY: Select all, then act on all at once.
@@ -1971,9 +2403,9 @@ key = "% s <pattern> Enter c <replacement> Esc"
 description = "The Helix pattern for global find-and-replace"
 
 [[exercises]]
-id = "11-advanced-workflows/02-extract-function"
+id = "15-combined-techniques/02-extract-function"
 title = "Extract and Restructure"
-category = "Advanced Workflows"
+category = "Combined Techniques"
 difficulty = 3
 notes = """
 WORKFLOW
@@ -2023,9 +2455,9 @@ key = "d"
 description = "Deletion"
 
 [[exercises]]
-id = "11-advanced-workflows/03-reformat-data"
+id = "15-combined-techniques/03-reformat-data"
 title = "Reformat Data"
-category = "Advanced Workflows"
+category = "Combined Techniques"
 difficulty = 3
 notes = """
 WORKFLOW
@@ -2073,9 +2505,9 @@ key = "J"
 description = "Join"
 
 [[exercises]]
-id = "11-advanced-workflows/04-bulk-transform"
+id = "15-combined-techniques/04-bulk-transform"
 title = "Bulk Transform"
-category = "Advanced Workflows"
+category = "Combined Techniques"
 difficulty = 3
 notes = """
 WORKFLOW
@@ -2122,9 +2554,9 @@ key = "c"
 description = "Change"
 
 [[exercises]]
-id = "11-advanced-workflows/05-vim-to-helix"
+id = "15-combined-techniques/05-vim-to-helix"
 title = "Vim to Helix Translation"
-category = "Advanced Workflows"
+category = "Combined Techniques"
 difficulty = 3
 notes = """
 THE KEY MENTAL SHIFT: Vim = action first, Helix = selection first.
@@ -2181,7 +2613,7 @@ key = "mr\"'"
 description = "Change surround \" to ' (Vim: cs\"')"
 
 [[exercises]]
-id = "12-challenges/01-speed-edit"
+id = "16-challenges/01-speed-edit"
 title = "Speed Edit"
 category = "Challenges"
 difficulty = 3
@@ -2209,7 +2641,7 @@ Transform the practice code by:
 hints = []
 
 [[exercises]]
-id = "12-challenges/02-minimal-keystrokes"
+id = "16-challenges/02-minimal-keystrokes"
 title = "Minimal Keystrokes"
 category = "Challenges"
 difficulty = 3
@@ -2233,7 +2665,7 @@ Reach the expected result in the fewest keystrokes possible.
 hints = []
 
 [[exercises]]
-id = "12-challenges/03-real-world-refactor"
+id = "16-challenges/03-real-world-refactor"
 title = "Real-World Refactor"
 category = "Challenges"
 difficulty = 3
@@ -2254,7 +2686,7 @@ Use multi-selection where possible.
 hints = []
 
 [[exercises]]
-id = "12-challenges/04-code-golf"
+id = "16-challenges/04-code-golf"
 title = "Code Golf"
 category = "Challenges"
 difficulty = 3
@@ -2279,434 +2711,79 @@ Try to find the shortest keystroke sequence for each.
 """
 hints = []
 
-# ── Module 13: Registers ──────────────────────────────────────────
-
 [[exercises]]
-id = "13-registers/01-unnamed-register"
-title = "Unnamed Register"
-category = "Registers"
-difficulty = 2
-notes = """
-Every yank and delete stores text in the unnamed register (").
-Pasting without specifying a register uses this default register.
-"""
-instructions = """
-Delete the first line of the list (alpha) using x d.
-Then navigate to the end of the list and paste it with p.
-
-The unnamed register automatically holds whatever you last
-yanked or deleted — no register name needed.
-"""
-hints = [
-  "Navigate to the 'alpha' line, press x to select the line, then d to delete it.",
-  "The deleted text is now in the unnamed register. Go to the last line (epsilon).",
-  "Press p to paste after the current line. The alpha line appears at the end.",
-]
-
-[[exercises.commands]]
-key = "\""
-description = "Access register (prefix for register name)"
-
-[[exercises.commands]]
-key = "y"
-description = "Yank (copy) selection to register"
-
-[[exercises.commands]]
-key = "p"
-description = "Paste after selection from register"
-
-[[exercises.commands]]
-key = "P"
-description = "Paste before selection from register"
-
-[[exercises]]
-id = "13-registers/02-named-registers"
-title = "Named Registers"
-category = "Registers"
-difficulty = 2
-notes = """
-Named registers (a-z) let you store multiple snippets simultaneously.
-Use " followed by a register letter before yank or paste.
-  \"ay  = yank into register a
-  \"ap  = paste from register a
-"""
-instructions = """
-Yank the word "server" into register a and "client" into register b.
-Then replace the ??? placeholders using the appropriate named register.
-
-To yank into register a: select the word, then press " a y.
-To paste from register a: position cursor, then press " a p.
-"""
-hints = [
-  "Select 'server' with w, then press \" a y to yank it into register a.",
-  "Select 'client' with w, then press \" b y to yank it into register b.",
-  "Navigate to each ???, select it, then press \" a p or \" b p depending on which word belongs there.",
-]
-
-[[exercises.commands]]
-key = "\"ay"
-description = "Yank selection into register a"
-
-[[exercises.commands]]
-key = "\"ap"
-description = "Paste from register a"
-
-[[exercises.commands]]
-key = "\"by"
-description = "Yank selection into register b"
-
-[[exercises.commands]]
-key = "\"bp"
-description = "Paste from register b"
-
-[[exercises]]
-id = "13-registers/03-clipboard-register"
-title = "Clipboard Register"
-category = "Registers"
-difficulty = 2
-notes = """
-The + register is the system clipboard.
-  \"+y  = yank to system clipboard
-  \"+p  = paste from system clipboard
-This lets you copy/paste between your editor and other apps.
-"""
-instructions = """
-Yank the URL to the system clipboard using \"+ y, then paste it
-on the blank line at the bottom using \"+ p.
-
-This is how you move text between your editor and the outside world.
-"""
-hints = [
-  "Select the URL line with x, then press \" + y to yank to clipboard.",
-  "Navigate to the blank line after 'PASTE HERE:'.",
-  "Press \" + p to paste from the system clipboard.",
-]
-
-[[exercises.commands]]
-key = "\"+y"
-description = "Yank to system clipboard"
-
-[[exercises.commands]]
-key = "\"+p"
-description = "Paste from system clipboard"
-
-# ── Module 14: Macros ─────────────────────────────────────────────
-
-[[exercises]]
-id = "14-macros/01-record-and-replay"
-title = "Record and Replay"
-category = "Macros"
-difficulty = 2
-notes = """
-Macros record a sequence of keystrokes and replay them.
-  Q       Start recording a macro
-  q       Stop recording
-  @       Replay the last recorded macro
-"""
-instructions = """
-Add "- " (dash space) to the beginning of each item to make a list.
-
-Record a macro for the first item:
-1. Press Q to start recording
-2. Go to line start, enter insert mode, type "- ", exit insert
-3. Move down to the next line
-4. Press q to stop recording
-
-Then press @ four times to replay for the remaining items.
-"""
-hints = [
-  "Position on 'Buy milk'. Press Q to start recording.",
-  "Press I to insert at line start, type '- ', press Esc, then j to move down.",
-  "Press q to stop. Now press @ to replay on each remaining line.",
-]
-
-[[exercises.commands]]
-key = "Q"
-description = "Start recording a macro"
-
-[[exercises.commands]]
-key = "q"
-description = "Stop recording"
-
-[[exercises.commands]]
-key = "@"
-description = "Replay the last recorded macro"
-
-[[exercises]]
-id = "14-macros/02-macro-with-motion"
-title = "Macro with Motion"
-category = "Macros"
-difficulty = 2
-notes = """
-Macros capture any sequence of commands including motions,
-searches, and surround operations. Combine them for complex
-repetitive edits.
-"""
-instructions = """
-Each line has a name and email. Wrap each email in angle brackets.
-
-Record a macro that:
-1. Finds the space before the email
-2. Selects from there to end of line
-3. Adds < > surround
-4. Moves to the next line
-
-Then replay for the remaining lines.
-"""
-hints = [
-  "On the first line, press f @ to jump to the @, then b to select back to the email start.",
-  "Try: Q to record, then f space (to find space before email), w to select the email, ms< to surround with angle brackets, j to next line, q to stop.",
-  "Replay with @ for each remaining line.",
-]
-
-[[exercises.commands]]
-key = "Q"
-description = "Start recording"
-
-[[exercises.commands]]
-key = "q"
-description = "Stop recording"
-
-[[exercises.commands]]
-key = "@"
-description = "Replay macro"
-
-[[exercises.commands]]
-key = "ms"
-description = "Add surround"
-
-[[exercises]]
-id = "14-macros/03-macro-workflows"
-title = "Macro Workflows"
-category = "Macros"
+id = "16-challenges/05-register-relay"
+title = "Register Relay"
+category = "Challenges"
 difficulty = 3
 notes = """
-Real-world macro usage: transform repetitive patterns in code.
-A well-crafted macro can save dozens of manual edits.
+CHALLENGE: Assemble a result from multiple registers.
+-------------------------------------------------
+
+Yank each fragment into a named register, then paste
+them in sequence to build the final output.
+No hints — use your register skills!
 """
 instructions = """
-Convert each arrow function to use the function keyword.
-
-const add = (a, b) => a + b;
-becomes:
-function add(a, b) { return a + b; }
-
-Record a macro for the first one, then replay for the rest.
-This is a complex macro — plan your keystrokes carefully.
+Yank each SQL fragment into a separate named register (a, b, c, d).
+Then paste them all in order on the RESULT line, separated by spaces.
 """
-hints = [
-  "One approach: delete 'const ', change '=' to 'function', restructure the arrow syntax.",
-  "Start simple: try doing the transformation manually first, then figure out which steps to record.",
-  "Don't forget to include j (move to next line) at the end of your macro so @ advances automatically.",
-]
-
-[[exercises.commands]]
-key = "Q"
-description = "Start recording"
-
-[[exercises.commands]]
-key = "q"
-description = "Stop recording"
-
-[[exercises.commands]]
-key = "@"
-description = "Replay macro"
-
-# ── Module 15: Window Management ──────────────────────────────────
+hints = []
 
 [[exercises]]
-id = "15-window-management/01-splits"
-title = "Splits"
-category = "Window Management"
-difficulty = 2
+id = "16-challenges/06-macro-marathon"
+title = "Macro Marathon"
+category = "Challenges"
+difficulty = 3
 notes = """
-Window splits let you view multiple files (or the same file)
-side by side. All window commands start with Ctrl-w.
+CHALLENGE: Transform 10 lines with a single macro.
+-----------------------------------------------
+
+Convert key-value config lines from "key: value"
+format to "KEY=value" (uppercase key, no space, no colon).
+
+Record the macro once, replay 9 times.
 """
 instructions = """
-Fill in the correct keybinding for each window operation.
-Replace each ??? with the right Ctrl-w command.
+Convert each "key: value" line to "KEY=value" format.
+The key should be uppercase, the colon and space removed.
+Record a macro for one line and replay for the rest.
 """
-hints = [
-  "Ctrl-w v splits vertically (side by side).",
-  "Ctrl-w s splits horizontally (top and bottom).",
-  "Ctrl-w c closes the current window pane.",
-]
-
-[[exercises.commands]]
-key = "Ctrl-w v"
-description = "Split vertically"
-
-[[exercises.commands]]
-key = "Ctrl-w s"
-description = "Split horizontally"
-
-[[exercises.commands]]
-key = "Ctrl-w c"
-description = "Close current window"
+hints = []
 
 [[exercises]]
-id = "15-window-management/02-window-navigation"
-title = "Window Navigation"
-category = "Window Management"
-difficulty = 2
+id = "16-challenges/07-split-screen-edit"
+title = "Split Screen Edit"
+category = "Challenges"
+difficulty = 3
 notes = """
-Navigate between split panes using Ctrl-w + h/j/k/l.
-This mirrors the standard Helix movement keys.
+CHALLENGE: Window management workflows.
+------------------------------------
+
+Fill in the correct commands for common multi-pane
+editing scenarios.
 """
 instructions = """
-Fill in the correct keybinding for moving focus between windows.
-Replace each ??? with the right Ctrl-w command.
+Fill in the ??? placeholders with the correct window
+management and navigation commands for each workflow.
 """
-hints = [
-  "Window navigation uses the same h/j/k/l directions as cursor movement.",
-  "Ctrl-w h = left, Ctrl-w j = down, Ctrl-w k = up, Ctrl-w l = right.",
-  "Practice by splitting with Ctrl-w v, then switching with Ctrl-w h and Ctrl-w l.",
-]
-
-[[exercises.commands]]
-key = "Ctrl-w h"
-description = "Move focus to window left"
-
-[[exercises.commands]]
-key = "Ctrl-w j"
-description = "Move focus to window below"
-
-[[exercises.commands]]
-key = "Ctrl-w k"
-description = "Move focus to window above"
-
-[[exercises.commands]]
-key = "Ctrl-w l"
-description = "Move focus to window right"
+hints = []
 
 [[exercises]]
-id = "15-window-management/03-window-workflows"
-title = "Window Workflows"
-category = "Window Management"
-difficulty = 2
+id = "16-challenges/08-number-cruncher"
+title = "Number Cruncher"
+category = "Challenges"
+difficulty = 3
 notes = """
-Beyond basic splits, Helix has commands for managing
-window layout: closing all other panes, swapping panes.
+CHALLENGE: Increment/decrement with multi-selection.
+-------------------------------------------------
+
+Combine multi-selection (to select all patch version
+numbers) with Ctrl-a to increment them all at once.
 """
 instructions = """
-Fill in the steps for each multi-window workflow.
-Replace each ??? with the correct keybinding.
+Increment every patch version number in this dependency
+list by 1. Use multi-selection to select all the last
+numbers, then Ctrl-a to increment them simultaneously.
 """
-hints = [
-  "Ctrl-w v opens a vertical split. Then use Space f or :e to open another file.",
-  "Ctrl-w o closes all panes except the current one (\"only this window\").",
-  "Ctrl-w x swaps the current pane with the next one.",
-]
-
-[[exercises.commands]]
-key = "Ctrl-w v"
-description = "Split vertically"
-
-[[exercises.commands]]
-key = "Ctrl-w o"
-description = "Close all other windows (keep only current)"
-
-[[exercises.commands]]
-key = "Ctrl-w x"
-description = "Swap current window with next"
-
-# ── Module 16: View Mode and Numbers ──────────────────────────────
-
-[[exercises]]
-id = "16-view-and-numbers/01-view-mode"
-title = "View Mode"
-category = "View and Numbers"
-difficulty = 2
-notes = """
-View mode (z prefix) controls how the viewport is positioned
-relative to the cursor, without moving the cursor itself.
-"""
-instructions = """
-Fill in the correct keybinding for each view command.
-Replace each ??? with the right z-prefixed command.
-
-These are essential for reading code — center the line you're
-working on, or push it to the top/bottom for context.
-"""
-hints = [
-  "z c centers the current line on screen ('c' for center).",
-  "z t moves the current line to the top ('t' for top).",
-  "z b moves the current line to the bottom ('b' for bottom).",
-  "z k and z j scroll the viewport up/down by one line without moving the cursor.",
-]
-
-[[exercises.commands]]
-key = "z c"
-description = "Center current line on screen"
-
-[[exercises.commands]]
-key = "z t"
-description = "Scroll current line to top"
-
-[[exercises.commands]]
-key = "z b"
-description = "Scroll current line to bottom"
-
-[[exercises.commands]]
-key = "z k"
-description = "Scroll viewport up one line"
-
-[[exercises.commands]]
-key = "z j"
-description = "Scroll viewport down one line"
-
-[[exercises]]
-id = "16-view-and-numbers/02-match-bracket"
-title = "Match Bracket"
-category = "View and Numbers"
-difficulty = 2
-notes = """
-mm jumps between matching bracket pairs: (), {}, [], <>.
-Place your cursor on a bracket and press mm to jump to its match.
-"""
-instructions = """
-Fill in each answer by thinking about matching brackets.
-The code example helps you reason about which line a bracket
-matches — use mm in real code to verify.
-"""
-hints = [
-  "Each opening bracket has exactly one matching closing bracket.",
-  "mm works on (), {}, [], and <>.",
-  "In the code block, the { on line 1 matches the } on line 3 (the outer block).",
-  "The ( after 'process' on line 2 matches the ) on the same line.",
-]
-
-[[exercises.commands]]
-key = "mm"
-description = "Jump to matching bracket"
-
-[[exercises]]
-id = "16-view-and-numbers/03-increment-decrement"
-title = "Increment and Decrement"
-category = "View and Numbers"
-difficulty = 1
-notes = """
-Ctrl-a increments the number under the cursor.
-Ctrl-x decrements the number under the cursor.
-Works on integers in any context — config values, ports, counters.
-"""
-instructions = """
-Use Ctrl-a to increment each number by 1 in the first group.
-Use Ctrl-x to decrement each number by 1 in the second group.
-
-Place your cursor on the number and press the key once.
-"""
-hints = [
-  "Navigate to 8079, press Ctrl-a — it becomes 8080.",
-  "Navigate to 101, press Ctrl-x — it becomes 100.",
-  "The cursor just needs to be on or before the number on the same line.",
-]
-
-[[exercises.commands]]
-key = "Ctrl-a"
-description = "Increment number under cursor"
-
-[[exercises.commands]]
-key = "Ctrl-x"
-description = "Decrement number under cursor"
+hints = []
