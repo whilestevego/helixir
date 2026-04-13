@@ -202,36 +202,6 @@ The exercises use standard Helix keybindings and work in any editor that support
 
 The CLI is a single static binary with no runtime dependencies. The exercises themselves are plain text files embedded in the binary.
 
-## Contributing
-
-PRs welcome, especially new exercises and fixes to existing ones.
-
-### Adding exercises
-
-An exercise is two things: a minimal `.hxt` file and a metadata entry in `exercises.toml`.
-
-1. **Create the `.hxt` file** in the appropriate module directory under `exercises/`
-   - Only the PRACTICE and EXPECTED sections, bounded by `──── PRACTICE ────` and `──── EXPECTED ────` markers
-   - See any existing exercise (e.g. `exercises/01-movement/01-basic-motion.hxt`) for the format
-2. **Add the metadata** to `exercises.toml`:
-   - `id` matching the file path without `.hxt`
-   - `title`, `category`, `difficulty` (1-3)
-   - `notes`, `instructions`, `hints` (what the TUI shows)
-   - `[[exercises.commands]]` entries for the keybindings taught
-3. **Build and launch** with `cargo run` to verify your exercise loads and parses
-
-### Exercise quality checklist
-
-- [ ] Instructions are clear enough to follow without prior Helix experience for that tier
-- [ ] PRACTICE text is realistic (code, prose, or data — not lorem ipsum)
-- [ ] EXPECTED result is achievable with the listed commands
-- [ ] Hints are ordered from gentle nudge to explicit keystroke sequence
-- [ ] The exercise teaches something that builds on previous modules
-
-### Reporting issues
-
-If an exercise has incorrect expected output, unclear instructions, or a keybinding that doesn't work in your editor's Helix mode, please [open an issue](../../issues).
-
 ## How It's Built
 
 A single-binary Rust TUI built on ratatui.
