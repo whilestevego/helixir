@@ -156,15 +156,12 @@ fn build_exercise_list(app: &App, width: u16) -> ListLayout {
 
         let is_selected = matches!(&app.cursor, TreeCursor::Exercise(idx) if *idx == i);
 
-        let (icon, style) = if is_selected {
-            ("▶", selected_style)
-        } else {
-            match exercise.status {
-                ExerciseStatus::Passed => ("✅", Style::default().fg(Color::Green)),
-                ExerciseStatus::Failed => ("  ", Style::default().fg(Color::White)),
-                ExerciseStatus::NotStarted => ("  ", Style::default().fg(Color::DarkGray)),
-            }
+        let (icon, base_style) = match exercise.status {
+            ExerciseStatus::Passed => ("✅", Style::default().fg(Color::Green)),
+            ExerciseStatus::Failed => ("  ", Style::default().fg(Color::White)),
+            ExerciseStatus::NotStarted => ("  ", Style::default().fg(Color::DarkGray)),
         };
+        let style = if is_selected { selected_style } else { base_style };
 
         let title = &exercise.meta.title;
         let label = format!("    {} {}", icon, title);

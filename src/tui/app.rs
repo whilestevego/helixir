@@ -170,16 +170,31 @@ impl App {
         } else {
             self.collapsed_modules.insert(module);
         }
+        self.fix_stranded_cursor();
     }
 
     pub fn collapse_current_module(&mut self) {
         let module = self.cursor_module().to_string();
         self.collapsed_modules.insert(module);
+        self.fix_stranded_cursor();
     }
 
     pub fn expand_current_module(&mut self) {
         let module = self.cursor_module().to_string();
         self.collapsed_modules.remove(&module);
+    }
+
+    /// If the cursor is on an exercise whose module is collapsed, promote
+    /// the cursor to the module header so navigation stays usable.
+    fn fix_stranded_cursor(&mut self) {
+        if let TreeCursor::Exercise(idx) = &self.cursor {
+            let module = self.exercises[*idx].meta.category.clone();
+            if self.collapsed_modules.contains(&module) {
+                self.cursor = TreeCursor::Module(module);
+                self.hint_level = 0;
+                self.detail_scroll = 0;
+            }
+        }
     }
 
     /// The full ordered list of currently visible tree nodes (modules always
@@ -205,6 +220,7 @@ impl App {
             .iter()
             .map(|e| e.meta.category.clone())
             .collect();
+        self.fix_stranded_cursor();
     }
 
     pub fn expand_all_modules(&mut self) {
