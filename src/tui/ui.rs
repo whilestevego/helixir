@@ -119,7 +119,7 @@ fn build_exercise_list(app: &App, width: u16) -> ListLayout {
             } else {
                 format!("({}/{})", passed, total)
             };
-            let header_text = format!(" {} 🗂 {} {}", chevron, current_category, badge);
+            let header_text = format!(" {} 🗂  {} {}", chevron, current_category, badge);
             let cursor_on_header = matches!(
                 &app.cursor,
                 TreeCursor::Module(m) if m == &current_category
@@ -135,7 +135,7 @@ fn build_exercise_list(app: &App, width: u16) -> ListLayout {
             } else {
                 Line::from(vec![
                     Span::styled(
-                        format!(" {} 🗂 {} ", chevron, current_category),
+                        format!(" {} 🗂  {} ", chevron, current_category),
                         Style::default()
                             .fg(Color::Yellow)
                             .add_modifier(Modifier::BOLD),
@@ -822,7 +822,7 @@ fn build_cheatsheet_module_section(module: &crate::tui::app::CheatsheetModule) -
     };
     lines.push(Line::from(vec![
         Span::styled(
-            format!("  🗂 {}  ", module.name),
+            format!("  🗂  {}  ", module.name),
             Style::default()
                 .fg(Color::Yellow)
                 .add_modifier(Modifier::BOLD),
