@@ -1,8 +1,10 @@
+use ratatui::Frame;
 use ratatui::layout::{Constraint, Direction, Layout, Rect};
 use ratatui::style::{Color, Modifier, Style};
 use ratatui::text::{Line, Span};
-use ratatui::widgets::{Block, Borders, List, ListItem, Paragraph, Scrollbar, ScrollbarOrientation, ScrollbarState};
-use ratatui::Frame;
+use ratatui::widgets::{
+    Block, Borders, List, ListItem, Paragraph, Scrollbar, ScrollbarOrientation, ScrollbarState,
+};
 
 use crate::tui::app::{App, ExerciseStatus, Panel, TreeCursor};
 
@@ -11,7 +13,7 @@ pub fn render(frame: &mut Frame, app: &mut App) {
         .direction(Direction::Vertical)
         .constraints([
             Constraint::Length(2), // Header (with breathing room)
-            Constraint::Min(10),  // Main content
+            Constraint::Min(10),   // Main content
             Constraint::Length(2), // Footer (with breathing room)
         ])
         .split(frame.area());
@@ -65,8 +67,13 @@ fn render_header(frame: &mut Frame, area: Rect, app: &App) {
     if app.missing_exercises > 0 {
         header_spans.push(Span::raw("    "));
         header_spans.push(Span::styled(
-            format!("📦 {} new exercises available — press [u] to install", app.missing_exercises),
-            Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD),
+            format!(
+                "📦 {} new exercises available — press [u] to install",
+                app.missing_exercises
+            ),
+            Style::default()
+                .fg(Color::Yellow)
+                .add_modifier(Modifier::BOLD),
         ));
     }
 
@@ -161,7 +168,11 @@ fn build_exercise_list(app: &App, width: u16) -> ListLayout {
             ExerciseStatus::Failed => ("  ", Style::default().fg(Color::White)),
             ExerciseStatus::NotStarted => ("  ", Style::default().fg(Color::DarkGray)),
         };
-        let style = if is_selected { selected_style } else { base_style };
+        let style = if is_selected {
+            selected_style
+        } else {
+            base_style
+        };
 
         let title = &exercise.meta.title;
         let label = format!("    {} {}", icon, title);
@@ -203,8 +214,7 @@ fn render_exercise_list(frame: &mut Frame, area: Rect, app: &App) {
     let total_items = layout.items.len();
 
     // Use ListState for offset-based scrolling
-    let mut list_state = ratatui::widgets::ListState::default()
-        .with_offset(scroll_offset);
+    let mut list_state = ratatui::widgets::ListState::default().with_offset(scroll_offset);
 
     let border_color = if app.focused_panel == Panel::List {
         Color::Cyan
@@ -226,8 +236,7 @@ fn render_exercise_list(frame: &mut Frame, area: Rect, app: &App) {
 
     // Scrollbar
     if total_items > visible_height {
-        let mut scrollbar_state =
-            ScrollbarState::new(total_items).position(selected_row);
+        let mut scrollbar_state = ScrollbarState::new(total_items).position(selected_row);
         frame.render_stateful_widget(
             Scrollbar::new(ScrollbarOrientation::VerticalRight)
                 .begin_symbol(None)
@@ -245,9 +254,10 @@ fn render_exercise_list(frame: &mut Frame, area: Rect, app: &App) {
 
 fn render_exercise_detail(frame: &mut Frame, area: Rect, app: &mut App) {
     let (lines, title) = match &app.cursor {
-        TreeCursor::Module(name) => {
-            (build_module_summary_lines(app, &name.clone()), " Module Summary ")
-        }
+        TreeCursor::Module(name) => (
+            build_module_summary_lines(app, &name.clone()),
+            " Module Summary ",
+        ),
         TreeCursor::Exercise(_) => (build_exercise_detail_lines(app), " Exercise Detail "),
     };
 
@@ -312,14 +322,8 @@ fn build_module_summary_lines(app: &App, module: &str) -> Vec<Line<'static>> {
             _ => "⭐⭐⭐",
         };
         lines.push(Line::from(vec![
-            Span::styled(
-                format!("     {} ", icon),
-                Style::default().fg(Color::White),
-            ),
-            Span::styled(
-                ex.meta.title.clone(),
-                Style::default().fg(Color::White),
-            ),
+            Span::styled(format!("     {} ", icon), Style::default().fg(Color::White)),
+            Span::styled(ex.meta.title.clone(), Style::default().fg(Color::White)),
             Span::styled(
                 format!("   {}", stars),
                 Style::default().fg(Color::DarkGray),
@@ -400,7 +404,10 @@ fn build_exercise_detail_lines(app: &App) -> Vec<Line<'static>> {
             .add_modifier(Modifier::BOLD),
     )));
     lines.push(Line::from(Span::styled(
-        format!("  Category: {}   Difficulty: {}/3", meta.category, meta.difficulty),
+        format!(
+            "  Category: {}   Difficulty: {}/3",
+            meta.category, meta.difficulty
+        ),
         Style::default().fg(Color::DarkGray),
     )));
     lines.push(Line::raw(""));
@@ -496,9 +503,7 @@ fn build_exercise_detail_lines(app: &App) -> Vec<Line<'static>> {
                         diff_count,
                         if diff_count == 1 { "" } else { "s" }
                     ),
-                    Style::default()
-                        .fg(Color::Red)
-                        .add_modifier(Modifier::BOLD),
+                    Style::default().fg(Color::Red).add_modifier(Modifier::BOLD),
                 )));
                 lines.push(Line::raw(""));
                 for d in exercise.diff.iter().take(5) {
@@ -640,8 +645,7 @@ fn render_detail_pane(
 
     // Detail scrollbar
     if can_scroll {
-        let mut scrollbar_state =
-            ScrollbarState::new(total_lines).position(scroll_offset);
+        let mut scrollbar_state = ScrollbarState::new(total_lines).position(scroll_offset);
         frame.render_stateful_widget(
             Scrollbar::new(ScrollbarOrientation::VerticalRight)
                 .begin_symbol(None)
@@ -702,10 +706,7 @@ fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
         Span::styled("      👀 Watching...", Style::default().fg(Color::DarkGray)),
     ]);
 
-    frame.render_widget(
-        Paragraph::new(vec![Line::raw(""), footer]),
-        area,
-    );
+    frame.render_widget(Paragraph::new(vec![Line::raw(""), footer]), area);
 }
 
 fn render_help_popup(frame: &mut Frame, _app: &App) {
@@ -813,7 +814,9 @@ fn render_help_popup(frame: &mut Frame, _app: &App) {
     frame.render_widget(popup, area);
 }
 
-fn build_cheatsheet_module_section(module: &crate::tui::app::CheatsheetModule) -> Vec<Line<'static>> {
+fn build_cheatsheet_module_section(
+    module: &crate::tui::app::CheatsheetModule,
+) -> Vec<Line<'static>> {
     let mut lines: Vec<Line<'static>> = Vec::new();
     let badge = if module.passed == module.total {
         format!("({}/{} ✅)", module.passed, module.total)
@@ -874,7 +877,9 @@ fn render_cheatsheet_popup(frame: &mut Frame, app: &mut App) {
         .border_style(Style::default().fg(Color::Cyan))
         .title(Span::styled(
             " 📜 Grimoire — Spells you've learned ",
-            Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD),
+            Style::default()
+                .fg(Color::Cyan)
+                .add_modifier(Modifier::BOLD),
         ))
         .title_bottom(Span::styled(
             " j/k to scroll · c or Esc to close ",
@@ -912,7 +917,11 @@ fn render_cheatsheet_popup(frame: &mut Frame, app: &mut App) {
     let scroll = app.cheatsheet_scroll;
 
     let take_window = |lines: Vec<Line<'static>>| -> Vec<Line<'static>> {
-        lines.into_iter().skip(scroll).take(visible_height).collect()
+        lines
+            .into_iter()
+            .skip(scroll)
+            .take(visible_height)
+            .collect()
     };
 
     let cols = Layout::default()

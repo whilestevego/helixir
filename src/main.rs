@@ -46,9 +46,7 @@ async fn main() {
         None => {
             let exercises_dir = find_exercises_dir();
             if !exercises_dir.exists() {
-                eprintln!(
-                    "No exercises/ directory found. Run 'helixir init' first."
-                );
+                eprintln!("No exercises/ directory found. Run 'helixir init' first.");
                 std::process::exit(1);
             }
             tui::run(exercises_dir).await

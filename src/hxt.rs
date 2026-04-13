@@ -1,4 +1,4 @@
-/// Pure .hxt file parser — no I/O, operates on string content.
+//! Pure .hxt file parser — no I/O, operates on string content.
 
 pub struct Sections {
     pub practice: String,
@@ -35,7 +35,10 @@ fn is_expected_marker(line: &str) -> bool {
 }
 
 fn trim_blank_lines<'a>(lines: &'a [&'a str]) -> Vec<&'a str> {
-    let start = lines.iter().position(|l| !l.trim().is_empty()).unwrap_or(lines.len());
+    let start = lines
+        .iter()
+        .position(|l| !l.trim().is_empty())
+        .unwrap_or(lines.len());
     let end = lines
         .iter()
         .rposition(|l| !l.trim().is_empty())

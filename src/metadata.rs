@@ -31,13 +31,7 @@ static EXERCISES_TOML: &str = include_str!(concat!(env!("CARGO_MANIFEST_DIR"), "
 pub fn load_exercises() -> &'static ExerciseDb {
     use std::sync::OnceLock;
     static DB: OnceLock<ExerciseDb> = OnceLock::new();
-    DB.get_or_init(|| {
-        toml::from_str(EXERCISES_TOML).expect("exercises.toml is invalid")
-    })
-}
-
-pub fn get_exercise(id: &str) -> Option<&'static ExerciseMeta> {
-    load_exercises().exercises.iter().find(|e| e.id == id)
+    DB.get_or_init(|| toml::from_str(EXERCISES_TOML).expect("exercises.toml is invalid"))
 }
 
 #[cfg(test)]
@@ -68,9 +62,21 @@ mod tests {
         for ex in &db.exercises {
             assert!(!ex.id.is_empty(), "exercise has empty id");
             assert!(!ex.title.is_empty(), "exercise {} has empty title", ex.id);
-            assert!(!ex.category.is_empty(), "exercise {} has empty category", ex.id);
-            assert!(ex.difficulty >= 1 && ex.difficulty <= 3, "exercise {} has invalid difficulty", ex.id);
-            assert!(!ex.instructions.is_empty(), "exercise {} has empty instructions", ex.id);
+            assert!(
+                !ex.category.is_empty(),
+                "exercise {} has empty category",
+                ex.id
+            );
+            assert!(
+                ex.difficulty >= 1 && ex.difficulty <= 3,
+                "exercise {} has invalid difficulty",
+                ex.id
+            );
+            assert!(
+                !ex.instructions.is_empty(),
+                "exercise {} has empty instructions",
+                ex.id
+            );
         }
     }
 }

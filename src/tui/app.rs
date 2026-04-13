@@ -70,8 +70,7 @@ pub struct App {
 
 impl App {
     pub fn new(exercises_dir: PathBuf) -> anyhow::Result<Self> {
-        let missing_exercises =
-            crate::commands::init::count_missing_exercises(&exercises_dir);
+        let missing_exercises = crate::commands::init::count_missing_exercises(&exercises_dir);
 
         let db = metadata::load_exercises();
         let mut exercises = Vec::with_capacity(db.exercises.len());
@@ -110,10 +109,8 @@ impl App {
         let initial_module = exercises
             .get(initial_selected)
             .map(|e| e.meta.category.clone());
-        let mut collapsed_modules: BTreeSet<String> = exercises
-            .iter()
-            .map(|e| e.meta.category.clone())
-            .collect();
+        let mut collapsed_modules: BTreeSet<String> =
+            exercises.iter().map(|e| e.meta.category.clone()).collect();
         if let Some(m) = initial_module {
             collapsed_modules.remove(&m);
         }
@@ -310,24 +307,24 @@ impl App {
     /// Move cursor to the next visible tree node (module or exercise).
     pub fn select_next(&mut self) {
         let tree = self.visible_tree();
-        if let Some(pos) = tree.iter().position(|n| *n == self.cursor) {
-            if pos + 1 < tree.len() {
-                self.cursor = tree[pos + 1].clone();
-                self.hint_level = 0;
-                self.detail_scroll = 0;
-            }
+        if let Some(pos) = tree.iter().position(|n| *n == self.cursor)
+            && pos + 1 < tree.len()
+        {
+            self.cursor = tree[pos + 1].clone();
+            self.hint_level = 0;
+            self.detail_scroll = 0;
         }
     }
 
     /// Move cursor to the previous visible tree node (module or exercise).
     pub fn select_prev(&mut self) {
         let tree = self.visible_tree();
-        if let Some(pos) = tree.iter().position(|n| *n == self.cursor) {
-            if pos > 0 {
-                self.cursor = tree[pos - 1].clone();
-                self.hint_level = 0;
-                self.detail_scroll = 0;
-            }
+        if let Some(pos) = tree.iter().position(|n| *n == self.cursor)
+            && pos > 0
+        {
+            self.cursor = tree[pos - 1].clone();
+            self.hint_level = 0;
+            self.detail_scroll = 0;
         }
     }
 
@@ -373,15 +370,12 @@ impl App {
             return Ok(());
         };
         let exercise = &self.exercises[idx];
-        let template = crate::exercises::EXERCISES
-            .get_file(&format!("{}.hxt", exercise.meta.id));
+        let template = crate::exercises::EXERCISES.get_file(format!("{}.hxt", exercise.meta.id));
 
         if let Some(template_file) = template {
             fs::write(&exercise.file_path, template_file.contents())?;
-            self.flash_message = Some((
-                "🔄 Exercise reset!".to_string(),
-                std::time::Instant::now(),
-            ));
+            self.flash_message =
+                Some(("🔄 Exercise reset!".to_string(), std::time::Instant::now()));
             // Re-verify
             self.reverify_exercise(idx)?;
         }

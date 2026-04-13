@@ -10,10 +10,10 @@ use anyhow::Result;
 use crossterm::event::{KeyCode, KeyModifiers};
 use crossterm::execute;
 use crossterm::terminal::{
-    disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen,
+    EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode,
 };
-use ratatui::backend::CrosstermBackend;
 use ratatui::Terminal;
+use ratatui::backend::CrosstermBackend;
 
 use app::{App, ExerciseStatus};
 use event::{AppEvent, EventHandler};
@@ -120,16 +120,16 @@ pub async fn run(exercises_dir: PathBuf) -> Result<()> {
             }
             AppEvent::Tick => {
                 // Clear flash message after 2 seconds
-                if let Some((_, created)) = &app.flash_message {
-                    if created.elapsed() > Duration::from_secs(2) {
-                        // Auto-advance after flash
-                        let was_flash = app.flash_message.take();
-                        if was_flash
-                            .as_ref()
-                            .is_some_and(|(msg, _)| msg.contains("PASSED"))
-                        {
-                            app.jump_next_incomplete();
-                        }
+                if let Some((_, created)) = &app.flash_message
+                    && created.elapsed() > Duration::from_secs(2)
+                {
+                    // Auto-advance after flash
+                    let was_flash = app.flash_message.take();
+                    if was_flash
+                        .as_ref()
+                        .is_some_and(|(msg, _)| msg.contains("PASSED"))
+                    {
+                        app.jump_next_incomplete();
                     }
                 }
             }

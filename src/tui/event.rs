@@ -23,10 +23,10 @@ impl EventHandler {
         tokio::spawn(async move {
             loop {
                 if event::poll(Duration::from_millis(250)).unwrap_or(false) {
-                    if let Ok(Event::Key(key)) = event::read() {
-                        if tx_keys.send(AppEvent::Key(key)).is_err() {
-                            break;
-                        }
+                    if let Ok(Event::Key(key)) = event::read()
+                        && tx_keys.send(AppEvent::Key(key)).is_err()
+                    {
+                        break;
                     }
                 } else if tx_keys.send(AppEvent::Tick).is_err() {
                     break;
@@ -37,7 +37,7 @@ impl EventHandler {
         // File watcher
         let tx_files = tx;
         tokio::spawn(async move {
-            use notify_debouncer_mini::{new_debouncer, DebouncedEventKind};
+            use notify_debouncer_mini::{DebouncedEventKind, new_debouncer};
 
             let (notify_tx, mut notify_rx) = mpsc::unbounded_channel();
 
@@ -61,16 +61,11 @@ impl EventHandler {
                 .expect("failed to watch exercises directory");
 
             // Keep debouncer alive and forward events
-            loop {
-                match notify_rx.recv().await {
-                    Some(path) => {
-                        if path.extension().is_some_and(|e| e == "hxt") {
-                            if tx_files.send(AppEvent::FileChanged(path)).is_err() {
-                                break;
-                            }
-                        }
-                    }
-                    None => break,
+            while let Some(path) = notify_rx.recv().await {
+                if path.extension().is_some_and(|e| e == "hxt")
+                    && tx_files.send(AppEvent::FileChanged(path)).is_err()
+                {
+                    break;
                 }
             }
         });

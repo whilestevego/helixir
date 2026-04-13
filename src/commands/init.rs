@@ -8,7 +8,11 @@ use crate::exercises::EXERCISES;
 /// Extract embedded exercises to disk. If `skip_existing` is true,
 /// only writes files that don't already exist (additive update).
 /// Returns (new_count, skipped_count).
-fn extract_dir(dir: &include_dir::Dir<'_>, dest: &Path, skip_existing: bool) -> Result<(usize, usize)> {
+fn extract_dir(
+    dir: &include_dir::Dir<'_>,
+    dest: &Path,
+    skip_existing: bool,
+) -> Result<(usize, usize)> {
     let mut new_count = 0;
     let mut skipped = 0;
 
@@ -84,7 +88,10 @@ pub fn run(target_arg: Option<&Path>) -> Result<()> {
 
         println!("\n  Updating exercises...\n");
         let (new_count, skipped) = extract_dir(&EXERCISES, &exercises_dest, true)?;
-        println!("  ✅ Added {} new exercise files ({} existing unchanged)\n", new_count, skipped);
+        println!(
+            "  ✅ Added {} new exercise files ({} existing unchanged)\n",
+            new_count, skipped
+        );
         return Ok(());
     }
 
