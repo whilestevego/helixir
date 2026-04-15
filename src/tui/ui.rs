@@ -697,6 +697,16 @@ fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
     // While the user is typing a search, replace the footer entirely with
     // the search prompt line so the input location is unambiguous.
     if app.input_mode == InputMode::Searching {
+        let match_count = if app.filter.query.is_empty() {
+            String::new()
+        } else {
+            let n = app.filter_match_count();
+            if n == 1 {
+                "  1 match".to_string()
+            } else {
+                format!("  {} matches", n)
+            }
+        };
         let search_line = Line::from(vec![
             Span::styled(
                 "  🔍 ",
@@ -712,6 +722,7 @@ fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
                     .add_modifier(Modifier::BOLD),
             ),
             Span::styled("_", Style::default().fg(Color::Yellow)),
+            Span::styled(match_count, Style::default().fg(Color::Green)),
             Span::styled(
                 "     Enter: commit  ·  Esc: cancel",
                 Style::default().fg(Color::DarkGray),
@@ -770,6 +781,11 @@ fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
                 Style::default().fg(Color::Yellow),
             ));
         }
+        let n = app.filter_match_count();
+        spans.push(Span::styled(
+            format!("({} {}) ", n, if n == 1 { "match" } else { "matches" }),
+            Style::default().fg(Color::Green),
+        ));
         spans.push(Span::styled(
             "[Esc] clear  ",
             Style::default().fg(Color::DarkGray),
