@@ -54,6 +54,17 @@ pub enum InputMode {
     Searching,
 }
 
+/// Persistent-completion filter dimension, driven by `.progress.json`.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum CompletionFilter {
+    /// No progress record — never passed, even in a prior session.
+    Never,
+    /// Exactly one completion recorded.
+    Once,
+    /// Two or more completions recorded (user reset + redid).
+    Many,
+}
+
 /// User-controlled filter applied on top of the full exercise list.
 /// Multiple dimensions combine with AND semantics.
 #[derive(Debug, Clone, Default, PartialEq)]
@@ -62,11 +73,14 @@ pub struct Filter {
     pub query: String,
     /// When `Some(s)`, only show exercises whose status equals `s`.
     pub status: Option<ExerciseStatus>,
+    /// When `Some(c)`, only show exercises whose persisted completion
+    /// history matches `c`.
+    pub completion: Option<CompletionFilter>,
 }
 
 impl Filter {
     pub fn is_active(&self) -> bool {
-        !self.query.is_empty() || self.status.is_some()
+        !self.query.is_empty() || self.status.is_some() || self.completion.is_some()
     }
 }
 
@@ -297,14 +311,29 @@ impl App {
         }
     }
 
-    /// Case-insensitive substring + status check for a single exercise against
-    /// the current filter.
+    /// Case-insensitive substring + status + completion check for a single
+    /// exercise against the current filter. All active dimensions must pass.
     pub fn exercise_matches_filter(&self, idx: usize) -> bool {
         let ex = &self.exercises[idx];
         if let Some(want) = &self.filter.status
             && ex.status != *want
         {
             return false;
+        }
+        if let Some(want) = self.filter.completion {
+            let count = self
+                .progress
+                .get(&ex.meta.id)
+                .map(|p| p.completion_count)
+                .unwrap_or(0);
+            let ok = match want {
+                CompletionFilter::Never => count == 0,
+                CompletionFilter::Once => count == 1,
+                CompletionFilter::Many => count >= 2,
+            };
+            if !ok {
+                return false;
+            }
         }
         if !self.filter.query.is_empty() {
             let needle = self.filter.query.to_lowercase();
@@ -362,6 +391,21 @@ impl App {
             self.hint_level = 0;
             self.detail_scroll = 0;
         }
+    }
+
+    /// Cycle the completion filter: None → Never → Once → Many → None.
+    /// Uses persisted history from `.progress.json`.
+    pub fn cycle_completion_filter(&mut self) {
+        self.filter.completion = match self.filter.completion {
+            None => Some(CompletionFilter::Never),
+            Some(CompletionFilter::Never) => Some(CompletionFilter::Once),
+            Some(CompletionFilter::Once) => Some(CompletionFilter::Many),
+            Some(CompletionFilter::Many) => None,
+        };
+        if self.filter.is_active() {
+            self.expand_all_modules();
+        }
+        self.fix_cursor_visibility();
     }
 
     /// Cycle the status filter: None → NotStarted → Failed → Passed → None.

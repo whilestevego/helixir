@@ -38,7 +38,7 @@ expression: render_to_string(&mut a)
 │                         │                                                                │                           │
 │                         │    F         Cycle status filter (none → ⬜  → 🟡  → ✅ )         │                           │
 │                         │                                                                │                           │
-│                         │    Esc       Clear active search/filter                        │                           │
+│                         │    C         Cycle completion filter (never / once / many)     │                           │
 │                         │                                                                │                           │
 └─────────────────────────└────────────────────────────────────────────────────────────────┘───────────────────────────┘
 

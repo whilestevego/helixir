@@ -195,6 +195,10 @@ fn handle_key(app: &mut App, key: KeyEvent) -> Action {
             app.cycle_status_filter();
             Action::None
         }
+        KeyCode::Char('C') => {
+            app.cycle_completion_filter();
+            Action::None
+        }
         KeyCode::Esc => {
             if app.filter.is_active() {
                 app.clear_filters();
