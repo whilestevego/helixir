@@ -7,7 +7,7 @@ use ratatui::widgets::{
 };
 
 use crate::hxt::DiffLine;
-use crate::tui::app::{App, ExerciseStatus, Panel, TreeCursor};
+use crate::tui::app::{App, ExerciseStatus, InputMode, Panel, TreeCursor};
 
 pub fn render(frame: &mut Frame, app: &mut App) {
     let chunks = Layout::default()
@@ -657,6 +657,33 @@ fn render_detail_pane(
 }
 
 fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
+    // While the user is typing a search, replace the footer entirely with
+    // the search prompt line so the input location is unambiguous.
+    if app.input_mode == InputMode::Searching {
+        let search_line = Line::from(vec![
+            Span::styled(
+                "  🔍 ",
+                Style::default()
+                    .fg(Color::Yellow)
+                    .add_modifier(Modifier::BOLD),
+            ),
+            Span::styled("/", Style::default().fg(Color::Yellow)),
+            Span::styled(
+                app.filter.query.clone(),
+                Style::default()
+                    .fg(Color::White)
+                    .add_modifier(Modifier::BOLD),
+            ),
+            Span::styled("_", Style::default().fg(Color::Yellow)),
+            Span::styled(
+                "     Enter: commit  ·  Esc: cancel",
+                Style::default().fg(Color::DarkGray),
+            ),
+        ]);
+        frame.render_widget(Paragraph::new(vec![Line::raw(""), search_line]), area);
+        return;
+    }
+
     let completed = app.completed_count();
     let total = app.total_count();
     let pct = if total > 0 {
@@ -677,18 +704,47 @@ fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
         "░".repeat(bar_width.saturating_sub(filled))
     );
 
-    // Keybinding hints in footer
-    let footer = Line::from(vec![
+    let mut spans: Vec<Span<'static>> = vec![
         Span::styled("  🏆 ", Style::default()),
-        Span::styled(&bar, Style::default().fg(Color::Green)),
+        Span::styled(bar, Style::default().fg(Color::Green)),
         Span::styled(
             format!(" {}/{} ({}%)", completed, total, pct),
             Style::default().fg(Color::White),
         ),
         Span::styled("      ", Style::default()),
+    ];
+
+    // Active filter chips (only when something is filtering).
+    if app.filter.is_active() {
+        if !app.filter.query.is_empty() {
+            spans.push(Span::styled(
+                format!("🔍\"{}\" ", app.filter.query),
+                Style::default().fg(Color::Yellow),
+            ));
+        }
+        if let Some(status) = &app.filter.status {
+            let (icon, label) = match status {
+                ExerciseStatus::Passed => ("✅", "Passed"),
+                ExerciseStatus::Failed => ("🟡", "Failed"),
+                ExerciseStatus::NotStarted => ("⬜", "NotStarted"),
+            };
+            spans.push(Span::styled(
+                format!("{}{} ", icon, label),
+                Style::default().fg(Color::Yellow),
+            ));
+        }
+        spans.push(Span::styled(
+            "[Esc] clear  ",
+            Style::default().fg(Color::DarkGray),
+        ));
+    }
+
+    spans.extend([
         Span::styled("💡", Style::default()),
-        Span::styled("[space]", Style::default().fg(Color::Cyan)),
-        Span::styled(" hint  ", Style::default().fg(Color::DarkGray)),
+        Span::styled("[/]", Style::default().fg(Color::Cyan)),
+        Span::styled(" search  ", Style::default().fg(Color::DarkGray)),
+        Span::styled("[F]", Style::default().fg(Color::Cyan)),
+        Span::styled(" filter  ", Style::default().fg(Color::DarkGray)),
         Span::styled("🔄", Style::default()),
         Span::styled("[r]", Style::default().fg(Color::Cyan)),
         Span::styled(" reset  ", Style::default().fg(Color::DarkGray)),
@@ -698,10 +754,9 @@ fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
         Span::styled("🚪", Style::default()),
         Span::styled("[q]", Style::default().fg(Color::Cyan)),
         Span::styled(" quit", Style::default().fg(Color::DarkGray)),
-        Span::styled("      👀 Watching...", Style::default().fg(Color::DarkGray)),
     ]);
 
-    frame.render_widget(Paragraph::new(vec![Line::raw(""), footer]), area);
+    frame.render_widget(Paragraph::new(vec![Line::raw(""), Line::from(spans)]), area);
 }
 
 fn render_help_popup(frame: &mut Frame, _app: &App) {
@@ -770,6 +825,21 @@ fn render_help_popup(frame: &mut Frame, _app: &App) {
         Line::from(vec![
             Span::styled("    c         ", Style::default().fg(Color::Green)),
             Span::raw("Open grimoire (spells you've learned)"),
+        ]),
+        Line::raw(""),
+        Line::from(vec![
+            Span::styled("    /         ", Style::default().fg(Color::Green)),
+            Span::raw("Search exercises (incremental)"),
+        ]),
+        Line::raw(""),
+        Line::from(vec![
+            Span::styled("    F         ", Style::default().fg(Color::Green)),
+            Span::raw("Cycle status filter (none → ⬜ → 🟡 → ✅)"),
+        ]),
+        Line::raw(""),
+        Line::from(vec![
+            Span::styled("    Esc       ", Style::default().fg(Color::Green)),
+            Span::raw("Clear active search/filter"),
         ]),
         Line::raw(""),
         Line::from(vec![

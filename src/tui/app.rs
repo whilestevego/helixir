@@ -46,6 +46,30 @@ pub struct CheatsheetModule {
     pub commands: Vec<CheatsheetCommand>,
 }
 
+/// Current keyboard input mode. `Searching` redirects keystrokes into the
+/// search query buffer instead of the normal navigation map.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum InputMode {
+    Normal,
+    Searching,
+}
+
+/// User-controlled filter applied on top of the full exercise list.
+/// Multiple dimensions combine with AND semantics.
+#[derive(Debug, Clone, Default, PartialEq)]
+pub struct Filter {
+    /// Case-insensitive substring match against `title` + `category`.
+    pub query: String,
+    /// When `Some(s)`, only show exercises whose status equals `s`.
+    pub status: Option<ExerciseStatus>,
+}
+
+impl Filter {
+    pub fn is_active(&self) -> bool {
+        !self.query.is_empty() || self.status.is_some()
+    }
+}
+
 pub struct App {
     pub exercises: Vec<ExerciseState>,
     pub cursor: TreeCursor,
@@ -69,6 +93,10 @@ pub struct App {
     pub pending_chord: Option<char>,
     /// Persistent completion history, loaded from `<exercises_dir>/.progress.json`.
     pub progress: Progress,
+    /// Active search/status filter; empty = no filter.
+    pub filter: Filter,
+    /// Current input mode (Normal vs search-query entry).
+    pub input_mode: InputMode,
 }
 
 impl App {
@@ -138,6 +166,8 @@ impl App {
             cheatsheet_scroll: 0,
             pending_chord: None,
             progress,
+            filter: Filter::default(),
+            input_mode: InputMode::Normal,
         })
     }
 
@@ -187,6 +217,8 @@ impl App {
             cheatsheet_scroll: 0,
             pending_chord: None,
             progress,
+            filter: Filter::default(),
+            input_mode: InputMode::Normal,
         }
     }
 
@@ -265,21 +297,126 @@ impl App {
         }
     }
 
+    /// Case-insensitive substring + status check for a single exercise against
+    /// the current filter.
+    pub fn exercise_matches_filter(&self, idx: usize) -> bool {
+        let ex = &self.exercises[idx];
+        if let Some(want) = &self.filter.status
+            && ex.status != *want
+        {
+            return false;
+        }
+        if !self.filter.query.is_empty() {
+            let needle = self.filter.query.to_lowercase();
+            let haystack = format!("{} {}", ex.meta.title, ex.meta.category).to_lowercase();
+            if !haystack.contains(&needle) {
+                return false;
+            }
+        }
+        true
+    }
+
+    /// True when any exercise in the module passes the filter.
+    fn module_has_match(&self, module: &str) -> bool {
+        self.exercises
+            .iter()
+            .enumerate()
+            .any(|(i, ex)| ex.meta.category == module && self.exercise_matches_filter(i))
+    }
+
     /// The full ordered list of currently visible tree nodes (modules always
-    /// shown; exercises shown only when their module is expanded).
+    /// shown; exercises shown only when their module is expanded). Respects
+    /// the active filter: non-matching exercises are hidden, and modules with
+    /// zero matches drop their header too.
     pub fn visible_tree(&self) -> Vec<TreeCursor> {
         let mut nodes = Vec::new();
         let mut current_module = String::new();
         for (i, ex) in self.exercises.iter().enumerate() {
             if ex.meta.category != current_module {
                 current_module = ex.meta.category.clone();
+                if self.filter.is_active() && !self.module_has_match(&current_module) {
+                    continue;
+                }
                 nodes.push(TreeCursor::Module(current_module.clone()));
             }
-            if !self.is_module_collapsed(&ex.meta.category) {
-                nodes.push(TreeCursor::Exercise(i));
+            if self.is_module_collapsed(&ex.meta.category) {
+                continue;
             }
+            if self.filter.is_active() && !self.exercise_matches_filter(i) {
+                continue;
+            }
+            nodes.push(TreeCursor::Exercise(i));
         }
         nodes
+    }
+
+    /// Move cursor to first visible node if current cursor is no longer in
+    /// the visible tree (e.g. after filter change). No-op if already visible.
+    pub fn fix_cursor_visibility(&mut self) {
+        let tree = self.visible_tree();
+        if tree.contains(&self.cursor) {
+            return;
+        }
+        if let Some(first) = tree.into_iter().next() {
+            self.cursor = first;
+            self.hint_level = 0;
+            self.detail_scroll = 0;
+        }
+    }
+
+    /// Cycle the status filter: None → NotStarted → Failed → Passed → None.
+    pub fn cycle_status_filter(&mut self) {
+        self.filter.status = match self.filter.status {
+            None => Some(ExerciseStatus::NotStarted),
+            Some(ExerciseStatus::NotStarted) => Some(ExerciseStatus::Failed),
+            Some(ExerciseStatus::Failed) => Some(ExerciseStatus::Passed),
+            Some(ExerciseStatus::Passed) => None,
+        };
+        // When filter narrows, expand all modules so any remaining matches are
+        // reachable without extra keystrokes.
+        if self.filter.is_active() {
+            self.expand_all_modules();
+        }
+        self.fix_cursor_visibility();
+    }
+
+    /// Clear all filter state and leave search mode if active.
+    pub fn clear_filters(&mut self) {
+        self.filter = Filter::default();
+        self.input_mode = InputMode::Normal;
+        self.fix_cursor_visibility();
+    }
+
+    /// Enter search mode. Starts with a fresh empty query.
+    pub fn enter_search(&mut self) {
+        self.filter.query.clear();
+        self.input_mode = InputMode::Searching;
+        // Expand everything so incremental search can show matches anywhere.
+        self.expand_all_modules();
+    }
+
+    /// Append one character to the search query. Auto-updates visibility.
+    pub fn search_push(&mut self, c: char) {
+        self.filter.query.push(c);
+        self.fix_cursor_visibility();
+    }
+
+    /// Pop the last character from the search query.
+    pub fn search_pop(&mut self) {
+        self.filter.query.pop();
+        self.fix_cursor_visibility();
+    }
+
+    /// Commit the search (leave input mode but keep query active).
+    pub fn commit_search(&mut self) {
+        self.input_mode = InputMode::Normal;
+    }
+
+    /// Cancel search: drop the query, exit input mode.
+    pub fn cancel_search(&mut self) {
+        self.filter.query.clear();
+        self.input_mode = InputMode::Normal;
+        self.fix_cursor_visibility();
     }
 
     pub fn collapse_all_modules(&mut self) {

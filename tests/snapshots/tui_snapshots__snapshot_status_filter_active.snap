@@ -1,28 +1,29 @@
 ---
 source: tests/tui_snapshots.rs
-assertion_line: 137
+assertion_line: 187
 expression: render_to_string(&mut a)
 ---
- 🧪  Helixir    📦  Module 2/2   📝  Exercise 2/2   [?] help
+ 🧪  Helixir    📦  Module 1/2   🗂  Module Overview (1/2)   [?] help
 
-┌ 📚  Exercises ────────────────────┐┌ Exercise Detail ─────────────────────────────────────────────────────────────────┐
+┌ 📚  Exercises ────────────────────┐┌ Module Summary ──────────────────────────────────────────────────────────────────┐
 │ ▼ 🗂  Movement (1/2)              ││                                                                                  │
-│                                  ││  ⭐ ⭐  Select 2                                                                   │
-│    ✅  Move 1                     ││  Category: Selection   Difficulty: 2/3                                           │
-│       Move 2                     ││                                                                                  │
-│                                  ││  ⌨️   COMMANDS                                                                    │
-│ ▼ 🗂  Selection (1/2)             ││                                                                                  │
-│                                  ││     x       line                                                                 │
-│       Select 1                   ││     h       left                                                                 │
-│    ✅  Select 2                   ││                                                                                  │
-│                                  ││  📋  INSTRUCTIONS                                                                 │
+│                                  ││  🗂  Movement                                                                     │
+│    ✅  Move 1                     ││                                                                                  │
+│       Move 2                     ││  ████████████░░░░░░░░░░░░  1/2                                                   │
 │                                  ││                                                                                  │
-│                                  ││     Instructions for Select 2                                                    │
+│ ▼ 🗂  Selection (1/2)             ││  📝  EXERCISES                                                                    │
+│                                  ││                                                                                  │
+│       Select 1                   ││     ✅  Move 1   ⭐                                                                │
+│    ✅  Select 2                   ││     🟡  Move 2   ⭐ ⭐                                                              │
 │                                  ││                                                                                  │
 │                                  ││                                                                                  │
-│                                  ││  ───────────────────────────────────────────                                     │
+│                                  ││  ⌨️   COMMANDS LEARNED (2)                                                        │
 │                                  ││                                                                                  │
-│                                  ││  ✅  PASSED!                                                                      │
+│                                  ││     h         left                                                               │
+│                                  ││     l         right                                                              │
+│                                  ││                                                                                  │
+│                                  ││                                                                                  │
+│                                  ││  Press j/Tab on an exercise to focus it · Tab on this header to collapse         │
 │                                  ││                                                                                  │
 │                                  ││                                                                                  │
 │                                  ││                                                                                  │
@@ -39,7 +40,6 @@ expression: render_to_string(&mut a)
 │                                  ││                                                                                  │
 │                                  ││                                                                                  │
 │                                  ││                                                                                  │
-│                                  ││                                                                                  │
 └──────────────────────────────────┘└──────────────────────────────────────────────────────────────────────────────────┘
 
-  🏆  ██████████░░░░░░░░░░ 2/4 (50%)      💡 [/] search  [F] filter  🔄 [r] reset  ⏭️  [n] next  🚪 [q] quit
+  🏆  ██████████░░░░░░░░░░ 2/4 (50%)      ✅ Passed [Esc] clear  💡 [/] search  [F] filter  🔄 [r] reset  ⏭️  [n] next  🚪 [q]

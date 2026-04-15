@@ -1,5 +1,6 @@
 ---
 source: tests/tui_snapshots.rs
+assertion_line: 173
 expression: render_to_string(&mut a)
 ---
  🧪  Helixir    📦  Module 1/2   🗂  Module Overview (1/2)   [?] help
@@ -41,4 +42,4 @@ expression: render_to_string(&mut a)
 │                                  ││                                                                                  │
 └──────────────────────────────────┘└──────────────────────────────────────────────────────────────────────────────────┘
 
-  🏆  ██████████░░░░░░░░░░ 2/4 (50%)      💡 [space] hint  🔄 [r] reset  ⏭️  [n] next  🚪 [q] quit      👀  Watching...
+  🏆  ██████████░░░░░░░░░░ 2/4 (50%)      💡 [/] search  [F] filter  🔄 [r] reset  ⏭️  [n] next  🚪 [q] quit

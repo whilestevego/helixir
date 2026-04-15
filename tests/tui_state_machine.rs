@@ -7,7 +7,7 @@ use std::time::{Duration, Instant};
 
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 use helixir::tui::action::{Action, FLASH_DURATION, handle_event};
-use helixir::tui::app::{ExerciseStatus, Panel, TreeCursor};
+use helixir::tui::app::{ExerciseStatus, InputMode, Panel, TreeCursor};
 use helixir::tui::event::AppEvent;
 
 use common::test_app;
@@ -407,4 +407,121 @@ fn file_changed_for_unknown_path_is_noop() {
     let after_status: Vec<_> = app.exercises.iter().map(|e| e.status.clone()).collect();
     assert_eq!(before_status, after_status);
     assert!(app.flash_message.is_none());
+}
+
+#[test]
+fn slash_enters_search_mode() {
+    let mut app = test_app(PathBuf::from("/tmp/x"));
+    assert_eq!(app.input_mode, InputMode::Normal);
+    dispatch(&mut app, key(KeyCode::Char('/')));
+    assert_eq!(app.input_mode, InputMode::Searching);
+    assert!(app.filter.query.is_empty());
+}
+
+#[test]
+fn search_typing_filters_live() {
+    let mut app = test_app(PathBuf::from("/tmp/x"));
+    dispatch(&mut app, key(KeyCode::Char('/')));
+    for c in "sel".chars() {
+        dispatch(&mut app, key(KeyCode::Char(c)));
+    }
+    assert_eq!(app.filter.query, "sel");
+    // Movement module exercises have no "sel" — should filter out.
+    // Selection module matches via category name.
+    let tree = app.visible_tree();
+    let matches_selection = tree
+        .iter()
+        .any(|n| matches!(n, TreeCursor::Module(m) if m == "Selection"));
+    let matches_movement = tree
+        .iter()
+        .any(|n| matches!(n, TreeCursor::Module(m) if m == "Movement"));
+    assert!(matches_selection, "Selection must be visible");
+    assert!(!matches_movement, "Movement must be hidden");
+}
+
+#[test]
+fn search_backspace_trims_query() {
+    let mut app = test_app(PathBuf::from("/tmp/x"));
+    dispatch(&mut app, key(KeyCode::Char('/')));
+    dispatch(&mut app, key(KeyCode::Char('a')));
+    dispatch(&mut app, key(KeyCode::Char('b')));
+    dispatch(&mut app, key(KeyCode::Backspace));
+    assert_eq!(app.filter.query, "a");
+}
+
+#[test]
+fn search_enter_commits_and_leaves_input_mode() {
+    let mut app = test_app(PathBuf::from("/tmp/x"));
+    dispatch(&mut app, key(KeyCode::Char('/')));
+    dispatch(&mut app, key(KeyCode::Char('s')));
+    dispatch(&mut app, key(KeyCode::Enter));
+    assert_eq!(app.input_mode, InputMode::Normal);
+    assert_eq!(app.filter.query, "s", "query must persist after Enter");
+}
+
+#[test]
+fn search_esc_cancels_and_clears_query() {
+    let mut app = test_app(PathBuf::from("/tmp/x"));
+    dispatch(&mut app, key(KeyCode::Char('/')));
+    dispatch(&mut app, key(KeyCode::Char('x')));
+    dispatch(&mut app, key(KeyCode::Esc));
+    assert_eq!(app.input_mode, InputMode::Normal);
+    assert!(app.filter.query.is_empty());
+}
+
+#[test]
+fn capital_f_cycles_status_filter() {
+    let mut app = test_app(PathBuf::from("/tmp/x"));
+    assert!(app.filter.status.is_none());
+    dispatch(&mut app, key(KeyCode::Char('F')));
+    assert_eq!(app.filter.status, Some(ExerciseStatus::NotStarted));
+    dispatch(&mut app, key(KeyCode::Char('F')));
+    assert_eq!(app.filter.status, Some(ExerciseStatus::Failed));
+    dispatch(&mut app, key(KeyCode::Char('F')));
+    assert_eq!(app.filter.status, Some(ExerciseStatus::Passed));
+    dispatch(&mut app, key(KeyCode::Char('F')));
+    assert!(app.filter.status.is_none());
+}
+
+#[test]
+fn esc_in_normal_clears_active_filter() {
+    let mut app = test_app(PathBuf::from("/tmp/x"));
+    dispatch(&mut app, key(KeyCode::Char('F'))); // status = NotStarted
+    assert!(app.filter.is_active());
+    dispatch(&mut app, key(KeyCode::Esc));
+    assert!(!app.filter.is_active());
+}
+
+#[test]
+fn status_filter_hides_non_matching_exercises() {
+    let mut app = test_app(PathBuf::from("/tmp/x"));
+    // Filter to Passed-only. Tree should only show the Passed exercises.
+    dispatch(&mut app, key(KeyCode::Char('F'))); // NotStarted
+    dispatch(&mut app, key(KeyCode::Char('F'))); // Failed
+    dispatch(&mut app, key(KeyCode::Char('F'))); // Passed
+    let tree = app.visible_tree();
+    for node in &tree {
+        if let TreeCursor::Exercise(i) = node {
+            assert_eq!(
+                app.exercises[*i].status,
+                ExerciseStatus::Passed,
+                "only Passed exercises visible with Passed filter"
+            );
+        }
+    }
+}
+
+#[test]
+fn filter_moves_stranded_cursor_to_first_visible() {
+    let mut app = test_app(PathBuf::from("/tmp/x"));
+    // Initial cursor on Exercise(1) = Failed (Movement/m2).
+    assert_eq!(app.cursor, TreeCursor::Exercise(1));
+    // Filter to Passed-only — Exercise(1) is Failed so cursor must move.
+    for _ in 0..3 {
+        dispatch(&mut app, key(KeyCode::Char('F')));
+    }
+    assert!(
+        app.visible_tree().contains(&app.cursor),
+        "cursor must be in visible tree after filter change"
+    );
 }

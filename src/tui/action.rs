@@ -9,7 +9,7 @@ use std::time::{Duration, Instant};
 
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 
-use crate::tui::app::{App, ExerciseStatus};
+use crate::tui::app::{App, ExerciseStatus, InputMode};
 use crate::tui::event::AppEvent;
 
 /// A side effect the outer loop must perform on behalf of `handle_event`.
@@ -76,6 +76,20 @@ pub fn handle_event(app: &mut App, event: AppEvent, now: Instant) -> Action {
 }
 
 fn handle_key(app: &mut App, key: KeyEvent) -> Action {
+    // Search input mode: keystrokes edit the query instead of dispatching
+    // navigation. Handled before all other modal checks so '/' can't
+    // collide and so Esc behaves like a search-cancel, not a quit.
+    if app.input_mode == InputMode::Searching {
+        match key.code {
+            KeyCode::Esc => app.cancel_search(),
+            KeyCode::Enter => app.commit_search(),
+            KeyCode::Backspace => app.search_pop(),
+            KeyCode::Char(c) => app.search_push(c),
+            _ => {}
+        }
+        return Action::None;
+    }
+
     if app.show_help {
         match key.code {
             KeyCode::Char('?') | KeyCode::Esc => app.show_help = false,
@@ -163,6 +177,20 @@ fn handle_key(app: &mut App, key: KeyEvent) -> Action {
         }
         KeyCode::Char('r') => Action::ResetCurrent,
         KeyCode::Char('u') => Action::InstallMissing,
+        KeyCode::Char('/') => {
+            app.enter_search();
+            Action::None
+        }
+        KeyCode::Char('F') => {
+            app.cycle_status_filter();
+            Action::None
+        }
+        KeyCode::Esc => {
+            if app.filter.is_active() {
+                app.clear_filters();
+            }
+            Action::None
+        }
         KeyCode::Char('?') => {
             app.show_help = !app.show_help;
             Action::None

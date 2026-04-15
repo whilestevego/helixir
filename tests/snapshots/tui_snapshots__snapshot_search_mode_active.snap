@@ -1,28 +1,31 @@
 ---
 source: tests/tui_snapshots.rs
-assertion_line: 137
+assertion_line: 176
 expression: render_to_string(&mut a)
 ---
- 🧪  Helixir    📦  Module 2/2   📝  Exercise 2/2   [?] help
+ 🧪  Helixir    📦  Module 1/2   📝  Exercise 2/2   [?] help
 
 ┌ 📚  Exercises ────────────────────┐┌ Exercise Detail ─────────────────────────────────────────────────────────────────┐
 │ ▼ 🗂  Movement (1/2)              ││                                                                                  │
-│                                  ││  ⭐ ⭐  Select 2                                                                   │
-│    ✅  Move 1                     ││  Category: Selection   Difficulty: 2/3                                           │
+│                                  ││  ⭐ ⭐  Move 2                                                                     │
+│    ✅  Move 1                     ││  Category: Movement   Difficulty: 2/3                                            │
 │       Move 2                     ││                                                                                  │
 │                                  ││  ⌨️   COMMANDS                                                                    │
 │ ▼ 🗂  Selection (1/2)             ││                                                                                  │
-│                                  ││     x       line                                                                 │
-│       Select 1                   ││     h       left                                                                 │
-│    ✅  Select 2                   ││                                                                                  │
-│                                  ││  📋  INSTRUCTIONS                                                                 │
+│                                  ││     w       word                                                                 │
+│       Select 1                   ││                                                                                  │
+│    ✅  Select 2                   ││  📋  INSTRUCTIONS                                                                 │
 │                                  ││                                                                                  │
-│                                  ││     Instructions for Select 2                                                    │
+│                                  ││     Instructions for Move 2                                                      │
 │                                  ││                                                                                  │
 │                                  ││                                                                                  │
 │                                  ││  ───────────────────────────────────────────                                     │
 │                                  ││                                                                                  │
-│                                  ││  ✅  PASSED!                                                                      │
+│                                  ││  ❌  1 difference found                                                           │
+│                                  ││                                                                                  │
+│                                  ││     line 1                                                                       │
+│                                  ││     - wrong                                                                      │
+│                                  ││     + right                                                                      │
 │                                  ││                                                                                  │
 │                                  ││                                                                                  │
 │                                  ││                                                                                  │
@@ -37,9 +40,6 @@ expression: render_to_string(&mut a)
 │                                  ││                                                                                  │
 │                                  ││                                                                                  │
 │                                  ││                                                                                  │
-│                                  ││                                                                                  │
-│                                  ││                                                                                  │
-│                                  ││                                                                                  │
 └──────────────────────────────────┘└──────────────────────────────────────────────────────────────────────────────────┘
 
-  🏆  ██████████░░░░░░░░░░ 2/4 (50%)      💡 [/] search  [F] filter  🔄 [r] reset  ⏭️  [n] next  🚪 [q] quit
+  🔍  /sel_     Enter: commit  ·  Esc: cancel

@@ -8,7 +8,7 @@ mod common;
 use std::path::PathBuf;
 use std::time::Instant;
 
-use helixir::tui::app::{App, ExerciseStatus, Panel, TreeCursor};
+use helixir::tui::app::{App, ExerciseStatus, InputMode, Panel, TreeCursor};
 use helixir::tui::ui;
 use ratatui::Terminal;
 use ratatui::backend::TestBackend;
@@ -163,6 +163,27 @@ fn snapshot_flash_message_visible() {
 fn snapshot_detail_panel_focused() {
     let mut a = app();
     a.focused_panel = Panel::Detail;
+    insta::assert_snapshot!(render_to_string(&mut a));
+}
+
+#[test]
+fn snapshot_search_mode_active() {
+    // Footer is replaced by the search-prompt line while typing.
+    let mut a = app();
+    a.input_mode = InputMode::Searching;
+    a.filter.query = "sel".to_string();
+    a.expand_all_modules();
+    insta::assert_snapshot!(render_to_string(&mut a));
+}
+
+#[test]
+fn snapshot_status_filter_active() {
+    // With a status filter set and no query, the footer shows a filter chip
+    // + [Esc] clear hint, and only matching exercises render.
+    let mut a = app();
+    a.filter.status = Some(ExerciseStatus::Passed);
+    a.expand_all_modules();
+    a.fix_cursor_visibility();
     insta::assert_snapshot!(render_to_string(&mut a));
 }
 
