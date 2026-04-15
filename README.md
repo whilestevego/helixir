@@ -1,6 +1,6 @@
 # Helixir 🧪
 
-**65 Helix keybinding exercises. You do them in your real editor.**
+**72 Helix keybinding exercises. You do them in your real editor.**
 
 You open the TUI in one pane and your editor (Helix, Zed, or anything with a Helix mode) in another. The TUI tells you what to do. When you save a file, Helixir checks your work and moves you to the next exercise.
 
@@ -83,7 +83,7 @@ Everything else (title, instructions, hints, commands) lives in the TUI, so the 
 
 ## Curriculum
 
-65 exercises in 16 modules, grouped into 5 tiers.
+72 exercises in 16 modules, grouped into 5 tiers.
 
 ### Tier 1 — Apprentice
 
@@ -99,14 +99,14 @@ Everything else (title, instructions, hints, commands) lives in the TUI, so the 
 |--------|-----------|-------------------|
 | **04 Text Objects** | 4 | `m i`/`m a` + delimiters, words, functions, arguments (tree-sitter) |
 | **05 Surround** | 4 | `m s` (add), `m r` (replace), `m d` (delete) surround characters |
-| **06 Multi-Selection** | 5 | `s` (regex select), `S` (split), `C` (cursors), `K`/`Alt-K` (keep/remove) |
-| **07 Search** | 3 | `/` search, `*` (use selection as pattern), global find-and-replace workflow |
+| **06 Multi-Selection** | 6 | `s` (regex select), `S` (split), `C` (cursors), `,` (collapse), `K`/`Alt-K` (keep/remove) |
+| **07 Search** | 5 | `/` search, `*` (use selection as pattern), regex patterns, global find-and-replace |
 
 ### Tier 3 — Journeyman
 
 | Module | Exercises | What You'll Learn |
 |--------|-----------|-------------------|
-| **08 Goto Mode** | 4 | `g d`/`g r` (LSP), `g n`/`g p` (buffers), `g o`/`g u` (Zed git ops — not in native Helix) |
+| **08 Goto Mode** | 5 | `g g`/`g e` (top/end), `g d`/`g r` (LSP), `g n`/`g p` (buffers), Zed git ops |
 | **09 Space Mode** | 3 | `Space f` (files), `Space s` (symbols), `Space r` (rename), clipboard |
 | **10 Unimpaired** | 3 | `]d`/`[d` (diagnostics), `]f`/`[f` (functions), indent navigation |
 
@@ -114,8 +114,8 @@ Everything else (title, instructions, hints, commands) lives in the TUI, so the 
 
 | Module | Exercises | What You'll Learn |
 |--------|-----------|-------------------|
-| **11 Registers** | 3 | Unnamed register, named registers (`"a`-`"z`), system clipboard (`"+`) |
-| **12 Macros** | 3 | `Q` record, `q` stop, `@` replay, practical macro workflows |
+| **11 Registers** | 5 | Default register, named registers (`"a`-`"z`), system clipboard (`"+`), append (`"A`) |
+| **12 Macros** | 4 | `Q` record, `q` stop, `@` replay, macros with search, practical workflows |
 | **13 Window Management** | 3 | `Ctrl-w` splits, navigation, close/swap panes |
 | **14 View and Numbers** | 3 | `z` view mode, `mm` match bracket, `Ctrl-a`/`Ctrl-x` increment/decrement |
 
@@ -149,12 +149,35 @@ Brew the TUI from inside a project directory. The TUI watches exercise files for
 |-----|--------|
 | `h`/`l` or ←/→ | Focus left/right panel |
 | `j`/`k` or ↑/↓ | Scroll focused panel |
+| `Tab` | Collapse/expand current module |
+| `zc` / `zo` / `za` | Collapse / open / toggle current module |
+| `zM` / `zR` | Collapse all / expand all modules |
 | `Space` | 💡 Reveal next hint |
 | `r` | 🔄 Reset current exercise |
-| `n` | ⏭️ Jump to next incomplete |
+| `n` | ⏭️ Next incomplete (or next search match when query active) |
+| `N` | Previous search match |
+| `c` | Open grimoire (cheatsheet of commands you've learned) |
+| `/` | 🔍 Search exercises (incremental) |
+| `F` | Cycle status filter (none → ⬜ → 🟡 → ✅) |
+| `C` | Cycle completion filter (none → never → once → many) |
+| `Esc` | Clear active search/filter |
 | `u` | 📦 Install new exercises (when banner is showing) |
 | `?` | Toggle help overlay |
 | `q` | Quit |
+
+### Search and filter
+
+Large curricula get noisy. Three ways to cut the list down:
+
+- **Search**: press `/`, type any part of a title or category. Matches highlight live in the list; cursor snaps to the first match. `n` and `N` cycle through matches with wrap.
+- **Status filter**: press `F` to cycle through "not started", "failed", "passed". Combines with search.
+- **Completion filter**: press `C` to filter by how many times you've completed an exercise (never / once / many) using the persisted progress file.
+
+Press `Esc` at any time to clear every active filter.
+
+### Persistent progress
+
+Completion history is saved to `<exercises_dir>/.progress.json` and survives restarts. Each exercise records its first- and last-completed timestamps plus a count that increments every time you reset and redo. The detail pane shows `🏁 Completed 3× · first 2026-04-13` when history exists.
 
 ## The Helix Mental Model
 
@@ -210,7 +233,8 @@ A single-binary Rust TUI built on ratatui.
 - **`src/hxt.rs`** — Pure parser for `.hxt` files: extracts PRACTICE/EXPECTED sections, diffs them
 - **`src/metadata.rs`** — Exercise metadata (titles, instructions, hints) deserialized from embedded TOML
 - **`src/commands/init.rs`** — Extracts embedded exercises to a new directory
-- **`exercises.toml`** — All 65 exercises' metadata (embedded in binary at compile time)
+- **`src/progress.rs`** — Persistent completion tracking (JSON store co-located with `.hxt` files)
+- **`exercises.toml`** — All 72 exercises' metadata (embedded in binary at compile time)
 
 Exercise templates and metadata are compiled into the binary via `include_dir!` and `include_str!`. The TUI watches `.hxt` files for changes using the `notify` crate.
 
