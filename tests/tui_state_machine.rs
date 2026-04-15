@@ -7,7 +7,7 @@ use std::time::{Duration, Instant};
 
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 use helixir::tui::action::{Action, FLASH_DURATION, handle_event};
-use helixir::tui::app::{ExerciseStatus, InputMode, Panel, TreeCursor};
+use helixir::tui::app::{CompletionFilter, ExerciseStatus, InputMode, Panel, TreeCursor};
 use helixir::tui::event::AppEvent;
 
 use common::test_app;
@@ -570,6 +570,34 @@ fn capital_n_cycles_matches_backwards() {
     assert_eq!(app.cursor, TreeCursor::Exercise(3));
     dispatch(&mut app, key(KeyCode::Char('N')));
     assert_eq!(app.cursor, TreeCursor::Exercise(2));
+}
+
+#[test]
+fn capital_c_cycles_completion_filter() {
+    let mut app = test_app(PathBuf::from("/tmp/x"));
+    assert!(app.filter.completion.is_none());
+    dispatch(&mut app, key(KeyCode::Char('C')));
+    assert_eq!(app.filter.completion, Some(CompletionFilter::Never));
+    dispatch(&mut app, key(KeyCode::Char('C')));
+    assert_eq!(app.filter.completion, Some(CompletionFilter::Once));
+    dispatch(&mut app, key(KeyCode::Char('C')));
+    assert_eq!(app.filter.completion, Some(CompletionFilter::Many));
+    dispatch(&mut app, key(KeyCode::Char('C')));
+    assert!(app.filter.completion.is_none());
+}
+
+#[test]
+fn completion_filter_never_matches_unrecorded_exercises() {
+    // No progress is recorded in test_app, so every exercise should match
+    // the `Never` filter and nothing else.
+    let mut app = test_app(PathBuf::from("/tmp/x"));
+    dispatch(&mut app, key(KeyCode::Char('C'))); // Never
+    let count_never = app.filter_match_count();
+    assert_eq!(count_never, app.exercises.len());
+    dispatch(&mut app, key(KeyCode::Char('C'))); // Once
+    assert_eq!(app.filter_match_count(), 0);
+    dispatch(&mut app, key(KeyCode::Char('C'))); // Many
+    assert_eq!(app.filter_match_count(), 0);
 }
 
 #[test]

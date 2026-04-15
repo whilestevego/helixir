@@ -7,7 +7,7 @@ use ratatui::widgets::{
 };
 
 use crate::hxt::DiffLine;
-use crate::tui::app::{App, ExerciseStatus, InputMode, Panel, TreeCursor};
+use crate::tui::app::{App, CompletionFilter, ExerciseStatus, InputMode, Panel, TreeCursor};
 
 pub fn render(frame: &mut Frame, app: &mut App) {
     let chunks = Layout::default()
@@ -781,6 +781,17 @@ fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
                 Style::default().fg(Color::Yellow),
             ));
         }
+        if let Some(c) = app.filter.completion {
+            let label = match c {
+                CompletionFilter::Never => "🏁Never",
+                CompletionFilter::Once => "🏁Once",
+                CompletionFilter::Many => "🏁Many",
+            };
+            spans.push(Span::styled(
+                format!("{} ", label),
+                Style::default().fg(Color::Yellow),
+            ));
+        }
         let n = app.filter_match_count();
         spans.push(Span::styled(
             format!("({} {}) ", n, if n == 1 { "match" } else { "matches" }),
@@ -900,6 +911,11 @@ fn render_help_popup(frame: &mut Frame, _app: &App) {
         Line::from(vec![
             Span::styled("    F         ", Style::default().fg(Color::Green)),
             Span::raw("Cycle status filter (none → ⬜ → 🟡 → ✅)"),
+        ]),
+        Line::raw(""),
+        Line::from(vec![
+            Span::styled("    C         ", Style::default().fg(Color::Green)),
+            Span::raw("Cycle completion filter (never / once / many)"),
         ]),
         Line::raw(""),
         Line::from(vec![
