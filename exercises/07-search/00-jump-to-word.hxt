@@ -1,0 +1,9 @@
+────────────────────────── PRACTICE ──────────────────────────────
+
+This is a haystack of words, and somewhere in here is a needle
+that you must locate. No peeking — use search.
+
+────────────────────────── EXPECTED ──────────────────────────────
+
+This is a haystack of words, and somewhere in here is a found
+that you must locate. No peeking — use search.

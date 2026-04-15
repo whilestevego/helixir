@@ -973,6 +973,54 @@ key = "C"
 description = "Copy selection to next line (multi-cursor)"
 
 [[exercises]]
+id = "06-multi-selection/00-collapse-selections"
+title = "Collapse Selections"
+category = "Multi-Selection"
+difficulty = 1
+notes = """
+MNEMONIC:  ,  (comma) = keep only the primary selection.
+
+When a command (like s or C) leaves you with multiple selections
+but you only want to act on one, collapse first.
+"""
+instructions = """
+The practice line has two copies of "OOPS". Use search-select to
+grab both, then collapse to just the first one and delete it.
+
+Workflow:
+1. Press  s  to open the selection prompt (assumes whole-file
+   context — if needed, press % first to select the whole file)
+2. Type   OOPS   and press Enter
+   -> Both OOPS words are selected
+3. Press  ,  to collapse: only the FIRST selection survives
+4. Press  d  to delete
+
+The second OOPS stays behind. The first becomes a gap (one space
+where it used to be).
+"""
+hints = [
+  "The comma key is the universal 'undo the multi-selection' in Helix. Use it any time you end up with more cursors than you wanted.",
+  "% selects the whole file. s then searches within the current selection. Together: 'search everywhere for OOPS'.",
+  "Order matters: , keeps the PRIMARY selection, which is usually the first one in the buffer. If you start the selection from a different position, the primary may differ.",
+]
+
+[[exercises.commands]]
+key = ","
+description = "Collapse to primary selection only"
+
+[[exercises.commands]]
+key = "%"
+description = "Select whole file"
+
+[[exercises.commands]]
+key = "s <pattern>"
+description = "Select all matches within selection"
+
+[[exercises.commands]]
+key = "d"
+description = "Delete selection"
+
+[[exercises]]
 id = "06-multi-selection/01-regex-select"
 title = "Regex Select"
 category = "Multi-Selection"
@@ -1197,6 +1245,51 @@ description = "Align selections to the same column"
 [[exercises.commands]]
 key = "_"
 description = "Trim whitespace around selections"
+
+[[exercises]]
+id = "07-search/00-jump-to-word"
+title = "Jump to Word"
+category = "Search"
+difficulty = 1
+notes = """
+MNEMONIC:  /  = forward search,  n  = next match,  N  = previous.
+
+Search is the fastest way to land on a word — faster than scrolling
+with j/k, faster than word motions. Type what you remember, press
+Enter, and you're there.
+"""
+instructions = """
+The practice line contains the word "needle". Jump to it with
+search and change it to "found".
+
+Workflow:
+1. Press  /  to open the search prompt
+2. Type   needle   and press Enter
+   -> Cursor moves to the word "needle" and selects it
+3. Press  c  to change (delete + enter insert mode)
+4. Type   found
+5. Press  Esc
+
+Because search creates a selection, you don't need a separate
+motion to "go to the word" — you're already on it, ready to edit.
+"""
+hints = [
+  "/ opens the search prompt in the bottom-right of the screen. Type your pattern and press Enter.",
+  "After a search, the match IS your selection. Press c to change it — no need for cw or viw.",
+  "If you overshoot or mis-type, press u to undo, then try the search again.",
+]
+
+[[exercises.commands]]
+key = "/"
+description = "Forward search prompt"
+
+[[exercises.commands]]
+key = "n"
+description = "Next match"
+
+[[exercises.commands]]
+key = "c"
+description = "Change selection (delete + insert)"
 
 [[exercises]]
 id = "07-search/01-search-basics"
@@ -1426,6 +1519,54 @@ description = "Regex: one or more digits"
 [[exercises.commands]]
 key = "c"
 description = "Change all selections"
+
+[[exercises]]
+id = "08-goto-mode/00-top-and-bottom"
+title = "Top and Bottom"
+category = "Goto Mode"
+difficulty = 1
+notes = """
+MNEMONIC:  g g  = top of file,  g e  = end of file.
+
+Think of  g  as "goto" — the second key tells you where. This
+replaces endless j/k scrolling with a two-keystroke jump.
+"""
+instructions = """
+Add the word "START" on a new line before the first practice
+line, and the word "END" on a new line after the last practice
+line.
+
+Workflow:
+1. Press  g g  to jump to the very top of the file
+2. Navigate down to the first content line (just under the
+   PRACTICE separator) and open a new line ABOVE it with  O
+3. Type   START   and press Esc
+4. Press  g e  to jump to the end of the file
+5. Navigate up to the last content line (just above the EXPECTED
+   separator) and open a new line BELOW it with  o
+6. Type   END   and press Esc
+"""
+hints = [
+  "gg and ge are the bookends of every file. Any time you want the absolute top or bottom, g is your first key.",
+  "O (capital O) opens a new line ABOVE the current line; o (lowercase) opens BELOW. Useful here because you need to add content around existing lines.",
+  "If you end up at the PRACTICE or EXPECTED separator lines, use j/k once or twice to step into the body before inserting.",
+]
+
+[[exercises.commands]]
+key = "gg"
+description = "Goto top of file"
+
+[[exercises.commands]]
+key = "ge"
+description = "Goto end of file"
+
+[[exercises.commands]]
+key = "O"
+description = "Open new line above"
+
+[[exercises.commands]]
+key = "o"
+description = "Open new line below"
 
 [[exercises]]
 id = "08-goto-mode/01-file-navigation"
@@ -1946,6 +2087,52 @@ key = "[ B"
 description = "First buffer"
 
 # ── Module 11: Registers ──────────────────────────────────────────
+
+[[exercises]]
+id = "11-registers/00-copy-and-paste"
+title = "Copy and Paste"
+category = "Registers"
+difficulty = 1
+notes = """
+MNEMONIC:  y  = yank (copy),  p  = paste after,  R  = replace
+with yanked text.
+
+Before worrying about named registers, master the default one.
+Yank any selection, then paste or replace elsewhere.
+"""
+instructions = """
+The practice block has APPLE on the first line and three
+underscores on the second. Duplicate APPLE so it replaces the
+underscores — both lines must end up saying APPLE.
+
+Workflow:
+1. Move cursor to the APPLE line; press  x  to select the whole line
+2. Press  y  to yank (copy) it to the default register
+3. Press  j  to move down to the underscore line
+4. Press  x  to select that whole line
+5. Press  R  to replace the selection with the yanked register
+"""
+hints = [
+  "x selects the ENTIRE current line, including the trailing newline. That's what you want here — yanking the newline is what makes the paste land cleanly on its own line.",
+  "R (capital R) replaces the current selection with the contents of the default register. It's the 'paste over this' shortcut.",
+  "If you use p instead of R, you'll paste AFTER the selection, which leaves the ___ line intact and adds APPLE below it. Use R when you want to overwrite.",
+]
+
+[[exercises.commands]]
+key = "x"
+description = "Select current line"
+
+[[exercises.commands]]
+key = "y"
+description = "Yank (copy) selection to default register"
+
+[[exercises.commands]]
+key = "p"
+description = "Paste after cursor"
+
+[[exercises.commands]]
+key = "R"
+description = "Replace selection with register contents"
 
 [[exercises]]
 id = "11-registers/01-unnamed-register"
