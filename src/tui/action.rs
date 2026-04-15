@@ -172,7 +172,17 @@ fn handle_key(app: &mut App, key: KeyEvent) -> Action {
             Action::None
         }
         KeyCode::Char('n') => {
-            app.jump_next_incomplete();
+            // When a search query is active, repurpose `n` as "next match".
+            // Otherwise keep its long-standing "next incomplete" meaning.
+            if !app.filter.query.is_empty() {
+                app.jump_next_match();
+            } else {
+                app.jump_next_incomplete();
+            }
+            Action::None
+        }
+        KeyCode::Char('N') => {
+            app.jump_prev_match();
             Action::None
         }
         KeyCode::Char('r') => Action::ResetCurrent,

@@ -175,26 +175,63 @@ fn build_exercise_list(app: &App, width: u16) -> ListLayout {
             base_style
         };
 
-        let title = &exercise.meta.title;
-        let label = format!("    {} {}", icon, title);
-        // Truncate or pad to fill the row (for background highlight)
-        let display: String = if is_selected {
-            if label.chars().count() < content_width {
-                format!("{:width$}", label, width = content_width)
-            } else {
-                label.chars().take(content_width).collect()
-            }
+        let title = exercise.meta.title.clone();
+        let prefix = format!("    {} ", icon);
+        // Total display width per row (for selected-row background fill).
+        let raw_len = prefix.chars().count() + title.chars().count();
+        let pad_len = if is_selected && raw_len < content_width {
+            content_width - raw_len
         } else {
-            label
+            0
         };
 
         if is_selected {
             cursor_row = Some(items.len());
         }
-        items.push(ListItem::new(Line::from(Span::styled(display, style))));
+
+        // Build spans: prefix + (highlighted-or-plain title) + padding.
+        let mut spans: Vec<Span<'static>> = Vec::new();
+        spans.push(Span::styled(prefix, style));
+        spans.extend(title_spans(&title, &app.filter.query, style));
+        if pad_len > 0 {
+            spans.push(Span::styled(" ".repeat(pad_len), style));
+        }
+        items.push(ListItem::new(Line::from(spans)));
     }
 
     ListLayout { items, cursor_row }
+}
+
+/// Build spans for an exercise title with the active search query highlighted.
+/// Falls back to a single styled span when the query is empty or doesn't match.
+fn title_spans(title: &str, query: &str, base: Style) -> Vec<Span<'static>> {
+    if query.is_empty() {
+        return vec![Span::styled(title.to_string(), base)];
+    }
+    let lower_title = title.to_lowercase();
+    let lower_query = query.to_lowercase();
+    let Some(byte_start) = lower_title.find(&lower_query) else {
+        return vec![Span::styled(title.to_string(), base)];
+    };
+    let byte_end = byte_start + lower_query.len();
+    // Slice using byte offsets from the lowercase string — safe because
+    // `to_lowercase` preserves char boundaries for ASCII titles. For non-ASCII
+    // titles the search still functions; highlight may degrade gracefully.
+    let before = &title[..byte_start];
+    let middle = &title[byte_start..byte_end];
+    let after = &title[byte_end..];
+    let highlight = base
+        .add_modifier(Modifier::BOLD | Modifier::UNDERLINED)
+        .fg(Color::Yellow);
+    let mut out: Vec<Span<'static>> = Vec::new();
+    if !before.is_empty() {
+        out.push(Span::styled(before.to_string(), base));
+    }
+    out.push(Span::styled(middle.to_string(), highlight));
+    if !after.is_empty() {
+        out.push(Span::styled(after.to_string(), base));
+    }
+    out
 }
 
 fn render_exercise_list(frame: &mut Frame, area: Rect, app: &App) {
@@ -739,6 +776,13 @@ fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
         ));
     }
 
+    let query_active = !app.filter.query.is_empty();
+    let (next_key, next_label) = if query_active {
+        (" [n/N]", " match  ")
+    } else {
+        (" [n]", " next  ")
+    };
+
     spans.extend([
         Span::styled("💡", Style::default()),
         Span::styled("[/]", Style::default().fg(Color::Cyan)),
@@ -749,8 +793,8 @@ fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
         Span::styled("[r]", Style::default().fg(Color::Cyan)),
         Span::styled(" reset  ", Style::default().fg(Color::DarkGray)),
         Span::styled("⏭️", Style::default()),
-        Span::styled(" [n]", Style::default().fg(Color::Cyan)),
-        Span::styled(" next  ", Style::default().fg(Color::DarkGray)),
+        Span::styled(next_key, Style::default().fg(Color::Cyan)),
+        Span::styled(next_label, Style::default().fg(Color::DarkGray)),
         Span::styled("🚪", Style::default()),
         Span::styled("[q]", Style::default().fg(Color::Cyan)),
         Span::styled(" quit", Style::default().fg(Color::DarkGray)),
@@ -760,7 +804,7 @@ fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
 }
 
 fn render_help_popup(frame: &mut Frame, _app: &App) {
-    let area = centered_rect(50, 60, frame.area());
+    let area = centered_rect(55, 90, frame.area());
 
     let help_text = vec![
         Line::raw(""),
@@ -830,6 +874,11 @@ fn render_help_popup(frame: &mut Frame, _app: &App) {
         Line::from(vec![
             Span::styled("    /         ", Style::default().fg(Color::Green)),
             Span::raw("Search exercises (incremental)"),
+        ]),
+        Line::raw(""),
+        Line::from(vec![
+            Span::styled("    n / N     ", Style::default().fg(Color::Green)),
+            Span::raw("Next / previous match (when search active)"),
         ]),
         Line::raw(""),
         Line::from(vec![

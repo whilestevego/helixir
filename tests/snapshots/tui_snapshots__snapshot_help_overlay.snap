@@ -5,41 +5,41 @@ expression: render_to_string(&mut a)
 ---
  🧪  Helixir    📦  Module 1/2   📝  Exercise 2/2   [?] help
 
-┌ 📚  Exercises ────────────────────┐┌ Exercise Detail ─────────────────────────────────────────────────────────────────┐
-│ ▼ 🗂  Movement (1/2)              ││                                                                                  │
-│                                  ││  ⭐ ⭐  Move 2                                                                     │
-│    ✅  Move 1                     ││  Category: Movement   Difficulty: 2/3                                            │
-│       Move 2                     ││                                                                                  │
-│                                  ││  ⌨️   COMMANDS                                                                    │
-│ ▶ 🗂  Selection (1/2)        ┌ Help ────────────────────────────────────────────────────┐                             │
-│                             │                                                          │                             │
-│                             │  🧪  Helixir — Recipe Book                                │                             │
-│                             │                                                          │                             │
-│                             │                                                          │                             │
-│                             │    h / ←     Focus exercise list                         │                             │
-│                             │                                                          │                             │
-│                             │    l / →     Focus exercise detail                       │                             │
-│                             │                                                          │                             │
-│                             │    j / ↓     Scroll down in focused panel                │                             │
-│                             │                                                          │                             │
-│                             │    k / ↑     Scroll up in focused panel                  │                             │
-│                             │                                                          │                             │
-│                             │    Space     Reveal next hint                            │                             │
-│                             │                                                          │                             │
-│                             │    n         Jump to next incomplete                     │                             │
-│                             │                                                          │                             │
-│                             │    r         Reset current exercise                      │                             │
-│                             │                                                          │                             │
-│                             │    Tab       Collapse / expand current module            │                             │
-│                             │                                                          │                             │
-│                             │    zc/zo/za  Collapse / open / toggle module             │                             │
-│                             │                                                          │                             │
-│                             └──────────────────────────────────────────────────────────┘                             │
-│                                  ││                                                                                  │
-│                                  ││                                                                                  │
-│                                  ││                                                                                  │
-│                                  ││                                                                                  │
-│                                  ││                                                                                  │
-└──────────────────────────────────┘└──────────────────────────────────────────────────────────────────────────────────┘
+┌ 📚  Exercises ───────────┌ Help ──────────────────────────────────────────────────────────┐───────────────────────────┐
+│ ▼ 🗂  Movement (1/2)     │                                                                │                           │
+│                         │  🧪  Helixir — Recipe Book                                      │                           │
+│    ✅  Move 1            │                                                                │                           │
+│       Move 2            │                                                                │                           │
+│                         │    h / ←     Focus exercise list                               │                           │
+│ ▶ 🗂  Selection (1/2)    │                                                                │                           │
+│                         │    l / →     Focus exercise detail                             │                           │
+│                         │                                                                │                           │
+│                         │    j / ↓     Scroll down in focused panel                      │                           │
+│                         │                                                                │                           │
+│                         │    k / ↑     Scroll up in focused panel                        │                           │
+│                         │                                                                │                           │
+│                         │    Space     Reveal next hint                                  │                           │
+│                         │                                                                │                           │
+│                         │    n         Jump to next incomplete                           │                           │
+│                         │                                                                │                           │
+│                         │    r         Reset current exercise                            │                           │
+│                         │                                                                │                           │
+│                         │    Tab       Collapse / expand current module                  │                           │
+│                         │                                                                │                           │
+│                         │    zc/zo/za  Collapse / open / toggle module                   │                           │
+│                         │                                                                │                           │
+│                         │    zM / zR   Collapse all / expand all modules                 │                           │
+│                         │                                                                │                           │
+│                         │    c         Open grimoire (spells you've learned)             │                           │
+│                         │                                                                │                           │
+│                         │    /         Search exercises (incremental)                    │                           │
+│                         │                                                                │                           │
+│                         │    n / N     Next / previous match (when search active)        │                           │
+│                         │                                                                │                           │
+│                         │    F         Cycle status filter (none → ⬜  → 🟡  → ✅ )         │                           │
+│                         │                                                                │                           │
+│                         │    Esc       Clear active search/filter                        │                           │
+│                         │                                                                │                           │
+└─────────────────────────└────────────────────────────────────────────────────────────────┘───────────────────────────┘
 
   🏆  ██████████░░░░░░░░░░ 2/4 (50%)      💡 [/] search  [F] filter  🔄 [r] reset  ⏭️  [n] next  🚪 [q] quit

@@ -395,16 +395,16 @@ impl App {
         self.expand_all_modules();
     }
 
-    /// Append one character to the search query. Auto-updates visibility.
+    /// Append one character to the search query and snap cursor to first match.
     pub fn search_push(&mut self, c: char) {
         self.filter.query.push(c);
-        self.fix_cursor_visibility();
+        self.snap_to_first_match();
     }
 
-    /// Pop the last character from the search query.
+    /// Pop the last character from the search query and re-snap cursor.
     pub fn search_pop(&mut self) {
         self.filter.query.pop();
-        self.fix_cursor_visibility();
+        self.snap_to_first_match();
     }
 
     /// Commit the search (leave input mode but keep query active).
@@ -417,6 +417,74 @@ impl App {
         self.filter.query.clear();
         self.input_mode = InputMode::Normal;
         self.fix_cursor_visibility();
+    }
+
+    /// First exercise (in display order) matching the active filter, if any.
+    pub fn first_match_exercise(&self) -> Option<usize> {
+        (0..self.exercises.len()).find(|i| self.exercise_matches_filter(*i))
+    }
+
+    /// Snap cursor to the first matching exercise when a query is active.
+    /// Falls back to `fix_cursor_visibility` when the query is empty or has
+    /// no matches.
+    fn snap_to_first_match(&mut self) {
+        if self.filter.query.is_empty() {
+            self.fix_cursor_visibility();
+            return;
+        }
+        if let Some(idx) = self.first_match_exercise() {
+            self.cursor = TreeCursor::Exercise(idx);
+            self.hint_level = 0;
+            self.detail_scroll = 0;
+        } else {
+            self.fix_cursor_visibility();
+        }
+    }
+
+    /// Cycle cursor to the next matching exercise (wraps). No-op if no match
+    /// exists. Intended for `n` while a query is active.
+    pub fn jump_next_match(&mut self) {
+        if !self.filter.is_active() {
+            return;
+        }
+        let n = self.exercises.len();
+        if n == 0 {
+            return;
+        }
+        let start = self.current_exercise_index().unwrap_or(0);
+        for offset in 1..=n {
+            let idx = (start + offset) % n;
+            if self.exercise_matches_filter(idx) {
+                self.cursor = TreeCursor::Exercise(idx);
+                self.hint_level = 0;
+                self.detail_scroll = 0;
+                self.expand_current_module();
+                return;
+            }
+        }
+    }
+
+    /// Cycle cursor to the previous matching exercise (wraps).
+    pub fn jump_prev_match(&mut self) {
+        if !self.filter.is_active() {
+            return;
+        }
+        let n = self.exercises.len();
+        if n == 0 {
+            return;
+        }
+        let start = self.current_exercise_index().unwrap_or(0);
+        for offset in 1..=n {
+            // Walk backwards with modular arithmetic.
+            let idx = (start + n - offset) % n;
+            if self.exercise_matches_filter(idx) {
+                self.cursor = TreeCursor::Exercise(idx);
+                self.hint_level = 0;
+                self.detail_scroll = 0;
+                self.expand_current_module();
+                return;
+            }
+        }
     }
 
     pub fn collapse_all_modules(&mut self) {

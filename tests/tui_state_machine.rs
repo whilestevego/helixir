@@ -525,3 +525,61 @@ fn filter_moves_stranded_cursor_to_first_visible() {
         "cursor must be in visible tree after filter change"
     );
 }
+
+#[test]
+fn search_snaps_cursor_to_first_matching_exercise() {
+    // Typing /sel must land cursor directly on the first Selection exercise,
+    // not on the surviving "Selection" module header.
+    let mut app = test_app(PathBuf::from("/tmp/x"));
+    dispatch(&mut app, key(KeyCode::Char('/')));
+    for c in "sel".chars() {
+        dispatch(&mut app, key(KeyCode::Char(c)));
+    }
+    // Selection/s1 is index 2 in the test_app fixture.
+    assert_eq!(app.cursor, TreeCursor::Exercise(2));
+}
+
+#[test]
+fn n_with_query_cycles_matches_not_next_incomplete() {
+    // Query "select" matches both Selection exercises (2 and 3 in the fixture).
+    // After commit, `n` should cycle between them and wrap.
+    let mut app = test_app(PathBuf::from("/tmp/x"));
+    dispatch(&mut app, key(KeyCode::Char('/')));
+    for c in "select".chars() {
+        dispatch(&mut app, key(KeyCode::Char(c)));
+    }
+    dispatch(&mut app, key(KeyCode::Enter));
+    assert_eq!(app.cursor, TreeCursor::Exercise(2));
+    dispatch(&mut app, key(KeyCode::Char('n')));
+    assert_eq!(app.cursor, TreeCursor::Exercise(3));
+    // Wrap back to first match.
+    dispatch(&mut app, key(KeyCode::Char('n')));
+    assert_eq!(app.cursor, TreeCursor::Exercise(2));
+}
+
+#[test]
+fn capital_n_cycles_matches_backwards() {
+    let mut app = test_app(PathBuf::from("/tmp/x"));
+    dispatch(&mut app, key(KeyCode::Char('/')));
+    for c in "select".chars() {
+        dispatch(&mut app, key(KeyCode::Char(c)));
+    }
+    dispatch(&mut app, key(KeyCode::Enter));
+    // Cursor on Exercise(2). N should wrap backwards to Exercise(3).
+    dispatch(&mut app, key(KeyCode::Char('N')));
+    assert_eq!(app.cursor, TreeCursor::Exercise(3));
+    dispatch(&mut app, key(KeyCode::Char('N')));
+    assert_eq!(app.cursor, TreeCursor::Exercise(2));
+}
+
+#[test]
+fn n_without_query_keeps_next_incomplete_behavior() {
+    // Regression guard: empty query must preserve the original "next
+    // incomplete" semantics of `n`.
+    let mut app = test_app(PathBuf::from("/tmp/x"));
+    assert!(app.filter.query.is_empty());
+    // Initial cursor on Exercise(1) (Failed). Next incomplete is
+    // Exercise(2) (NotStarted).
+    dispatch(&mut app, key(KeyCode::Char('n')));
+    assert_eq!(app.cursor, TreeCursor::Exercise(2));
+}
