@@ -42,4 +42,4 @@ expression: render_to_string(&mut a)
 │                                  ││                                                                                  │
 └──────────────────────────────────┘└──────────────────────────────────────────────────────────────────────────────────┘
 
-  🔍  /sel_     Enter: commit  ·  Esc: cancel
+  🔍  /sel_  2 matches     Enter: commit  ·  Esc: cancel

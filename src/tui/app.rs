@@ -424,6 +424,13 @@ impl App {
         (0..self.exercises.len()).find(|i| self.exercise_matches_filter(*i))
     }
 
+    /// Total number of exercises matching the active filter.
+    pub fn filter_match_count(&self) -> usize {
+        (0..self.exercises.len())
+            .filter(|i| self.exercise_matches_filter(*i))
+            .count()
+    }
+
     /// Snap cursor to the first matching exercise when a query is active.
     /// Falls back to `fix_cursor_visibility` when the query is empty or has
     /// no matches.
