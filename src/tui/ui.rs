@@ -865,14 +865,6 @@ fn render_help_popup(frame: &mut Frame, _app: &App) {
 
     let help_text = vec![
         Line::raw(""),
-        Line::from(Span::styled(
-            "  🧪 Helixir — Recipe Book",
-            Style::default()
-                .fg(Color::Cyan)
-                .add_modifier(Modifier::BOLD),
-        )),
-        Line::raw(""),
-        Line::raw(""),
         Line::from(vec![
             Span::styled("    h / ←     ", Style::default().fg(Color::Green)),
             Span::raw("Focus exercise list"),
@@ -1083,7 +1075,10 @@ fn render_cheatsheet_popup(frame: &mut Frame, app: &mut App) {
         .filter(|m| !m.commands.is_empty())
         .map(build_cheatsheet_module_section)
         .collect();
-    let (left_lines, right_lines) = distribute_into_columns(sections);
+    let (mut left_lines, mut right_lines) = distribute_into_columns(sections);
+    // Top padding so content doesn't butt against the border.
+    left_lines.insert(0, Line::raw(""));
+    right_lines.insert(0, Line::raw(""));
 
     // Shared scroll: clamp by the taller column.
     let visible_height = inner.height as usize;

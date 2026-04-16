@@ -7,14 +7,11 @@ expression: render_to_string(&mut a)
 
 ┌ 📚  Exercises ───────────┌ Help ──────────────────────────────────────────────────────────┐───────────────────────────┐
 │ ▼ 🗂  Movement (1/2)     │                                                                │                           │
-│                         │  🧪  Helixir — Recipe Book                                      │                           │
-│    ✅  Move 1            │                                                                │                           │
-│       Move 2            │                                                                │                           │
 │                         │    h / ←     Focus exercise list                               │                           │
-│ ▶ 🗂  Selection (1/2)    │                                                                │                           │
-│                         │    l / →     Focus exercise detail                             │                           │
+│    ✅  Move 1            │                                                                │                           │
+│       Move 2            │    l / →     Focus exercise detail                             │                           │
 │                         │                                                                │                           │
-│                         │    j / ↓     Scroll down in focused panel                      │                           │
+│ ▶ 🗂  Selection (1/2)    │    j / ↓     Scroll down in focused panel                      │                           │
 │                         │                                                                │                           │
 │                         │    k / ↑     Scroll up in focused panel                        │                           │
 │                         │                                                                │                           │
@@ -40,6 +37,9 @@ expression: render_to_string(&mut a)
 │                         │                                                                │                           │
 │                         │    C         Cycle completion filter (never / once / many)     │                           │
 │                         │                                                                │                           │
+│                         │    Esc       Clear active search/filter                        │                           │
+│                         │                                                                │                           │
+│                         │    ?         Toggle this help                                  │                           │
 └─────────────────────────└────────────────────────────────────────────────────────────────┘───────────────────────────┘
 
   🏆  ██████████░░░░░░░░░░ 2/4 (50%)      💡 [/] search  [F] filter  🔄 [r] reset  ⏭️  [n] next  🚪 [q] quit

@@ -7,11 +7,11 @@ expression: render_to_string(&mut a)
 
 ┌ 📚  Exercises ────────────────────┐┌ Exercise Detail ─────────────────────────────────────────────────────────────────┐
 │ ▼ 🗂  M┌ 📜  Grimoire — Spells you've learned ───────────────────────────────────────────────────────────────┐         │
-│       │  🗂  Movement  (1/2)                                🗂  Selection  (1/2)                             │         │
-│    ✅  │                                                                                                    │         │
+│       │                                                                                                    │         │
+│    ✅  │  🗂  Movement  (1/2)                                🗂  Selection  (1/2)                             │         │
+│       │                                                                                                    │         │
 │       │     h         left                                    x         line                               │         │
-│       │     l         right                                   h         left                               │         │
-│ ▶ 🗂  S│                                                                                                    │         │
+│ ▶ 🗂  S│     l         right                                   h         left                               │         │
 │       │                                                                                                    │         │
 │       │                                                                                                    │         │
 │       │                                                                                                    │         │
