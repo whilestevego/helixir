@@ -119,8 +119,8 @@ fn build_exercise_list(app: &App, width: u16) -> ListLayout {
                 items.push(ListItem::new(Line::raw("")));
             }
             current_category = exercise.meta.category.clone();
-            // Hide modules with zero matches when filtering.
-            if app.filter.is_active() && !app.module_has_match(&current_category) {
+            // Hide modules with zero matches when a hiding filter is active.
+            if app.filter.hides_items() && !app.module_has_match(&current_category) {
                 continue;
             }
             let collapsed = app.is_effectively_collapsed(&current_category);
@@ -180,8 +180,8 @@ fn build_exercise_list(app: &App, width: u16) -> ListLayout {
         if app.is_effectively_collapsed(&exercise.meta.category) {
             continue;
         }
-        // Skip non-matching exercises when a filter is active.
-        if app.filter.is_active() && !app.exercise_matches_filter(i) {
+        // Skip non-matching exercises when a hiding filter is active.
+        if app.filter.hides_items() && !app.exercise_matches_filter(i) {
             continue;
         }
 
@@ -723,7 +723,7 @@ fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
         let match_count = if app.filter.query.is_empty() {
             String::new()
         } else {
-            let n = app.filter_match_count();
+            let n = app.query_match_count();
             if n == 1 {
                 "  1 match".to_string()
             } else {
@@ -788,9 +788,14 @@ fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
     // Active filter chips (only when something is filtering).
     if app.filter.is_active() {
         if !app.filter.query.is_empty() {
+            let n = app.query_match_count();
             spans.push(Span::styled(
                 format!("🔍\"{}\" ", app.filter.query),
                 Style::default().fg(Color::Yellow),
+            ));
+            spans.push(Span::styled(
+                format!("({} {}) ", n, if n == 1 { "match" } else { "matches" }),
+                Style::default().fg(Color::Green),
             ));
         }
         if let Some(status) = &app.filter.status {
@@ -815,11 +820,13 @@ fn render_footer(frame: &mut Frame, area: Rect, app: &App) {
                 Style::default().fg(Color::Yellow),
             ));
         }
-        let n = app.filter_match_count();
-        spans.push(Span::styled(
-            format!("({} {}) ", n, if n == 1 { "match" } else { "matches" }),
-            Style::default().fg(Color::Green),
-        ));
+        if app.filter.hides_items() {
+            let n = app.filter_match_count();
+            spans.push(Span::styled(
+                format!("({} visible) ", n),
+                Style::default().fg(Color::Green),
+            ));
+        }
         spans.push(Span::styled(
             "[Esc] clear  ",
             Style::default().fg(Color::DarkGray),

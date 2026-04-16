@@ -419,24 +419,28 @@ fn slash_enters_search_mode() {
 }
 
 #[test]
-fn search_typing_filters_live() {
+fn search_highlights_but_does_not_hide() {
     let mut app = test_app(PathBuf::from("/tmp/x"));
     dispatch(&mut app, key(KeyCode::Char('/')));
     for c in "sel".chars() {
         dispatch(&mut app, key(KeyCode::Char(c)));
     }
     assert_eq!(app.filter.query, "sel");
-    // Movement module exercises have no "sel" — should filter out.
-    // Selection module matches via category name.
+    // Search never hides — both modules must remain in the visible tree.
+    // Selection is auto-expanded (has query matches), Movement keeps its
+    // original collapsed state.
     let tree = app.visible_tree();
-    let matches_selection = tree
+    let has_selection = tree
         .iter()
         .any(|n| matches!(n, TreeCursor::Module(m) if m == "Selection"));
-    let matches_movement = tree
+    let has_movement = tree
         .iter()
         .any(|n| matches!(n, TreeCursor::Module(m) if m == "Movement"));
-    assert!(matches_selection, "Selection must be visible");
-    assert!(!matches_movement, "Movement must be hidden");
+    assert!(has_selection, "Selection must be visible");
+    assert!(
+        has_movement,
+        "Movement must still be visible (search doesn't hide)"
+    );
 }
 
 #[test]

@@ -42,4 +42,4 @@ expression: render_to_string(&mut a)
 │                                  ││                                                                                  │
 └──────────────────────────────────┘└──────────────────────────────────────────────────────────────────────────────────┘
 
-  🏆  ██████████░░░░░░░░░░ 2/4 (50%)      ✅ Passed (2 matches) [Esc] clear  💡 [/] search  [F] filter  🔄 [r] reset  ⏭️  [n]
+  🏆  ██████████░░░░░░░░░░ 2/4 (50%)      ✅ Passed (2 visible) [Esc] clear  💡 [/] search  [F] filter  🔄 [r] reset  ⏭️  [n]

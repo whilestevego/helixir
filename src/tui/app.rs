@@ -82,6 +82,12 @@ impl Filter {
     pub fn is_active(&self) -> bool {
         !self.query.is_empty() || self.status.is_some() || self.completion.is_some()
     }
+
+    /// True when status or completion filters are set — these hide non-matching
+    /// items. The search query highlights + navigates but never hides.
+    pub fn hides_items(&self) -> bool {
+        self.status.is_some() || self.completion.is_some()
+    }
 }
 
 pub struct App {
@@ -283,8 +289,13 @@ impl App {
         if !self.collapsed_modules.contains(module) {
             return false;
         }
-        // Override: auto-expand when filter has matches in this module.
-        if self.filter.is_active() && self.module_has_match(module) {
+        // Auto-expand when hiding filter has matches in this module.
+        if self.filter.hides_items() && self.module_has_match(module) {
+            return false;
+        }
+        // Auto-expand when search query matches the category name or any
+        // exercise title inside this module.
+        if !self.filter.query.is_empty() && self.module_matches_query(module) {
             return false;
         }
         true
@@ -325,8 +336,9 @@ impl App {
         }
     }
 
-    /// Case-insensitive substring + status + completion check for a single
-    /// exercise against the current filter. All active dimensions must pass.
+    /// Check whether an exercise passes the hiding filters (status +
+    /// completion). The search query is NOT a hiding filter — it only
+    /// controls highlighting and cursor navigation.
     pub fn exercise_matches_filter(&self, idx: usize) -> bool {
         let ex = &self.exercises[idx];
         if let Some(want) = &self.filter.status
@@ -349,30 +361,47 @@ impl App {
                 return false;
             }
         }
-        if !self.filter.query.is_empty() {
-            let needle = self.filter.query.to_lowercase();
-            let haystack = ex.meta.title.to_lowercase();
-            if !haystack.contains(&needle) {
-                return false;
-            }
-        }
         true
     }
 
-    /// True when the module should remain visible: either its category name
-    /// matches the query, or at least one exercise in the module passes the
-    /// full filter.
-    pub fn module_has_match(&self, module: &str) -> bool {
-        if !self.filter.query.is_empty() {
-            let needle = self.filter.query.to_lowercase();
-            if module.to_lowercase().contains(&needle) {
-                return true;
-            }
+    /// Check if an exercise's title matches the search query (for cursor
+    /// navigation and highlighting, not for hiding).
+    pub fn exercise_matches_query(&self, idx: usize) -> bool {
+        if self.filter.query.is_empty() {
+            return false;
         }
+        let needle = self.filter.query.to_lowercase();
+        self.exercises[idx]
+            .meta
+            .title
+            .to_lowercase()
+            .contains(&needle)
+    }
+
+    /// True when the module should remain visible under hiding filters.
+    /// When only a query is active (no status/completion), everything stays
+    /// visible so this always returns true.
+    pub fn module_has_match(&self, module: &str) -> bool {
         self.exercises
             .iter()
             .enumerate()
             .any(|(i, ex)| ex.meta.category == module && self.exercise_matches_filter(i))
+    }
+
+    /// True when the search query matches the module's category name or
+    /// any exercise title inside it. Used for auto-expand, not for hiding.
+    pub fn module_matches_query(&self, module: &str) -> bool {
+        if self.filter.query.is_empty() {
+            return false;
+        }
+        let needle = self.filter.query.to_lowercase();
+        if module.to_lowercase().contains(&needle) {
+            return true;
+        }
+        self.exercises
+            .iter()
+            .enumerate()
+            .any(|(i, ex)| ex.meta.category == module && self.exercise_matches_query(i))
     }
 
     /// The full ordered list of currently visible tree nodes (modules always
@@ -382,11 +411,11 @@ impl App {
     pub fn visible_tree(&self) -> Vec<TreeCursor> {
         let mut nodes = Vec::new();
         let mut current_module = String::new();
-        let filtering = self.filter.is_active();
+        let hiding = self.filter.hides_items();
         for (i, ex) in self.exercises.iter().enumerate() {
             if ex.meta.category != current_module {
                 current_module = ex.meta.category.clone();
-                if filtering && !self.module_has_match(&current_module) {
+                if hiding && !self.module_has_match(&current_module) {
                     continue;
                 }
                 nodes.push(TreeCursor::Module(current_module.clone()));
@@ -394,7 +423,7 @@ impl App {
             if self.is_effectively_collapsed(&ex.meta.category) {
                 continue;
             }
-            if filtering && !self.exercise_matches_filter(i) {
+            if hiding && !self.exercise_matches_filter(i) {
                 continue;
             }
             nodes.push(TreeCursor::Exercise(i));
@@ -484,6 +513,14 @@ impl App {
     }
 
     /// Total number of exercises matching the active filter.
+    /// Count exercises matching the search query (title-based).
+    pub fn query_match_count(&self) -> usize {
+        (0..self.exercises.len())
+            .filter(|i| self.exercise_matches_query(*i))
+            .count()
+    }
+
+    /// Count exercises matching the hiding filters (status + completion).
     pub fn filter_match_count(&self) -> usize {
         (0..self.exercises.len())
             .filter(|i| self.exercise_matches_filter(*i))
@@ -501,7 +538,7 @@ impl App {
         let needle = self.filter.query.to_lowercase();
         match node {
             TreeCursor::Module(m) => m.to_lowercase().contains(&needle),
-            TreeCursor::Exercise(i) => self.exercise_matches_filter(*i),
+            TreeCursor::Exercise(i) => self.exercise_matches_query(*i),
         }
     }
 
