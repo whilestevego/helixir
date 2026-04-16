@@ -368,18 +368,25 @@ impl App {
     pub fn visible_tree(&self) -> Vec<TreeCursor> {
         let mut nodes = Vec::new();
         let mut current_module = String::new();
+        let mut current_module_matches = false;
+        let filtering = self.filter.is_active();
         for (i, ex) in self.exercises.iter().enumerate() {
             if ex.meta.category != current_module {
                 current_module = ex.meta.category.clone();
-                if self.filter.is_active() && !self.module_has_match(&current_module) {
+                current_module_matches = filtering && self.module_has_match(&current_module);
+                if filtering && !current_module_matches {
                     continue;
                 }
                 nodes.push(TreeCursor::Module(current_module.clone()));
             }
-            if self.is_module_collapsed(&ex.meta.category) {
+            // When filter is active and this module has matches, auto-expand
+            // it to reveal the results regardless of collapsed state.
+            // Non-matching modules keep their original collapsed state.
+            let collapsed = self.is_module_collapsed(&ex.meta.category);
+            if collapsed && !(filtering && current_module_matches) {
                 continue;
             }
-            if self.filter.is_active() && !self.exercise_matches_filter(i) {
+            if filtering && !self.exercise_matches_filter(i) {
                 continue;
             }
             nodes.push(TreeCursor::Exercise(i));
@@ -410,9 +417,6 @@ impl App {
             Some(CompletionFilter::Once) => Some(CompletionFilter::Many),
             Some(CompletionFilter::Many) => None,
         };
-        if self.filter.is_active() {
-            self.expand_all_modules();
-        }
         self.fix_cursor_visibility();
     }
 
@@ -424,11 +428,6 @@ impl App {
             Some(ExerciseStatus::Failed) => Some(ExerciseStatus::Passed),
             Some(ExerciseStatus::Passed) => None,
         };
-        // When filter narrows, expand all modules so any remaining matches are
-        // reachable without extra keystrokes.
-        if self.filter.is_active() {
-            self.expand_all_modules();
-        }
         self.fix_cursor_visibility();
     }
 
@@ -439,12 +438,12 @@ impl App {
         self.fix_cursor_visibility();
     }
 
-    /// Enter search mode. Starts with a fresh empty query.
+    /// Enter search mode. Starts with a fresh empty query. Module collapsed
+    /// state is preserved — `visible_tree` auto-expands only modules with
+    /// matches while the filter is active.
     pub fn enter_search(&mut self) {
         self.filter.query.clear();
         self.input_mode = InputMode::Searching;
-        // Expand everything so incremental search can show matches anywhere.
-        self.expand_all_modules();
     }
 
     /// Append one character to the search query and snap cursor to first match.
