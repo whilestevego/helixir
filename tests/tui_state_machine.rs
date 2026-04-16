@@ -527,34 +527,41 @@ fn filter_moves_stranded_cursor_to_first_visible() {
 }
 
 #[test]
-fn search_snaps_cursor_to_first_matching_exercise() {
-    // Typing /sel must land cursor directly on the first Selection exercise,
-    // not on the surviving "Selection" module header.
+fn search_snaps_cursor_to_module_header_when_category_matches() {
+    // Typing /sel matches the "Selection" category name. Cursor should land
+    // on the Module("Selection") header — the first matching node in the
+    // visible tree — not jump past it to Exercise(2).
     let mut app = test_app(PathBuf::from("/tmp/x"));
     dispatch(&mut app, key(KeyCode::Char('/')));
     for c in "sel".chars() {
         dispatch(&mut app, key(KeyCode::Char(c)));
     }
-    // Selection/s1 is index 2 in the test_app fixture.
-    assert_eq!(app.cursor, TreeCursor::Exercise(2));
+    assert_eq!(
+        app.cursor,
+        TreeCursor::Module("Selection".to_string()),
+        "category match should land on module header"
+    );
 }
 
 #[test]
-fn n_with_query_cycles_matches_not_next_incomplete() {
-    // Query "select" matches both Selection exercises (2 and 3 in the fixture).
-    // After commit, `n` should cycle between them and wrap.
+fn n_with_query_cycles_through_modules_and_exercises() {
+    // Query "select" matches: Module("Selection") header + Exercise(2) + Exercise(3).
+    // n should cycle through all three then wrap.
     let mut app = test_app(PathBuf::from("/tmp/x"));
     dispatch(&mut app, key(KeyCode::Char('/')));
     for c in "select".chars() {
         dispatch(&mut app, key(KeyCode::Char(c)));
     }
     dispatch(&mut app, key(KeyCode::Enter));
+    // Initial snap → Module("Selection")
+    assert_eq!(app.cursor, TreeCursor::Module("Selection".to_string()));
+    dispatch(&mut app, key(KeyCode::Char('n')));
     assert_eq!(app.cursor, TreeCursor::Exercise(2));
     dispatch(&mut app, key(KeyCode::Char('n')));
     assert_eq!(app.cursor, TreeCursor::Exercise(3));
-    // Wrap back to first match.
+    // Wrap back to module header.
     dispatch(&mut app, key(KeyCode::Char('n')));
-    assert_eq!(app.cursor, TreeCursor::Exercise(2));
+    assert_eq!(app.cursor, TreeCursor::Module("Selection".to_string()));
 }
 
 #[test]
@@ -565,11 +572,13 @@ fn capital_n_cycles_matches_backwards() {
         dispatch(&mut app, key(KeyCode::Char(c)));
     }
     dispatch(&mut app, key(KeyCode::Enter));
-    // Cursor on Exercise(2). N should wrap backwards to Exercise(3).
+    // Initial snap → Module("Selection"). N backwards wraps to Exercise(3).
     dispatch(&mut app, key(KeyCode::Char('N')));
     assert_eq!(app.cursor, TreeCursor::Exercise(3));
     dispatch(&mut app, key(KeyCode::Char('N')));
     assert_eq!(app.cursor, TreeCursor::Exercise(2));
+    dispatch(&mut app, key(KeyCode::Char('N')));
+    assert_eq!(app.cursor, TreeCursor::Module("Selection".to_string()));
 }
 
 #[test]

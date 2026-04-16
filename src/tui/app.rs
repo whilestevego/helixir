@@ -475,16 +475,32 @@ impl App {
             .count()
     }
 
-    /// Snap cursor to the first matching exercise when a query is active.
-    /// Falls back to `fix_cursor_visibility` when the query is empty or has
-    /// no matches.
+    /// Test whether a visible-tree node matches the active query. Module
+    /// headers match when the query substring-matches the category name.
+    /// Exercises delegate to `exercise_matches_filter`. Status/completion
+    /// filters don't apply to module headers.
+    pub fn node_matches_query(&self, node: &TreeCursor) -> bool {
+        if self.filter.query.is_empty() {
+            return false;
+        }
+        let needle = self.filter.query.to_lowercase();
+        match node {
+            TreeCursor::Module(m) => m.to_lowercase().contains(&needle),
+            TreeCursor::Exercise(i) => self.exercise_matches_filter(*i),
+        }
+    }
+
+    /// Snap cursor to the first matching node (module header or exercise)
+    /// in the visible tree. Falls back to `fix_cursor_visibility` when no
+    /// matches exist.
     fn snap_to_first_match(&mut self) {
         if self.filter.query.is_empty() {
             self.fix_cursor_visibility();
             return;
         }
-        if let Some(idx) = self.first_match_exercise() {
-            self.cursor = TreeCursor::Exercise(idx);
+        let tree = self.visible_tree();
+        if let Some(node) = tree.into_iter().find(|n| self.node_matches_query(n)) {
+            self.cursor = node;
             self.hint_level = 0;
             self.detail_scroll = 0;
         } else {
@@ -492,47 +508,46 @@ impl App {
         }
     }
 
-    /// Cycle cursor to the next matching exercise (wraps). No-op if no match
-    /// exists. Intended for `n` while a query is active.
+    /// Cycle cursor to the next matching node in the visible tree (wraps).
+    /// Walks module headers and exercises alike.
     pub fn jump_next_match(&mut self) {
         if !self.filter.is_active() {
             return;
         }
-        let n = self.exercises.len();
-        if n == 0 {
+        let tree = self.visible_tree();
+        if tree.is_empty() {
             return;
         }
-        let start = self.current_exercise_index().unwrap_or(0);
-        for offset in 1..=n {
-            let idx = (start + offset) % n;
-            if self.exercise_matches_filter(idx) {
-                self.cursor = TreeCursor::Exercise(idx);
+        let cur_pos = tree.iter().position(|n| *n == self.cursor).unwrap_or(0);
+        let len = tree.len();
+        for offset in 1..=len {
+            let idx = (cur_pos + offset) % len;
+            if self.node_matches_query(&tree[idx]) {
+                self.cursor = tree[idx].clone();
                 self.hint_level = 0;
                 self.detail_scroll = 0;
-                self.expand_current_module();
                 return;
             }
         }
     }
 
-    /// Cycle cursor to the previous matching exercise (wraps).
+    /// Cycle cursor to the previous matching node in the visible tree (wraps).
     pub fn jump_prev_match(&mut self) {
         if !self.filter.is_active() {
             return;
         }
-        let n = self.exercises.len();
-        if n == 0 {
+        let tree = self.visible_tree();
+        if tree.is_empty() {
             return;
         }
-        let start = self.current_exercise_index().unwrap_or(0);
-        for offset in 1..=n {
-            // Walk backwards with modular arithmetic.
-            let idx = (start + n - offset) % n;
-            if self.exercise_matches_filter(idx) {
-                self.cursor = TreeCursor::Exercise(idx);
+        let cur_pos = tree.iter().position(|n| *n == self.cursor).unwrap_or(0);
+        let len = tree.len();
+        for offset in 1..=len {
+            let idx = (cur_pos + len - offset) % len;
+            if self.node_matches_query(&tree[idx]) {
+                self.cursor = tree[idx].clone();
                 self.hint_level = 0;
                 self.detail_scroll = 0;
-                self.expand_current_module();
                 return;
             }
         }
