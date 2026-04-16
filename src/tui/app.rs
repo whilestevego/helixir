@@ -276,6 +276,20 @@ impl App {
         self.collapsed_modules.contains(module)
     }
 
+    /// Collapsed state accounting for filter auto-expand: a module that's
+    /// nominally collapsed is treated as expanded when the active filter
+    /// has matches inside it (so results are always visible).
+    pub fn is_effectively_collapsed(&self, module: &str) -> bool {
+        if !self.collapsed_modules.contains(module) {
+            return false;
+        }
+        // Override: auto-expand when filter has matches in this module.
+        if self.filter.is_active() && self.module_has_match(module) {
+            return false;
+        }
+        true
+    }
+
     /// Toggle the collapsed state of the module the cursor is on.
     pub fn toggle_current_module(&mut self) {
         let module = self.cursor_module().to_string();
@@ -348,7 +362,7 @@ impl App {
     /// True when the module should remain visible: either its category name
     /// matches the query, or at least one exercise in the module passes the
     /// full filter.
-    fn module_has_match(&self, module: &str) -> bool {
+    pub fn module_has_match(&self, module: &str) -> bool {
         if !self.filter.query.is_empty() {
             let needle = self.filter.query.to_lowercase();
             if module.to_lowercase().contains(&needle) {
@@ -368,22 +382,16 @@ impl App {
     pub fn visible_tree(&self) -> Vec<TreeCursor> {
         let mut nodes = Vec::new();
         let mut current_module = String::new();
-        let mut current_module_matches = false;
         let filtering = self.filter.is_active();
         for (i, ex) in self.exercises.iter().enumerate() {
             if ex.meta.category != current_module {
                 current_module = ex.meta.category.clone();
-                current_module_matches = filtering && self.module_has_match(&current_module);
-                if filtering && !current_module_matches {
+                if filtering && !self.module_has_match(&current_module) {
                     continue;
                 }
                 nodes.push(TreeCursor::Module(current_module.clone()));
             }
-            // When filter is active and this module has matches, auto-expand
-            // it to reveal the results regardless of collapsed state.
-            // Non-matching modules keep their original collapsed state.
-            let collapsed = self.is_module_collapsed(&ex.meta.category);
-            if collapsed && !(filtering && current_module_matches) {
+            if self.is_effectively_collapsed(&ex.meta.category) {
                 continue;
             }
             if filtering && !self.exercise_matches_filter(i) {

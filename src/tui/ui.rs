@@ -119,7 +119,11 @@ fn build_exercise_list(app: &App, width: u16) -> ListLayout {
                 items.push(ListItem::new(Line::raw("")));
             }
             current_category = exercise.meta.category.clone();
-            let collapsed = app.is_module_collapsed(&current_category);
+            // Hide modules with zero matches when filtering.
+            if app.filter.is_active() && !app.module_has_match(&current_category) {
+                continue;
+            }
+            let collapsed = app.is_effectively_collapsed(&current_category);
             let chevron = if collapsed { "▶" } else { "▼" };
             let (passed, total) = app.module_progress(&current_category);
             let badge = if passed == total {
@@ -172,8 +176,12 @@ fn build_exercise_list(app: &App, width: u16) -> ListLayout {
             }
         }
 
-        // Skip exercise rows for collapsed modules
-        if app.is_module_collapsed(&exercise.meta.category) {
+        // Skip exercise rows for collapsed modules (respects filter auto-expand).
+        if app.is_effectively_collapsed(&exercise.meta.category) {
+            continue;
+        }
+        // Skip non-matching exercises when a filter is active.
+        if app.filter.is_active() && !app.exercise_matches_filter(i) {
             continue;
         }
 
