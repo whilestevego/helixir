@@ -337,7 +337,7 @@ impl App {
         }
         if !self.filter.query.is_empty() {
             let needle = self.filter.query.to_lowercase();
-            let haystack = format!("{} {}", ex.meta.title, ex.meta.category).to_lowercase();
+            let haystack = ex.meta.title.to_lowercase();
             if !haystack.contains(&needle) {
                 return false;
             }
@@ -345,8 +345,16 @@ impl App {
         true
     }
 
-    /// True when any exercise in the module passes the filter.
+    /// True when the module should remain visible: either its category name
+    /// matches the query, or at least one exercise in the module passes the
+    /// full filter.
     fn module_has_match(&self, module: &str) -> bool {
+        if !self.filter.query.is_empty() {
+            let needle = self.filter.query.to_lowercase();
+            if module.to_lowercase().contains(&needle) {
+                return true;
+            }
+        }
         self.exercises
             .iter()
             .enumerate()
