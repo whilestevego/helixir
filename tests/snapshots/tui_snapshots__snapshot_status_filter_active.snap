@@ -9,12 +9,12 @@ expression: render_to_string(&mut a)
 │ ▼ 🗂  Movement (1/2)              ││                                                                                  │
 │                                  ││  🗂  Movement                                                                     │
 │    ✅  Move 1                     ││                                                                                  │
-│       Move 2                     ││  ████████████░░░░░░░░░░░░  1/2                                                   │
-│                                  ││                                                                                  │
-│ ▼ 🗂  Selection (1/2)             ││  📝  EXERCISES                                                                    │
-│                                  ││                                                                                  │
-│       Select 1                   ││     ✅  Move 1   ⭐                                                                │
-│    ✅  Select 2                   ││     🟡  Move 2   ⭐ ⭐                                                              │
+│                                  ││  ████████████░░░░░░░░░░░░  1/2                                                   │
+│ ▼ 🗂  Selection (1/2)             ││                                                                                  │
+│                                  ││  📝  EXERCISES                                                                    │
+│    ✅  Select 2                   ││                                                                                  │
+│                                  ││     ✅  Move 1   ⭐                                                                │
+│                                  ││     🟡  Move 2   ⭐ ⭐                                                              │
 │                                  ││                                                                                  │
 │                                  ││                                                                                  │
 │                                  ││  ⌨️   COMMANDS LEARNED (2)                                                        │
