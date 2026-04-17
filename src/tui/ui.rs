@@ -1212,14 +1212,14 @@ fn build_diff_lines(diff: &[DiffLine]) -> Vec<Line<'static>> {
         )));
 
         let mut got_spans = vec![Span::styled(
-            "     - ",
+            "     yours:    ",
             Style::default().fg(Color::Red).add_modifier(Modifier::BOLD),
         )];
         got_spans.extend(diff_line_spans(&d.got, &d.expected, Color::Red));
         lines.push(Line::from(got_spans));
 
         let mut exp_spans = vec![Span::styled(
-            "     + ",
+            "     expected: ",
             Style::default()
                 .fg(Color::Green)
                 .add_modifier(Modifier::BOLD),

@@ -24,8 +24,8 @@ expression: render_to_string(&mut a)
 │                                  ││  ❌  1 difference found                                                           │
 │                                  ││                                                                                  │
 │                                  ││     line 1                                                                       │
-│                                  ││     - wrong                                                                      │
-│                                  ││     + right                                                                      │
+│                                  ││     yours:    wrong                                                              │
+│                                  ││     expected: right                                                              │
 │                                  ││                                                                                  │
 │                                  ││                                                                                  │
 │                                  ││                                                                                  │
