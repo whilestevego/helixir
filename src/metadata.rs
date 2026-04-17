@@ -23,7 +23,7 @@ pub struct ExerciseMeta {
 }
 
 fn default_extension() -> String {
-    "hxt".to_string()
+    "md".to_string()
 }
 
 impl ExerciseMeta {

@@ -678,7 +678,6 @@ id = "04-text-objects/03-treesitter-objects"
 title = "Tree-sitter Objects"
 category = "Text Objects"
 difficulty = 2
-extension = "js"
 notes = """
 Tree-sitter text objects require an active language grammar.
 This exercise uses a .js extension so Helix loads JavaScript
@@ -726,7 +725,6 @@ id = "04-text-objects/04-combining-objects"
 title = "Combining Objects with Actions"
 category = "Text Objects"
 difficulty = 3
-extension = "js"
 notes = """
 These are not special commands — they are natural combinations:
   1. m i/a + delimiter = SELECT the text object

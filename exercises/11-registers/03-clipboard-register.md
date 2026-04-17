@@ -1,0 +1,21 @@
+# Clipboard Register
+
+## PRACTICE
+
+Copy the URL below to the system clipboard using the "+ register,
+then paste it on the blank line at the bottom.
+
+https://helix-editor.com/docs
+
+PASTE HERE:
+
+
+## EXPECTED
+
+Copy the URL below to the system clipboard using the "+ register,
+then paste it on the blank line at the bottom.
+
+https://helix-editor.com/docs
+
+PASTE HERE:
+https://helix-editor.com/docs

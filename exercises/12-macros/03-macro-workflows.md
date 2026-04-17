@@ -1,0 +1,25 @@
+# Macro Workflows
+
+## PRACTICE
+
+```js
+Convert each function from arrow syntax to the function keyword.
+Record a macro for one, then replay for the rest.
+
+const add = (a, b) => a + b;
+const subtract = (a, b) => a - b;
+const multiply = (a, b) => a * b;
+const divide = (a, b) => a / b;
+```
+
+## EXPECTED
+
+```js
+Convert each function from arrow syntax to the function keyword.
+Record a macro for one, then replay for the rest.
+
+function add(a, b) { return a + b; }
+function subtract(a, b) { return a - b; }
+function multiply(a, b) { return a * b; }
+function divide(a, b) { return a / b; }
+```

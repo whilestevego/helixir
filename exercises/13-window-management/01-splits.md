@@ -1,0 +1,21 @@
+# Splits
+
+## PRACTICE
+
+Fill in the correct keybinding for each window operation.
+
+OPERATION                               KEYBINDING
+─────────────────────────────────────────────────────
+Split window vertically:                ???
+Split window horizontally:              ???
+Close current window:                   ???
+
+## EXPECTED
+
+Fill in the correct keybinding for each window operation.
+
+OPERATION                               KEYBINDING
+─────────────────────────────────────────────────────
+Split window vertically:                Ctrl-w v
+Split window horizontally:              Ctrl-w s
+Close current window:                   Ctrl-w c

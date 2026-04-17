@@ -1,0 +1,17 @@
+# Minimal Keystrokes
+
+## PRACTICE
+
+Apple
+Banana
+Cherry
+Date
+
+## EXPECTED
+
+<ul>
+  <li>Apple</li>
+  <li>Banana</li>
+  <li>Cherry</li>
+  <li>Date</li>
+</ul>

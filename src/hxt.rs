@@ -1,4 +1,8 @@
-//! Pure .hxt file parser — no I/O, operates on string content.
+//! Exercise file parser — no I/O, operates on string content.
+//!
+//! Supports two marker formats:
+//! - Legacy dashed lines: `────── PRACTICE ──────` (optionally inside comments)
+//! - Markdown headings:   `## PRACTICE` / `## EXPECTED`
 
 pub struct Sections {
     pub practice: String,
@@ -37,11 +41,19 @@ fn is_separator(line: &str) -> bool {
 }
 
 fn is_practice_marker(line: &str) -> bool {
+    let trimmed = line.trim();
+    if trimmed == "## PRACTICE" {
+        return true;
+    }
     let stripped = strip_comment_prefix(line);
     stripped.contains("PRACTICE") && stripped.starts_with('─') && stripped.ends_with('─')
 }
 
 fn is_expected_marker(line: &str) -> bool {
+    let trimmed = line.trim();
+    if trimmed == "## EXPECTED" {
+        return true;
+    }
     let stripped = strip_comment_prefix(line);
     stripped.contains("EXPECTED") && stripped.starts_with('─') && stripped.ends_with('─')
 }
@@ -283,5 +295,116 @@ hello
 hello";
         let sections = extract_sections(content).expect("should parse");
         assert_eq!(sections.expected, "hello");
+    }
+
+    #[test]
+    fn test_markdown_heading_markers() {
+        let content = "\
+# Exercise Title
+
+## PRACTICE
+
+hello world
+foo bar
+
+## EXPECTED
+
+hello world
+foo bar";
+        let result = verify_content(content);
+        assert!(result.passed);
+        assert_eq!(result.practice, "hello world\nfoo bar");
+        assert_eq!(result.expected, "hello world\nfoo bar");
+    }
+
+    #[test]
+    fn test_markdown_with_fenced_code_blocks() {
+        let content = "\
+# Tree-sitter Objects
+
+## PRACTICE
+
+```js
+function foo() { return 42; }
+```
+
+## EXPECTED
+
+```js
+function foo() { return 42; }
+```";
+        let result = verify_content(content);
+        assert!(result.passed);
+        assert!(result.practice.contains("```js"));
+        assert!(result.practice.contains("function foo"));
+    }
+
+    #[test]
+    fn test_markdown_fenced_blocks_diff_only_code() {
+        let content = "\
+# Test
+
+## PRACTICE
+
+```js
+function foo() {}
+```
+
+## EXPECTED
+
+```js
+function bar() {}
+```";
+        let result = verify_content(content);
+        assert!(!result.passed);
+        // Only the code line differs, not the fence lines
+        assert_eq!(result.diff.len(), 1);
+        assert_eq!(result.diff[0].got, "function foo() {}");
+        assert_eq!(result.diff[0].expected, "function bar() {}");
+    }
+
+    #[test]
+    fn test_markdown_multi_language_blocks() {
+        let content = "\
+# Surround Workflows
+
+## PRACTICE
+
+```css
+.header { color: red; }
+```
+
+```js
+log('hello');
+```
+
+## EXPECTED
+
+```css
+.header { color: red; }
+```
+
+```js
+log('hello');
+```";
+        let result = verify_content(content);
+        assert!(result.passed);
+    }
+
+    #[test]
+    fn test_markdown_plain_text_no_fences() {
+        let content = "\
+# Basic Motion
+
+## PRACTICE
+
+The quick brown fox.
+
+## EXPECTED
+
+The slow brown fox.";
+        let result = verify_content(content);
+        assert!(!result.passed);
+        assert_eq!(result.diff.len(), 1);
     }
 }

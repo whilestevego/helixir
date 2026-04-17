@@ -1,0 +1,19 @@
+# Macro with Motion
+
+## PRACTICE
+
+Each line has a name and email. Wrap each email in angle brackets.
+Record a macro: find @, select to end of word, surround with <>.
+
+alice alice@example.com
+bob bob@company.org
+carol carol@domain.net
+
+## EXPECTED
+
+Each line has a name and email. Wrap each email in angle brackets.
+Record a macro: find @, select to end of word, surround with <>.
+
+alice <alice@example.com>
+bob <bob@company.org>
+carol <carol@domain.net>

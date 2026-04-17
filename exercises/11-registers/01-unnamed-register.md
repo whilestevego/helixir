@@ -1,0 +1,21 @@
+# Unnamed Register
+
+## PRACTICE
+
+Delete the FIRST line, then paste it at the END.
+
+alpha
+beta
+gamma
+delta
+epsilon
+
+## EXPECTED
+
+Delete the FIRST line, then paste it at the END.
+
+beta
+gamma
+delta
+epsilon
+alpha

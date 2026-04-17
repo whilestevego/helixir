@@ -1,0 +1,35 @@
+# Match Bracket
+
+## PRACTICE
+
+Use mm to jump between matching brackets and fill in each answer.
+
+The matching bracket for ( is:   ???
+The matching bracket for { is:   ???
+The matching bracket for [ is:   ???
+The matching bracket for < is:   ???
+
+Given this code:
+  if (items.length > 0) {
+    process(items[0]);
+  }
+
+The closing } matches the { on line: ???
+The closing ) on "process" matches the ( on line: ???
+
+## EXPECTED
+
+Use mm to jump between matching brackets and fill in each answer.
+
+The matching bracket for ( is:   )
+The matching bracket for { is:   }
+The matching bracket for [ is:   ]
+The matching bracket for < is:   >
+
+Given this code:
+  if (items.length > 0) {
+    process(items[0]);
+  }
+
+The closing } matches the { on line: 1
+The closing ) on "process" matches the ( on line: 2

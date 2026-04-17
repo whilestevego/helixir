@@ -1,0 +1,29 @@
+# Increment and Decrement
+
+## PRACTICE
+
+Use Ctrl-a to increment and Ctrl-x to decrement each number.
+
+Increment each number by 1:
+  port = 8079
+  retries = 2
+  timeout = 29
+
+Decrement each number by 1:
+  max_connections = 101
+  buffer_size = 1025
+  version = 4
+
+## EXPECTED
+
+Use Ctrl-a to increment and Ctrl-x to decrement each number.
+
+Increment each number by 1:
+  port = 8080
+  retries = 3
+  timeout = 30
+
+Decrement each number by 1:
+  max_connections = 100
+  buffer_size = 1024
+  version = 3

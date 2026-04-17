@@ -1,0 +1,33 @@
+# Extract and Restructure
+
+## PRACTICE
+
+```js
+function processOrder(order) {
+  // validation
+  if (!order.id) return null;
+  if (!order.items) return null;
+  if (order.items.length === 0) return null;
+
+  const total = order.items.reduce((sum, i) => sum + i.price, 0);
+  return { id: order.id, total };
+}
+```
+
+## EXPECTED
+
+```js
+function validate(order) {
+  if (!order.id) return false;
+  if (!order.items) return false;
+  if (order.items.length === 0) return false;
+  return true;
+}
+
+function processOrder(order) {
+  if (!validate(order)) return null;
+
+  const total = order.items.reduce((sum, i) => sum + i.price, 0);
+  return { id: order.id, total };
+}
+```

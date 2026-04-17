@@ -29,7 +29,7 @@ fn make_meta(
                 description: d.to_string(),
             })
             .collect(),
-        extension: "hxt".to_string(),
+        extension: "md".to_string(),
     };
     // Leak into 'static — acceptable in test binaries.
     Box::leak(Box::new(meta))

@@ -60,18 +60,21 @@ fn count_missing_in_dir(dir: &include_dir::Dir<'_>, dest: &Path) -> usize {
     missing
 }
 
-/// Rename legacy `.hxt` files whose extension has changed (e.g. to `.js`)
+/// Rename legacy exercise files (`.hxt`, `.js`) to the current extension
 /// so that the user's edits are preserved under the new filename.
 pub fn migrate_renamed_exercises(exercises_dir: &Path) {
     let db = metadata::load_exercises();
     for meta in &db.exercises {
-        if meta.extension == "hxt" {
+        let new_path = exercises_dir.join(meta.filename());
+        if new_path.exists() {
             continue;
         }
-        let legacy = exercises_dir.join(format!("{}.hxt", meta.id));
-        let new_path = exercises_dir.join(meta.filename());
-        if legacy.exists() && !new_path.exists() {
-            let _ = fs::rename(&legacy, &new_path);
+        for legacy_ext in &["hxt", "js"] {
+            let legacy = exercises_dir.join(format!("{}.{}", meta.id, legacy_ext));
+            if legacy.exists() {
+                let _ = fs::rename(&legacy, &new_path);
+                break;
+            }
         }
     }
 }

@@ -1,0 +1,9 @@
+# Collapse Selections
+
+## PRACTICE
+
+OOPS and then OOPS.
+
+## EXPECTED
+
+ and then OOPS.

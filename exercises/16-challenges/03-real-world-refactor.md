@@ -1,0 +1,45 @@
+# Real-World Refactor
+
+## PRACTICE
+
+```js
+function getUser(id, callback) {
+  db.query("SELECT * FROM users WHERE id = ?", [id], function(err, result) {
+    if (err) callback(err, null);
+    callback(null, result);
+  });
+}
+
+function getOrders(userId, callback) {
+  db.query("SELECT * FROM orders WHERE user_id = ?", [userId], function(err, result) {
+    if (err) callback(err, null);
+    callback(null, result);
+  });
+}
+
+function getProducts(orderId, callback) {
+  db.query("SELECT * FROM products WHERE order_id = ?", [orderId], function(err, result) {
+    if (err) callback(err, null);
+    callback(null, result);
+  });
+}
+```
+
+## EXPECTED
+
+```js
+async function getUser(id) {
+  const result = await db.query("SELECT * FROM users WHERE id = ?", [id]);
+  return result;
+}
+
+async function getOrders(userId) {
+  const result = await db.query("SELECT * FROM orders WHERE user_id = ?", [userId]);
+  return result;
+}
+
+async function getProducts(orderId) {
+  const result = await db.query("SELECT * FROM products WHERE order_id = ?", [orderId]);
+  return result;
+}
+```

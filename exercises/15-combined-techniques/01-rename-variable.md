@@ -1,0 +1,31 @@
+# Rename Variable
+
+## PRACTICE
+
+```js
+function summarize(items) {
+  let count = 0;
+  for (const item of items) {
+    if (item.active) {
+      count = count + 1;
+    }
+  }
+  console.log(`Active count: ${count}`);
+  return count;
+}
+```
+
+## EXPECTED
+
+```js
+function summarize(items) {
+  let total = 0;
+  for (const item of items) {
+    if (item.active) {
+      total = total + 1;
+    }
+  }
+  console.log(`Active total: ${total}`);
+  return total;
+}
+```

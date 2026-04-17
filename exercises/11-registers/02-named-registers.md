@@ -1,0 +1,23 @@
+# Named Registers
+
+## PRACTICE
+
+Yank "server" into register a, yank "client" into register b.
+Then replace the ??? placeholders below using the named registers.
+
+source: server
+source: client
+
+The ??? sends requests to the ???.
+The ??? renders the response from the ???.
+
+## EXPECTED
+
+Yank "server" into register a, yank "client" into register b.
+Then replace the ??? placeholders below using the named registers.
+
+source: server
+source: client
+
+The client sends requests to the server.
+The server renders the response from the client.

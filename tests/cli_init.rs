@@ -68,7 +68,7 @@ fn init_after_deletion_reports_added_files() {
 
     let victim = tmp
         .path()
-        .join("helixir-exercises/exercises/01-movement/01-basic-motion.hxt");
+        .join("helixir-exercises/exercises/01-movement/01-basic-motion.md");
     fs::remove_file(&victim).unwrap();
 
     helixir()

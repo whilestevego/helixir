@@ -1,0 +1,23 @@
+# Record and Replay
+
+## PRACTICE
+
+Add "- " (dash space) to the beginning of each line below.
+Record a macro to do it for one line, then replay it for the rest.
+
+Buy milk
+Walk the dog
+Write tests
+Deploy to staging
+Review PR
+
+## EXPECTED
+
+Add "- " (dash space) to the beginning of each line below.
+Record a macro to do it for one line, then replay it for the rest.
+
+- Buy milk
+- Walk the dog
+- Write tests
+- Deploy to staging
+- Review PR

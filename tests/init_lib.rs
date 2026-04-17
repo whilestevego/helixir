@@ -27,7 +27,7 @@ fn install_missing_preserves_user_modifications() {
     init::install_missing(&dest).unwrap();
 
     // Modify a known file
-    let target = dest.join("01-movement/01-basic-motion.hxt");
+    let target = dest.join("01-movement/01-basic-motion.md");
     assert!(target.exists());
     fs::write(&target, "USER EDITED CONTENT\n").unwrap();
 
@@ -58,9 +58,9 @@ fn count_missing_detects_deleted_files() {
 
     // Delete 3 known files
     let victims = [
-        "01-movement/01-basic-motion.hxt",
-        "01-movement/02-word-motion.hxt",
-        "02-selection/01-basic-selection.hxt",
+        "01-movement/01-basic-motion.md",
+        "01-movement/02-word-motion.md",
+        "02-selection/01-basic-selection.md",
     ];
     let mut deleted = 0;
     for v in &victims {
@@ -82,11 +82,11 @@ fn install_missing_fills_only_gaps() {
     init::install_missing(&dest).unwrap();
 
     // Modify one file
-    let sentinel = dest.join("01-movement/02-word-motion.hxt");
+    let sentinel = dest.join("01-movement/02-word-motion.md");
     fs::write(&sentinel, "SENTINEL\n").unwrap();
 
     // Delete a different file
-    let victim = dest.join("01-movement/01-basic-motion.hxt");
+    let victim = dest.join("01-movement/01-basic-motion.md");
     if victim.exists() {
         fs::remove_file(&victim).unwrap();
     }
